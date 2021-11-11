@@ -11,4 +11,15 @@ function required(key, defaultValue = undefined) {
 
 export const config = {
   port: parseInt(required("PORT", 8080)),
+  db: {
+    database: required("DATABASE"),
+    host: required("HOST"),
+    password: required("PASSWORD"),
+  },
+  bcrypt: {
+    saltRound: parseInt(required("SALTROUNDS")),
+  },
+  jwt: {
+    screatKey: required("JWTSECREATKEY"),
+  },
 };
