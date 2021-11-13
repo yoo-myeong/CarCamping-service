@@ -10,6 +10,7 @@ app.set("view engine", "ejs");
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(express.static("public"));
+app.use(express.static("uploads"));
 
 app.use("/weather", weatherRouter);
 app.use("/story", storyRouter);

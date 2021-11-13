@@ -40,8 +40,6 @@ export async function login(req, res, next) {
 }
 
 export async function me(req, res, next) {
-  console.log("여기옴?");
-  console.log(req.user_id);
   const user = await authData.findById(req.user_id);
   if (!user) {
     return res.status(401).json({ message: "invalid token" });

@@ -4,6 +4,7 @@ import morgan from "morgan";
 import helmet from "helmet";
 import { config } from "./config.js";
 import authRoutes from "./router/auth.router.js";
+import storyRoutes from "./router/story.router.js";
 import { sequelize } from "./db/database.js";
 import "express-async-errors";
 
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(morgan("tiny"));
 
 app.use("/auth", authRoutes);
+app.use("/story", storyRoutes);
 
 app.use((req, res) => {
   res.sendStatus(404);
@@ -24,7 +26,7 @@ app.use((err, req, res, next) => {
   res.sendStatus(500);
 });
 
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync({}).then(() => {
   console.log("server starts");
   app.listen(config.port);
 });
