@@ -3,7 +3,8 @@
 ## Story Schema
 
 ```
-id : integer
+id : integer,
+title: string,
 address : string,
 waytogo : text,
 knowhow : text,
@@ -19,9 +20,9 @@ user_id : integer, fk
 - 응답 : 200
 
   ```
-  {
-      [story, story, ...]
-  }
+  [
+    {imagename, title, address, storyId} ...
+  ]
   ```
 
 ### ✅ _GET_ /stroy?email=:email
@@ -30,9 +31,9 @@ user_id : integer, fk
 - 응답 : 200
 
   ```
-  {
-      [story, story, ...]
-  }
+  [
+    {imagename, title, address, createdAt, storyId} ...
+  ]
   ```
 
   story
@@ -44,7 +45,7 @@ user_id : integer, fk
 
   ```
   {
-      story
+      [...story, imagenames]...
   }
   ```
 
@@ -56,7 +57,7 @@ user_id : integer, fk
 
   ```
   {
-      address, waytogo, knowhow, imgName[]
+      address, waytogo, knowhow, imagenames
   }
   ```
 
