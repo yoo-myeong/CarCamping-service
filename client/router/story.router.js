@@ -21,7 +21,7 @@ router.post("/post", upload.array("storyImg", 5), (req, res, next) => {
 });
 
 router.get("/detail", (req, res, next) => {
-  res.send("detail page다");
+  res.status(200).render("story/story.detail.ejs");
 });
 
 export default router;

@@ -8,8 +8,15 @@ title: string,
 address : string,
 waytogo : text,
 knowhow : text,
-image : string,
-user_id : integer, fk
+userId : integer, fk
+```
+
+## Image Schema
+
+```
+id : integer
+imgname : string,
+StoryId : integer, fk
 ```
 
 <br>
@@ -40,12 +47,17 @@ user_id : integer, fk
 
 ### ✅ _GET_ /story/:id
 
-- id에 해당하는 스토리 가져오기
+- StoryId 스토리 가져오기
 - 응답 : 200
 
   ```
   {
-      [...story, imagenames]...
+      [
+        story,
+        [
+          imgname, ...
+        ]
+      ]
   }
   ```
 

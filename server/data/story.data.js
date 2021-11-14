@@ -55,6 +55,15 @@ export async function getByname(name) {
   });
 }
 
+export async function getStoryById(storyId) {
+  return Story.findOne({
+    where: { id: storyId },
+    include: {
+      model: User,
+    },
+  });
+}
+
 export async function createStory(body, userId) {
   const { title, address, waytogo, knowhow, imgnames } = body;
   const story = await Story.create({
