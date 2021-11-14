@@ -39,7 +39,10 @@ StoryId : integer, fk
 
   ```
   [
-    {imagename, title, address, storyId} ...
+    {
+      imagename : [],
+      title, address, storyId
+    } ...
   ]
   ```
 
@@ -52,12 +55,8 @@ StoryId : integer, fk
 
   ```
   {
-      [
-        story,
-        [
-          imgname, ...
-        ]
-      ]
+    story,
+    imgnames : []
   }
   ```
 
@@ -69,7 +68,8 @@ StoryId : integer, fk
 
   ```
   {
-      address, waytogo, knowhow, imagenames
+      title, address, waytogo, knowhow,
+      imagenames : []
   }
   ```
 
@@ -89,7 +89,8 @@ StoryId : integer, fk
 
   ```
   {
-      address, waytogo, knowhow, img
+      address, waytogo, knowhow,
+      imagenames : [],
   }
   ```
 
@@ -97,7 +98,7 @@ StoryId : integer, fk
 
   ```
   {
-      story
+      storyId
   }
   ```
 

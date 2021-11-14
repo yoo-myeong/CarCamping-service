@@ -42,11 +42,20 @@ export async function getStoryById(req, res, next) {
   });
 }
 
-export async function updateStory(req, res, next) {}
+export async function updateStory(req, res, next) {
+  const id = req.params.id;
+  const body = req.body;
+  const stroyId = await storyData.updateStory(id, body);
+  res.status(200).json({ stroyId });
+}
 
-export async function deleteStory(req, res, next) {}
+export async function deleteStory(req, res, next) {
+  const id = req.params.id;
+  await storyData.deleteStory(id);
+  res.sendStatus(204);
+}
 
 export async function createStory(req, res, next) {
   const storyId = await storyData.createStory(req.body, req.userId);
-  res.status(200).json(storyId);
+  res.status(200).json({ storyId });
 }

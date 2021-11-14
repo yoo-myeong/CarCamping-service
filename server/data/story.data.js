@@ -56,8 +56,7 @@ export async function getByname(name) {
 }
 
 export async function getStoryById(storyId) {
-  return Story.findOne({
-    where: { id: storyId },
+  return Story.findByPk(storyId, {
     include: {
       model: User,
     },
@@ -83,4 +82,40 @@ export async function createStory(body, userId) {
 
 export async function getImgbyStoryId(storyId) {
   return Image.findAll({ where: { storyId } });
+}
+
+export async function updateStory(id, body) {
+  const { title, address, waytogo, knowhow, imgnames } = body;
+  let story = await Story.findByPk(id);
+  story.set({
+    title,
+    address,
+    waytogo,
+    knowhow,
+  });
+  await story.save();
+
+  const storyId = story.dataValues.id;
+
+  Image.findAll({ where: { storyId } }).then((images) => {
+    images.forEach((img) => {
+      img.destroy();
+    });
+  });
+
+  for (let i = 0; i < imgnames.length; i++) {
+    const imgname = imgnames[i];
+    Image.create({ imgname, storyId });
+  }
+  return storyId;
+}
+
+export async function deleteStory(id) {
+  Story.findByPk(id).then((story) => {
+    story.destroy();
+  });
+  const images = await Image.findAll({ where: { storyId: id } });
+  images.forEach((img) => {
+    img.destroy();
+  });
 }
