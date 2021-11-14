@@ -1,14 +1,7 @@
 import * as storyData from "../data/story.data.js";
 
-export async function getStory(req, res, next) {
-  const email = req.query.email;
-  //query가 들어온 경우면 받아올 데이터 filter
-  if (email) {
-    const story = await storyData.getByEmail(email);
-    return res.status(200).json(story);
-  }
+async function combineStoryImgName(story) {
   const data = [];
-  const story = await storyData.getAll();
   for (let i = 0; i < story.length; i++) {
     const { id, title, address, createdAt, user } = story[i].dataValues;
     const imagename = await storyData.getImgbyStoryId(id);
@@ -21,6 +14,19 @@ export async function getStory(req, res, next) {
       name: user.name,
     });
   }
+  return data;
+}
+
+export async function getStory(req, res, next) {
+  const name = req.query.name;
+  //query가 들어온 경우면 받아올 데이터 filter
+  if (name) {
+    const story = await storyData.getByname(name);
+    const data = await combineStoryImgName(story);
+    return res.status(200).json(data);
+  }
+  const story = await storyData.getAll();
+  const data = await combineStoryImgName(story);
   res.status(200).json(data);
 }
 

@@ -27,7 +27,7 @@ Story.belongsTo(User);
 const Image = sequelize.define(
   "image",
   {
-    imagename: {
+    imgname: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -46,8 +46,13 @@ export async function getAll() {
   });
 }
 
-export async function getByEmail(email) {
-  return Story.findAll({ where: email });
+export async function getByname(name) {
+  return Story.findAll({
+    include: {
+      model: User,
+      where: { name },
+    },
+  });
 }
 
 export async function createStory(body, userId) {
@@ -59,12 +64,10 @@ export async function createStory(body, userId) {
     knowhow,
     userId,
   });
-  const images = [];
   const storyId = story.dataValues.id;
   for (let i = 0; i < imgnames.length; i++) {
-    const imagename = imgnames[i];
-    const image = await Image.create({ imagename, storyId });
-    images.push(image.dataValues.imagename);
+    const imgname = imgnames[i];
+    Image.create({ imgname, storyId });
   }
   return storyId;
 }

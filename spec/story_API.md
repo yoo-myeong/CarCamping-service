@@ -25,14 +25,14 @@ user_id : integer, fk
   ]
   ```
 
-### ✅ _GET_ /stroy?email=:email
+### ✅ _GET_ /stroy?name=:name
 
 - 유저네임의 스토리 모두 가져오기
 - 응답 : 200
 
   ```
   [
-    {imagename, title, address, createdAt, storyId} ...
+    {imagename, title, address, storyId} ...
   ]
   ```
 
@@ -65,7 +65,7 @@ user_id : integer, fk
 
   ```
   {
-      story
+      storyId
   }
   ```
 
