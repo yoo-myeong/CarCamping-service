@@ -20,8 +20,8 @@ export async function signup(req, res, next) {
   const hasedPassword = await bcrypt.hash(password, config.bcrypt.saltRound);
   const data = await authData.createUser(email, hasedPassword, name);
   const newUser = data.toJSON();
-  console.log(newUser);
   const token = createToken(newUser.id);
+  console.log(token);
   res.status(201).json({ name: newUser.name, token });
 }
 

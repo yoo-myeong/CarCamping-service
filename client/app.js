@@ -7,6 +7,7 @@ import morgan from "morgan";
 const app = express();
 
 app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(express.static("public"));
