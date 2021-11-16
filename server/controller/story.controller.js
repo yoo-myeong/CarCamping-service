@@ -4,9 +4,10 @@ async function combineStoriesWithImgName(story) {
   const data = [];
   for (let i = 0; i < story.length; i++) {
     const { id, title, address, createdAt, user } = story[i].dataValues;
-    const imagename = await storyData.getImgbyStoryId(id);
+    const imgname = await storyData.getImgbyStoryId(id);
+    console.log(imgname);
     data.push({
-      imagename: imagename[0].dataValues.imagename,
+      thumbnail: imgname[0].dataValues.imgname,
       title,
       address,
       storyId: id,
@@ -33,17 +34,28 @@ export async function getStory(req, res, next) {
 export async function getStoryById(req, res, next) {
   const storyId = req.params.id;
   const story = await storyData.getStoryById(storyId);
-  const imagenames = await storyData.getImgbyStoryId(storyId);
+  const imgnames = await storyData.getImgbyStoryId(storyId);
   const imgArray = [];
-  imagenames.forEach((imgname) => imgArray.push(imgname.imgname));
+  imgnames.forEach((imgname) => imgArray.push(imgname.imgname));
   res.status(200).json({
     story,
-    imagenames: imgArray,
+    imgnames: imgArray,
   });
 }
 
 export async function updateStory(req, res, next) {
   const id = req.params.id;
+  const story = await storyData.getStoryById(id);
+  if (!story) {
+    return res
+      .status(404)
+      .json({ message: `there's no story that id is ${id}` });
+  }
+  if (req.userId !== story.userId) {
+    return res
+      .status(403)
+      .json({ message: "you're not allowed to update this story" });
+  }
   const body = req.body;
   const stroyId = await storyData.updateStory(id, body);
   res.status(200).json({ stroyId });
@@ -51,6 +63,17 @@ export async function updateStory(req, res, next) {
 
 export async function deleteStory(req, res, next) {
   const id = req.params.id;
+  const story = await storyData.getStoryById(id);
+  if (!story) {
+    return res
+      .status(404)
+      .json({ message: `there's no story that id is ${id}` });
+  }
+  if (req.userId !== story.userId) {
+    return res
+      .status(403)
+      .json({ message: "you're not allowed to delete this story" });
+  }
   await storyData.deleteStory(id);
   res.sendStatus(204);
 }
