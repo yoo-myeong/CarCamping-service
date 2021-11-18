@@ -1,31 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-      crossorigin="anonymous"
-    />
-
-    <title>어디차박</title>
+    <%-include('../common/head_html.html') %>
   </head>
   <body>
-    <%-include('../nav.html') %>
+    <%-include('../common/nav.html') %>
 
-    <article class="container">
-      <div class="page-header">
+    <article class="container" style="margin-left: 20px">
+      <div class="page-header mt-2">
         <div class="col-md-6 col-md-offset-3">
           <h3>회원가입</h3>
         </div>
       </div>
+
       <div class="col-sm-6 col-md-offset-3">
-        <form role="form" action="/auth/signup" method="post">
+        <p id="inputAlert" class="hidden" style="color: coral">
+          ❗ 모두 기입해주세요 ❗
+        </p>
+        <form id="signUpForm" action="/auth/signup" method="post">
           <div class="form-group">
             <label for="inputName">성명</label>
             <input
@@ -37,57 +29,60 @@
             />
           </div>
           <div class="form-group">
-            <label for="InputEmail">이메일 주소</label>
+            <label for="inputEmail">이메일 주소</label>
             <input
               type="email"
               class="form-control"
-              id="InputEmail"
+              id="inputEmail"
               placeholder="이메일 주소를 입력해주세요"
               name="email"
             />
           </div>
 
-          <% if(visited){ %>
-          <p style="color: coral">이미 가입된 이메일입니다.</p>
-          <%}%>
+          <p class="hidden" id="invalidEmailAlert" style="color: coral">
+            이미 가입된 이메일입니다.
+          </p>
+
           <div class="form-group">
-            <label for="inputPassword">비밀번호</label>
+            <label for="inputPassword1">비밀번호</label>
             <input
               type="password"
               class="form-control"
-              id="inputPassword"
+              id="inputPassword1"
               placeholder="비밀번호를 입력해주세요"
               name="password"
             />
           </div>
           <div class="form-group">
-            <label for="inputPasswordCheck">비밀번호 확인</label>
+            <label for="inputPassword2">비밀번호 확인</label>
             <input
               type="password"
               class="form-control"
-              id="inputPasswordCheck"
+              id="inputPassword2"
               placeholder="비밀번호 확인을 위해 다시한번 입력 해 주세요"
-              name="password2"
+              name="inputPassword2"
             />
           </div>
 
-          <% if(passwordFail){%>
-          <p style="color: coral">비밀번호가 일치하지 않습니다.</p>
-          <%}%>
-
-          <div class="form-group text-center">
-            <button type="submit" id="join-submit" class="btn btn-primary">
-              회원가입<i class="fa fa-check spaceLeft"></i>
-            </button>
-          </div>
+          <p class="hidden" id="shortPasswordAlert" style="color: coral">
+            비밀번호는 6자리 이상으로 입력해주세요.
+          </p>
+          <p class="hidden" id="diffrentPasswordAlert" style="color: coral">
+            비밀번호가 일치하지 않습니다.
+          </p>
+          <button id="hiddenFormButton" style="display: none"></button>
         </form>
+        <button id="join-submit" class="btn btn-primary my-3">
+          회원가입<i class="fa fa-check spaceLeft"></i>
+        </button>
       </div>
     </article>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-      crossorigin="anonymous"
-    ></script>
+    <%-include('../common/basicScript.html') %>
+    <script src="/js/signup.js"></script>
+    <script>
+      validateJoinSubmit();
+      tokenAuthentication();
+    </script>
   </body>
 </html>

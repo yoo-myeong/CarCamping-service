@@ -8,6 +8,8 @@ title: string,
 address : string,
 waytogo : text,
 knowhow : text,
+createdAt : datetime,
+updatedAt : datetime,
 userId : integer, fk
 ```
 

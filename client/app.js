@@ -1,8 +1,6 @@
 import express from "express";
-import weatherRouter from "./router/weather.router.js";
 import storyRouter from "./router/story.router.js";
 import authRouter from "./router/auth.router.js";
-import shopRouter from "./router/shop.router.js";
 import morgan from "morgan";
 const app = express();
 
@@ -13,14 +11,12 @@ app.use(morgan("tiny"));
 app.use(express.static("public"));
 app.use(express.static("uploads"));
 
-app.use("/weather", weatherRouter);
+app.all("/", (req, res, next) => {
+  res.render("main/main.ejs");
+});
 app.use("/story", storyRouter);
 app.use("/auth", authRouter);
-app.use("/shop", shopRouter);
 
-app.all("/", (req, res, next) => {
-  res.render("main.ejs");
-});
 app.use((req, res, next) => {
   res.sendStatus(404);
 });

@@ -1,5 +1,14 @@
 # 👉 Auth API
 
+## User Schema
+
+```
+id : integer,
+email: string,
+name : string,
+password : string
+```
+
 <br>
 
 ### ✅ _POST_ /auth/signup
@@ -53,9 +62,13 @@
   **요청**
 
   ```
-  {
-      token, name
-  }
+  header에 token 담아서 요청
   ```
 
   **응답** : 200 | 401
+
+  ```
+  {
+      name
+  }
+  ```

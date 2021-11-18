@@ -40,9 +40,9 @@ export async function login(req, res, next) {
 }
 
 export async function me(req, res, next) {
-  const user = await authData.findById(req.user_id);
+  const user = await authData.findById(req.userId);
   if (!user) {
     return res.status(401).json({ message: "invalid token" });
   }
-  res.status(200).json({ token: req.token, email: user.email });
+  res.status(200).json({ token: req.token, name: user.name });
 }

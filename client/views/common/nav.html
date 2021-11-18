@@ -34,6 +34,11 @@
           >
         </li>
       </ul>
+      <p
+        id="navUsername"
+        class="hidden me-3 my-2"
+        style="text-decoration: underline"
+      ></p>
       <form class="d-flex">
         <input
           class="form-control me-2"
@@ -46,11 +51,19 @@
         </button>
       </form>
       <button
+        id="navLoginButton"
         class="btn btn-outline-success me-2 my-2"
         type="submit"
         onclick="location.href='/auth/login'"
       >
         로그인
+      </button>
+      <button
+        id="navLogoutButton"
+        class="btn btn-outline-success me-2 my-2 hidden"
+        type="submit"
+      >
+        로그아웃
       </button>
     </div>
   </div>
