@@ -2,12 +2,13 @@ const diffrentPasswordAlert = $("#diffrentPasswordAlert");
 const shortPasswordAlert = $("#shortPasswordAlert");
 const inputAlert = $("#inputAlert");
 const invalidEmailAlert = $("#invalidEmailAlert");
-
+const notEmailAlert = $("#notEmailAlert");
 function validateJoinSubmit() {
   $("#join-submit").click(() => {
     invalidEmailAlert.addClass("hidden");
     shortPasswordAlert.addClass("hidden");
     diffrentPasswordAlert.addClass("hidden");
+    notEmailAlert.addClass("hidden");
     inputAlert.addClass("hidden");
     const inputEmail = $("#inputEmail")[0].value;
     const inputName = $("#inputName")[0].value;
@@ -37,9 +38,13 @@ async function signup(name, email, password) {
     password,
   });
   const status = response.status;
-  if (400 <= status < 500) {
+  if (status === 409) {
     invalidEmailAlert.removeClass("hidden");
-  } else {
+  } else if (status === 400) {
+    notEmailAlert.removeClass("hidden");
+  } else if (status === 201) {
     location.href = "/auth/login";
+  } else {
+    location.href = "/error";
   }
 }

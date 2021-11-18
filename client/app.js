@@ -14,8 +14,13 @@ app.use(express.static("uploads"));
 app.all("/", (req, res, next) => {
   res.render("main/main.ejs");
 });
+
 app.use("/story", storyRouter);
 app.use("/auth", authRouter);
+
+app.all("/error", (req, res, next) => {
+  throw new Error("server error");
+});
 
 app.use((req, res, next) => {
   res.sendStatus(404);
