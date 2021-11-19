@@ -80,5 +80,5 @@ export async function deleteStory(req, res, next) {
 
 export async function createStory(req, res, next) {
   const storyId = await storyData.createStory(req.body, req.userId);
-  res.status(200).json({ storyId });
+  res.status(201).json({ storyId });
 }

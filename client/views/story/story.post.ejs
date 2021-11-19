@@ -5,8 +5,11 @@
   </head>
   <body>
     <%-include('../common/nav.html') %>
-
-    <form class="">
+    <p class="hidden" id="essentialInput" style="color: coral">
+      제목과 주소는 필수 입력 사항입니다.
+    </p>
+    <form action="/story/post" method="POST" enctype="multipart/form-data">
+      <input class="hidden" name="token" id="inputToken" />
       <div class="input-group input-group-sm my-3" style="width: 800px">
         <span
           class="input-group-text"
@@ -15,10 +18,12 @@
           >제목</span
         >
         <input
+          id="form-title"
           type="text"
           class="form-control"
           aria-label="Sizing example input"
           aria-describedby="inputGroup-sizing-sm"
+          name="title"
         />
       </div>
 
@@ -26,12 +31,22 @@
 
       <div class="input-group my-3" style="width: 800px; height: 200px">
         <span class="input-group-text" style="width: 100px">가는방법</span>
-        <textarea class="form-control" aria-label="With textarea"></textarea>
+        <textarea
+          id="form-waytogo"
+          name="waytogo"
+          class="form-control"
+          aria-label="With textarea"
+        ></textarea>
       </div>
 
       <div class="input-group mb-3" style="width: 800px; height: 200px">
         <span class="input-group-text" style="width: 100px">팁</span>
-        <textarea class="form-control" aria-label="With textarea"></textarea>
+        <textarea
+          id="form-knowhow"
+          name="knowhow"
+          class="form-control"
+          aria-label="With textarea"
+        ></textarea>
       </div>
 
       <div class="mb-3" style="width: 400px">
@@ -39,16 +54,28 @@
           multiple="multiple"
           class="form-control"
           type="file"
-          name="filename[]"
+          name="storyImg"
+          class="form-control-file"
         />
         <div class="invalid-feedback">사진을 꼭 등록해주세요</div>
       </div>
 
       <div class="col-12 mb-3">
-        <button type="submit" class="btn btn-primary">등록</button>
+        <button
+          id="form-button"
+          class="hidden"
+          type="submit"
+          class="btn btn-primary"
+        ></button>
       </div>
     </form>
-
+    <button id="button-outta-form" type="submit" class="btn btn-primary">
+      등록
+    </button>
     <%-include('../common/basicScript.html') %>
+    <script src="/js/storyPost.js"></script>
+    <script>
+      setTokenintoInput();
+    </script>
   </body>
 </html>

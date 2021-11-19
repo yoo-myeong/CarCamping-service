@@ -15,11 +15,11 @@ const Story = sequelize.define("story", {
   },
   waytogo: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
   knowhow: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
 });
 Story.belongsTo(User);
@@ -29,7 +29,7 @@ const Image = sequelize.define(
   {
     imgname: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
   },
   {

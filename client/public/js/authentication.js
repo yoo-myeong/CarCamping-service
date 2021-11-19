@@ -19,7 +19,7 @@ function exposeLogoutBtn(data) {
 
 async function tokenAuthentication() {
   if (token) {
-    const response = await fetch("http://localhost:8080/auth/me", {
+    const response = await fetch(backendURL + "/auth/me", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -42,4 +42,10 @@ function clickNavLogoutButton() {
     navUsername.classList.add("hidden");
     location.href = "/";
   });
+}
+
+function setTokenintoInput() {
+  const inputToken = document.getElementById("inputToken");
+  const token = sessionStorage.getItem("token");
+  inputToken.value = token;
 }
