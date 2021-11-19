@@ -5,13 +5,21 @@
 
 <br>
 
-## BackEnd
+## 👉ERD
+
+https://drive.google.com/file/d/1m7d_gJwJjlPvIaQOmjm20J6ozwtx9kyp/view?usp=sharing
+
+## 👉BackEnd
 
 ### ✅ API SPEC
 
+[auth API 이동](./spec/Backend/api/auth_API.md)
+
+[stroy API 이동](./spec/Backend/api/story_API.md)
+
 ### ✅ Logic Flow
 
-## FrontEnd
+## 👉FrontEnd
 
 _backend 서버의 동작을 확인하고 기능 실행만을 목표로 하여 html, css, javascript만으로 구현_
 
