@@ -8,6 +8,7 @@ const router = express.Router();
 
 const validateAuth = [
   body("email").isEmail(),
+  body("name").notEmpty(),
   body("password").notEmpty().isLength({ min: 6 }),
   validate,
 ];

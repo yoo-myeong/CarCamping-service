@@ -11,12 +11,12 @@ function clickLoginbtn() {
     if (!(inputEmail && inputPassword)) {
       inputAlert.removeClass("hidden");
     } else {
-      getTokenFromMeAPI(inputEmail, inputPassword);
+      getTokenFromLoginAPI(inputEmail, inputPassword);
     }
   });
 }
 
-async function getTokenFromMeAPI(email, password) {
+async function getTokenFromLoginAPI(email, password) {
   const body = { email, password };
   const url = backendURL + "/auth/login";
   const response = await fetchPostApi(url, body);
