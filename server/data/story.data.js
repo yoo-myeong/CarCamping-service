@@ -36,6 +36,9 @@ const Image = sequelize.define(
     timestamps: false,
   }
 );
+Story.hasMany(Image, {
+  onDelete: "CASCADE",
+});
 Image.belongsTo(Story);
 
 export async function getAll() {
@@ -113,9 +116,5 @@ export async function updateStory(id, body) {
 export async function deleteStory(id) {
   Story.findByPk(id).then((story) => {
     story.destroy();
-  });
-  const images = await Image.findAll({ where: { storyId: id } });
-  images.forEach((img) => {
-    img.destroy();
   });
 }
