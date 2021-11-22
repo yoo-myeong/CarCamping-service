@@ -8,3 +8,23 @@ async function fetchPostApi(url, json) {
   });
   return response;
 }
+
+async function authenticateTokenFromMeAPI(token) {
+  const response = await fetch(backendURL + "/auth/me", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+}
+
+async function fetchGetApiWithToken(url, token) {
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+}

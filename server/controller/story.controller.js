@@ -1,13 +1,13 @@
 import * as storyData from "../data/story.data.js";
 
-async function combineStoriesWithImgName(story) {
+async function combineStoriesWithThumbnailAndUsername(story) {
   const data = [];
   for (let i = 0; i < story.length; i++) {
     const { id, title, address, createdAt, user } = story[i].dataValues;
-    const imgname = await storyData.getImgbyStoryId(id);
+    const imgname = await storyData.getOneImgByStoryId(id);
     console.log(imgname);
     data.push({
-      thumbnail: imgname[0].dataValues.imgname,
+      thumbnail: imgname ? imgname.dataValues.imgname : null,
       title,
       address,
       storyId: id,
@@ -23,11 +23,11 @@ export async function getStory(req, res, next) {
   //query가 들어온 경우면 받아올 데이터 filter
   if (name) {
     const story = await storyData.getByname(name);
-    const data = await combineStoriesWithImgName(story);
+    const data = await combineStoriesWithThumbnailAndUsername(story);
     return res.status(200).json(data);
   }
   const story = await storyData.getAll();
-  const data = await combineStoriesWithImgName(story);
+  const data = await combineStoriesWithThumbnailAndUsername(story);
   res.status(200).json(data);
 }
 

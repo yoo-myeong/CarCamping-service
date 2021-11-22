@@ -5,21 +5,56 @@
   </head>
   <body>
     <%-include('../common/nav.html') %>
-
     <br />
 
-    제목<br />
-
-    작성자<br />
-
-    주소<br />
-
-    가는방법<br />
-
-    팁<br />
-
-    ~이미지s~<br />
+    <div class="container my-3">
+      <div class="d-flex justify-content-end">
+        <div class="btn-group" role="group" aria-label="Basic outlined example">
+          <button type="button" class="btn btn-outline-primary">수정</button>
+          <button type="button" class="btn btn-outline-primary">삭제</button>
+        </div>
+      </div>
+      <h2 id="detail_title" class="border-bottom py-2">제목 :</h2>
+      <div class="d-flex justify-content-end">
+        <p id="detail_name" class="mx-2">작성자 :</p>
+      </div>
+      <div class="d-flex justify-content-end">
+        <p id="detail_createdAt">작성날짜 :</p>
+      </div>
+      <h5 id="detail_address" class="border-bottom my-3 py-2">주소 :</h5>
+      <div class="card my-3">
+        <div class="card-body">
+          <div
+            id="detail_waytogo"
+            class="card-text"
+            style="white-space: pre-line"
+          >
+            가는방법 :
+          </div>
+        </div>
+      </div>
+      <div class="card my-3">
+        <div class="card-body">
+          <div
+            id="detail_knowhow"
+            class="card-text"
+            style="white-space: pre-line"
+          >
+            팁 :
+          </div>
+        </div>
+      </div>
+      <%-include('./imgCarousel.html') %>
+    </div>
 
     <%-include('../common/basicScript.html') %>
+    <script src="/js/storyDetail.js"></script>
+    <script>
+      redirectLoginForUnauthorization();
+    </script>
+    <script>
+      const storyId = <%=storyId%>
+      makeDetailStory(storyId)
+    </script>
   </body>
 </html>

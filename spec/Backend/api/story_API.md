@@ -31,7 +31,7 @@ StoryId : integer, fk
 
 ```
 [
-  {tumbnail, title, address, storyId} ...
+  {tumbnail, title, address, storyId, createdAt, name} ...
 ]
 ```
 
@@ -61,8 +61,13 @@ story
 ```
 {
   story : {
-            ...user,
-          }
+            title,
+            createdAt,
+            address,
+            waytogo,
+            knowhow,
+            { user : {name} }
+          } ,
   imgnames : []
 }
 ```

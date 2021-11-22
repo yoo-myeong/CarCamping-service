@@ -45,6 +45,7 @@ export async function getAll() {
   return Story.findAll({
     include: {
       model: User,
+      attributes: ["name"],
     },
   });
 }
@@ -54,14 +55,17 @@ export async function getByname(name) {
     include: {
       model: User,
       where: { name },
+      attributes: ["name"],
     },
   });
 }
 
 export async function getStoryById(storyId) {
   return Story.findByPk(storyId, {
+    attributes: ["title", "createdAt", "address", "waytogo", "knowhow"],
     include: {
       model: User,
+      attributes: ["name"],
     },
   });
 }
@@ -87,9 +91,13 @@ export async function getImgbyStoryId(storyId) {
   return Image.findAll({ where: { storyId } });
 }
 
+export async function getOneImgByStoryId(storyId) {
+  return Image.findOne({ where: { storyId } });
+}
+
 export async function updateStory(id, body) {
   const { title, address, waytogo, knowhow, imgnames } = body;
-  let story = await Story.findByPk(id);
+  const story = await Story.findByPk(id);
   story.set({
     title,
     address,

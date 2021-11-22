@@ -25,8 +25,10 @@ router.post("/post", upload.array("storyImg", 5), async (req, res, next) => {
     imgnames: filenames,
   };
   const response = await nodeFetch.fetchPostApiWithToken(url, json, token);
+  const { storyId } = await response.json();
+  console.log(`storyId after creating is ${storyId}`);
   if (response.status === 201) {
-    return res.redirect("/story/detail");
+    return res.redirect("/story/detail/" + storyId);
   } else if (response.status === 400) {
     return res.redirect("/auth/login");
   } else {
@@ -34,8 +36,10 @@ router.post("/post", upload.array("storyImg", 5), async (req, res, next) => {
   }
 });
 
-router.get("/detail", (req, res, next) => {
-  res.status(200).render("story/story.detail.ejs");
+router.get("/detail/:id", (req, res, next) => {
+  const storyId = req.params.id;
+  console.log(storyId);
+  res.status(200).render("story/story.detail.ejs", { storyId });
 });
 
 export default router;

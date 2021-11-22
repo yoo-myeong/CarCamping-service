@@ -17,23 +17,6 @@ function exposeLogoutBtn(data) {
   navUsername.classList.remove("hidden");
 }
 
-async function tokenAuthentication() {
-  if (token) {
-    const response = await fetch(backendURL + "/auth/me", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (response.status === 401) {
-      exposeLoginBtn();
-    } else {
-      const data = await response.json();
-      exposeLogoutBtn(data);
-    }
-  }
-}
-
 function clickNavLogoutButton() {
   navLogoutButton.click(() => {
     sessionStorage.clear();
@@ -44,8 +27,34 @@ function clickNavLogoutButton() {
   });
 }
 
+async function modifyNavbar() {
+  if (token) {
+    const response = await authenticateTokenFromMeAPI(token);
+    if (response.status === 401) {
+      exposeLoginBtn();
+    } else {
+      const data = await response.json();
+      exposeLogoutBtn(data);
+      clickNavLogoutButton();
+    }
+  }
+}
+
 function setTokenintoInput() {
   const inputToken = document.getElementById("inputToken");
   const token = sessionStorage.getItem("token");
   inputToken.value = token;
+}
+
+async function redirectLoginForUnauthorization() {
+  if (token) {
+    const response = await authenticateTokenFromMeAPI(token);
+    if (response.status === 401) {
+      alert("로그인이 필요합니다.");
+      location.href = "/auth/login";
+    }
+  } else {
+    alert("로그인이 필요합니다.");
+    location.href = "/auth/login";
+  }
 }

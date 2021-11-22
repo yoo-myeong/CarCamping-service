@@ -32,27 +32,13 @@
       </div>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-4 g-4 m-1">
-      <div href="#">
-        <div class="col">
-          <a href="/story/detail">
-            <div class="card">
-              <img
-                src="img/main_carcamping.jpg"
-                class="card-img-top"
-                alt="..."
-              />
-              <div class="card-body">
-                <h5 class="card-title">제목</h5>
-                <p class="author">작성자</p>
-                <p class="place">장소</p>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
+    <div class="row row-cols-1 row-cols-md-4 g-4 m-1" id="cardBox"></div>
 
     <%-include('../common/basicScript.html') %>
+    <script src="/js/storyBoard.js"></script>
+    <script>
+      redirectLoginForUnauthorization();
+      getStory();
+    </script>
   </body>
 </html>
