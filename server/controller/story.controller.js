@@ -82,3 +82,12 @@ export async function createStory(req, res, next) {
   const storyId = await storyData.createStory(req.body, req.userId);
   res.status(201).json({ storyId });
 }
+
+export async function checkAuthor(req, res, next) {
+  const story = await storyData.getStoryById(req.params.id);
+  if (story.userId === req.userId) {
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(401);
+  }
+}

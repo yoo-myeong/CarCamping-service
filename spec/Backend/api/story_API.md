@@ -13,7 +13,7 @@ updatedAt : datetime,
 userId : integer, fk
 ```
 
-## Image Schema
+## storyImage Schema
 
 ```
 id : integer
@@ -92,6 +92,15 @@ story
     storyId
 }
 ```
+
+### ✅ _GET_ /story/author/:id
+
+- token의 userId와 수정하려는 story의 userId가 일치하는 지 체크
+
+**응답**
+200 | 401
+
+<br>
 
 ### ✅ _PUT_ /story/:id
 

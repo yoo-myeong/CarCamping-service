@@ -1,6 +1,7 @@
 import express from "express";
 import storyRouter from "./router/story.router.js";
 import authRouter from "./router/auth.router.js";
+import shopRouter from "./router/shop.router.js";
 import morgan from "morgan";
 const app = express();
 
@@ -17,6 +18,7 @@ app.all("/", (req, res, next) => {
 
 app.use("/story", storyRouter);
 app.use("/auth", authRouter);
+app.use("/shop", shopRouter);
 
 app.all("/error", (req, res, next) => {
   throw new Error("server error");

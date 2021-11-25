@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { config } from "../config.js";
 import "express-async-errors";
 import jwt from "jsonwebtoken";
+import { getStoryById } from "/users/yoou2/desktop/github/carcamping-service/server/data/story.data.js";
 
 function createToken(id) {
   const token = jwt.sign({ id }, config.jwt.screatKey, {
@@ -44,5 +45,5 @@ export async function me(req, res, next) {
   if (!user) {
     return res.status(401).json({ message: "invalid token" });
   }
-  res.status(200).json({ token: req.token, name: user.name });
+  res.status(200).json({ token: req.token, name: user.name, userId: user.id });
 }

@@ -26,7 +26,6 @@ function postStoryValidation() {
 
 async function getStoryById(storyId) {
   const url = backendURL + "/story/" + storyId;
-  console.log(token);
   const response = await fetchGetApiWithToken(url, token);
   const { imgnames, story } = await response.json();
   newImgCntLimit = 5 - imgnames.length;

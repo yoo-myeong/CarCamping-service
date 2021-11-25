@@ -5,6 +5,7 @@ import helmet from "helmet";
 import { config } from "./config.js";
 import authRoutes from "./router/auth.router.js";
 import storyRoutes from "./router/story.router.js";
+import shopRoutes from "./router/shop.router.js";
 import { sequelize } from "./db/database.js";
 import "express-async-errors";
 
@@ -16,6 +17,7 @@ app.use(morgan("tiny"));
 
 app.use("/auth", authRoutes);
 app.use("/story", storyRoutes);
+app.use("/shop", shopRoutes);
 
 app.use((req, res) => {
   res.sendStatus(404);

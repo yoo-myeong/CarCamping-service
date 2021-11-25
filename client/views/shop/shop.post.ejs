@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%-include('../common/head_html.html') %>
+  </head>
+  <body>
+    <%-include('../common/nav.html') %>
+    <p class="hidden" id="essentialInput" style="color: coral">
+      제목과 주소는 필수 입력 사항입니다.
+    </p>
+    <form action="/story/post" method="POST" enctype="multipart/form-data">
+      <input class="hidden" name="token" id="inputToken" />
+      <div class="input-group input-group-sm my-3 w-50">
+        <span
+          class="input-group-text"
+          id="inputGroup-sizing-sm"
+          style="width: 100px"
+          >판매물건</span
+        >
+        <input
+          id="form-title"
+          type="text"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-sm"
+          name="title"
+        />
+      </div>
+
+      <div class="input-group input-group-sm my-3 w-75"">
+        <span
+          class="input-group-text"
+          id="inputGroup-sizing-sm"
+          style="width: 100px"
+          >가격</span
+        >
+        <input
+          id="form-title"
+          type="text"
+          class="form-control w-10"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-sm"
+          name="title"
+        />
+        <span
+        class="input-group-text"
+        id="inputGroup-sizing-sm"
+        style="width: 100px"
+        >연락처</span
+      >
+      <input
+        id="form-title"
+        type="text"
+        class="form-control w-25"
+        aria-label="Sizing example input"
+        aria-describedby="inputGroup-sizing-sm"
+        name="title"
+      />
+
+        <select class="mx-3">
+            <option>직거래</option>
+            <option>택배거래</option>
+          </select>
+      </div>
+
+      <div class="input-group my-3 w-50" style="height: 200px">
+        <span class="input-group-text" style="width: 10%;">글</span>
+        <textarea
+          id="form-waytogo"
+          name="waytogo"
+          class="form-control"
+          aria-label="With textarea"
+          value="fadsfsdafawe"
+        ></textarea>
+      </div>
+
+      <div class="mb-3" style="width: 400px">
+        <input
+          id="postImgInput"
+          multiple="multiple"
+          class="form-control"
+          type="file"
+          name="storyImg"
+          class="form-control-file"
+        />
+        <div class="invalid-feedback">사진을 꼭 등록해주세요</div>
+      </div>
+
+      <div class="col-12 mb-3">
+        <button
+          id="form-button"
+          class="hidden"
+          type="submit"
+          class="btn btn-primary"
+        ></button>
+      </div>
+    </form>
+    <button id="button-outta-form" type="submit" class="btn btn-primary">
+      등록
+    </button>
+    <%-include('../common/basicScript.html') %>
+  </body>
+</html>

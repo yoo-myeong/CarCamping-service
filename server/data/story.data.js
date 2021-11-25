@@ -25,11 +25,11 @@ const Story = sequelize.define("story", {
 Story.belongsTo(User);
 
 const Image = sequelize.define(
-  "image",
+  "stroyImage",
   {
     imgname: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
   },
   {

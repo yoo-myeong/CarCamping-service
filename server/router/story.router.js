@@ -17,5 +17,6 @@ router.get("/:id", storyController.getStoryById);
 router.post("/", validateStory, isAuth, storyController.createStory);
 router.put("/:id", isAuth, validateStory, storyController.updateStory);
 router.delete("/:id", isAuth, storyController.deleteStory);
+router.get("/author/:id", isAuth, storyController.checkAuthor);
 
 export default router;

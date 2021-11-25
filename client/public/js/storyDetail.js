@@ -3,8 +3,16 @@ const carouselInner = selectById("carousel-inner");
 const detailDeleteButton = $("#detail_deleteButton");
 const dtailUpdateButton = $("#deatail_updateButton");
 
-dtailUpdateButton.click(() => {
-  location.href = "/story/update/" + storyId;
+dtailUpdateButton.click(async () => {
+  const response = await fetchGetApiWithToken(
+    backendURL + "/story/author/" + storyId,
+    token
+  );
+  if (response.status === 200) {
+    location.href = "/story/update/" + storyId;
+  } else {
+    alert("수정권한이 없습니다.");
+  }
 });
 
 detailDeleteButton.click(async () => {
