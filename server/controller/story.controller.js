@@ -5,7 +5,6 @@ async function combineStoriesWithThumbnailAndUsername(story) {
   for (let i = 0; i < story.length; i++) {
     const { id, title, address, createdAt, user } = story[i].dataValues;
     const imgname = await storyData.getOneImgByStoryId(id);
-    console.log(imgname);
     data.push({
       thumbnail: imgname ? imgname.dataValues.imgname : null,
       title,
@@ -57,8 +56,9 @@ export async function updateStory(req, res, next) {
       .json({ message: "you're not allowed to update this story" });
   }
   const body = req.body;
-  const stroyId = await storyData.updateStory(id, body);
-  res.status(200).json({ stroyId });
+  console.log(body);
+  const storyId = await storyData.updateStory(id, body);
+  res.status(200).json({ storyId });
 }
 
 export async function deleteStory(req, res, next) {

@@ -1,5 +1,6 @@
 const formButton = $("#form-button");
 const buttonOuttaForm = $("#button-outta-form");
+const inputImg = document.querySelector("#postImgInput");
 
 function postStoryValidation() {
   const essentialInput = $("#essentialInput");
@@ -13,6 +14,17 @@ function postStoryValidation() {
   }
 }
 
+function checkImgCnt() {
+  if (inputImg.files.length <= 5) {
+    return true;
+  }
+  return false;
+}
+
 buttonOuttaForm.click(() => {
-  postStoryValidation();
+  if (checkImgCnt()) {
+    postStoryValidation();
+  } else {
+    alert("업로드 가능한 이미지 개수는 최대 5개 입니다.");
+  }
 });

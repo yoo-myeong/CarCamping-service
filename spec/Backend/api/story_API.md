@@ -102,7 +102,8 @@ story
 ```
 {
     title, address, waytogo, knowhow,
-    imagenames : [],
+    deleteImgnames : [],
+    imgnames : [],
 }
 ```
 

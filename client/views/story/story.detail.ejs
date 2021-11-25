@@ -10,8 +10,20 @@
     <div class="container my-3">
       <div class="d-flex justify-content-end">
         <div class="btn-group" role="group" aria-label="Basic outlined example">
-          <button type="button" class="btn btn-outline-primary">수정</button>
-          <button type="button" class="btn btn-outline-primary">삭제</button>
+          <button
+            id="deatail_updateButton"
+            type="button"
+            class="btn btn-outline-primary"
+          >
+            수정
+          </button>
+          <button
+            id="detail_deleteButton"
+            type="button"
+            class="btn btn-outline-primary"
+          >
+            삭제
+          </button>
         </div>
       </div>
       <h2 id="detail_title" class="border-bottom py-2">제목 :</h2>
@@ -51,8 +63,6 @@
     <script src="/js/storyDetail.js"></script>
     <script>
       redirectLoginForUnauthorization();
-    </script>
-    <script>
       const storyId = <%=storyId%>
       makeDetailStory(storyId)
     </script>

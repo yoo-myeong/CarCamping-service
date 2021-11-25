@@ -22,3 +22,15 @@ export async function fetchPostApiWithToken(url, json, token) {
   });
   return response;
 }
+
+export async function fetchPutApiWithToken(url, json, token) {
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(json),
+  });
+  return response;
+}

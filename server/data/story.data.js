@@ -62,7 +62,14 @@ export async function getByname(name) {
 
 export async function getStoryById(storyId) {
   return Story.findByPk(storyId, {
-    attributes: ["title", "createdAt", "address", "waytogo", "knowhow"],
+    attributes: [
+      "title",
+      "createdAt",
+      "address",
+      "waytogo",
+      "knowhow",
+      "userId",
+    ],
     include: {
       model: User,
       attributes: ["name"],
@@ -96,7 +103,7 @@ export async function getOneImgByStoryId(storyId) {
 }
 
 export async function updateStory(id, body) {
-  const { title, address, waytogo, knowhow, imgnames } = body;
+  const { title, address, waytogo, knowhow, imgnames, deleteImgnames } = body;
   const story = await Story.findByPk(id);
   story.set({
     title,
@@ -107,12 +114,15 @@ export async function updateStory(id, body) {
   await story.save();
 
   const storyId = story.dataValues.id;
-
-  Image.findAll({ where: { storyId } }).then((images) => {
-    images.forEach((img) => {
-      img.destroy();
+  if (deleteImgnames) {
+    Image.findAll({ where: { storyId } }).then((images) => {
+      images.forEach((img) => {
+        if (deleteImgnames.includes(img.dataValues.imgname)) {
+          img.destroy();
+        }
+      });
     });
-  });
+  }
 
   for (let i = 0; i < imgnames.length; i++) {
     const imgname = imgnames[i];

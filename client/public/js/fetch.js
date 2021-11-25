@@ -28,3 +28,13 @@ async function fetchGetApiWithToken(url, token) {
   });
   return response;
 }
+
+async function fetchDeleteApiWithToken(url, token) {
+  const response = await fetch(url, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+}

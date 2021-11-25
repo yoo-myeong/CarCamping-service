@@ -9,7 +9,6 @@ const router = express.Router();
 const validateStory = [
   body("title").notEmpty(),
   body("address").notEmpty(),
-  body("imgnames").isArray(),
   validate,
 ];
 

@@ -8,8 +8,14 @@
     <p class="hidden" id="essentialInput" style="color: coral">
       제목과 주소는 필수 입력 사항입니다.
     </p>
-    <form action="/story/post" method="POST" enctype="multipart/form-data">
+    <form
+      id="updateForm"
+      action="/story/update/<%=storyId%>"
+      method="POST"
+      enctype="multipart/form-data"
+    >
       <input class="hidden" name="token" id="inputToken" />
+      <div class="hidden" id="hiddenUpdateFormTag"></div>
       <div class="input-group input-group-sm my-3" style="width: 800px">
         <span
           class="input-group-text"
@@ -27,7 +33,7 @@
         />
       </div>
 
-      <%-include('./map.html') %>
+      <%-include('./map_update.html') %>
 
       <div class="input-group my-3" style="width: 800px; height: 200px">
         <span class="input-group-text" style="width: 100px">가는방법</span>
@@ -52,7 +58,7 @@
 
       <div class="mb-3" style="width: 400px">
         <input
-          id = "postImgInput"
+          id="postImgInput"
           multiple="multiple"
           class="form-control"
           type="file"
@@ -71,14 +77,20 @@
         ></button>
       </div>
     </form>
+    <div
+      id="deleteImgContainer"
+      class="row row-cols-1 row-cols-md-4 g-4 m-1"
+    ></div>
     <button id="button-outta-form" type="submit" class="btn btn-primary">
       등록
     </button>
     <%-include('../common/basicScript.html') %>
-    <script src="/js/storyPost.js"></script>
+    <script src="/js/storyUpdate.js"></script>
     <script>
       setTokenintoInput();
       redirectLoginForUnauthorization();
+      const storyId = <%=storyId%>
+      inputIntoElement(storyId)
     </script>
   </body>
 </html>

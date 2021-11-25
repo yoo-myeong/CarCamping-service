@@ -1,19 +1,39 @@
 const carouselIndicators = selectById("carousel-indicators");
 const carouselInner = selectById("carousel-inner");
+const detailDeleteButton = $("#detail_deleteButton");
+const dtailUpdateButton = $("#deatail_updateButton");
+
+dtailUpdateButton.click(() => {
+  location.href = "/story/update/" + storyId;
+});
+
+detailDeleteButton.click(async () => {
+  console.log("clicked");
+  const url = backendURL + "/story/" + storyId;
+  const response = await fetchDeleteApiWithToken(url, token);
+  if (response.status === 204) {
+    location.href = "/story";
+  } else if (response.status === 403) {
+    alert("삭제권한이 없습니다.");
+  } else {
+    location.href = "/error";
+  }
+});
+
+function alignTimeData(time) {
+  return time.split("T")[0] + " " + time.split("T")[1].slice(0, 7);
+}
 
 async function makeDetailStory(storyId) {
   const url = backendURL + "/story/" + storyId;
   const response = await fetchGetApiWithToken(url, token);
   const { imgnames, story } = await response.json();
-  console.log(story);
   let i = 0;
   const name = story.user.name;
   inputIntoInnerText(name, selectById("detail_name"));
-  story.createdAt =
-    story.createdAt.split("T")[0] +
-    " " +
-    story.createdAt.split("T")[1].slice(0, 7);
+  story.createdAt = alignTimeData(story.createdAt);
   delete story.user;
+  delete story.userId;
   for (const key in story) {
     const element = selectById(`detail_${key}`);
     if (story[key]) {
@@ -23,7 +43,6 @@ async function makeDetailStory(storyId) {
     }
   }
   imgnames.forEach((imgname) => {
-    console.log(imgname);
     const bottomButton = `<button
 type="button"
 data-bs-target="#carouselExampleIndicators"
