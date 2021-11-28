@@ -15,7 +15,7 @@
           <option selected>정렬</option>
           <option value="1">최신순</option>
           <option value="2">오래된순</option>
-          <option value="3">조회수높은순</option>
+          <option value="3">하트순</option>
         </select>
       </div>
       <div class="px-1">
@@ -35,7 +35,7 @@
     <div class="row row-cols-1 row-cols-md-4 g-4 m-1" id="cardBox"></div>
 
     <%-include('../common/basicScript.html') %>
-    <script src="/js/storyBoard.js"></script>
+    <script src="/js/story/storyBoard.js"></script>
     <script>
       redirectLoginForUnauthorization();
       getStory();

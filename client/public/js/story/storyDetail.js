@@ -16,7 +16,6 @@ dtailUpdateButton.click(async () => {
 });
 
 detailDeleteButton.click(async () => {
-  console.log("clicked");
   const url = backendURL + "/story/" + storyId;
   const response = await fetchDeleteApiWithToken(url, token);
   if (response.status === 204) {
@@ -51,13 +50,15 @@ async function makeDetailStory(storyId) {
     }
   }
   imgnames.forEach((imgname) => {
-    const bottomButton = `<button
-type="button"
-data-bs-target="#carouselExampleIndicators"
-data-bs-slide-to="${i}"
-aria-current="true"
-aria-label="Slide ${i + 1}"
-></button>`;
+    const bottomButton = `
+    <button
+    type="button"
+    data-bs-target="#carouselExampleIndicators"
+    data-bs-slide-to="${i}"
+    aria-current="true"
+    aria-label="Slide ${i + 1}"
+    >
+    </button>`;
     const carouselImg =
       i == 0
         ? `<div class="carousel-item active"><img src="/${imgname}" class="d-block w-100" /></div>`

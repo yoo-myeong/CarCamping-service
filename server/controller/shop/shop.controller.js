@@ -1,4 +1,4 @@
-import * as shopData from "../data/shop.data.js";
+import * as shopData from "../../data/shop/shop.data.js";
 
 export async function getShop(req, res, next) {
   const shop = await shopData.getAll();

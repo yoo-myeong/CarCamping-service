@@ -15,21 +15,21 @@ password : string
 
 - 회원가입
 
-  **요청**
+**요청**
 
-  ```
-  {
-      email, password, name
-  }
-  ```
+```
+{
+    email, password, name
+}
+```
 
-  **응답** : 201 | 409
+**응답** : 201 | 409
 
-  ```
-  {
-      token, name
-  }
-  ```
+```
+{
+    token, name
+}
+```
 
 <br>
 
@@ -37,21 +37,21 @@ password : string
 
 - 로그인
 
-  **요청**
+**요청**
 
-  ```
-  {
-      email, password
-  }
-  ```
+```
+{
+    email, password
+}
+```
 
-  **응답** : 202 | 401
+**응답** : 202 | 401
 
-  ```
-  {
-      token, name
-  }
-  ```
+```
+{
+    token, name
+}
+```
 
 <br>
 
@@ -59,16 +59,16 @@ password : string
 
 - 로그인상태
 
-  **요청**
+**요청**
 
-  ```
-  header에 token 담아서 요청
-  ```
+```
+header에 token 담아서 요청
+```
 
-  **응답** : 200 | 401
+**응답** : 200 | 401
 
-  ```
-  {
-      name
-  }
-  ```
+```
+{
+    name
+}
+```

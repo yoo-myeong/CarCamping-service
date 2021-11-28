@@ -1,10 +1,10 @@
 import SQ from "sequelize";
-import { sequelize } from "../db/database.js";
-import { User } from "./auth.data.js";
+import { sequelize } from "../../db/database.js";
+import { User } from "../auth/auth.data.js";
 
 const DataTypes = SQ.DataTypes;
 
-const Story = sequelize.define("story", {
+export const Story = sequelize.define("story", {
   title: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -22,6 +22,7 @@ const Story = sequelize.define("story", {
     allowNull: true,
   },
 });
+User.hasMany(Story);
 Story.belongsTo(User);
 
 const Image = sequelize.define(

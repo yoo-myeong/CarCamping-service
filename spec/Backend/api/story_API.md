@@ -1,4 +1,4 @@
-# 👉 story API 스펙 설계
+# 👉 story API 스펙
 
 ## Story Schema
 
@@ -31,9 +31,11 @@ StoryId : integer, fk
 
 ```
 [
-  {tumbnail, title, address, storyId, createdAt, name} ...
+{tumbnail, title, address, storyId, createdAt, name} ...
 ]
 ```
+
+<br>
 
 ### ✅ _GET_ /stroy?name=:name
 
@@ -43,14 +45,14 @@ StoryId : integer, fk
 
 ```
 [
-  {
-    imgnames : [],
-    title, address, storyId, createdAt, name
-  } ...
+{
+  imgnames : [],
+  title, address, storyId, createdAt, name
+} ...
 ]
 ```
 
-story
+<br>
 
 ### ✅ _GET_ /story/:id
 
@@ -72,6 +74,8 @@ story
 }
 ```
 
+<br>
+
 ### ✅ _POST_ /story
 
 - 새로운 story 생성
@@ -80,8 +84,8 @@ story
 
 ```
 {
-    title, address, waytogo, knowhow,
-    imgnames : []
+  title, address, waytogo, knowhow,
+  imgnames : []
 }
 ```
 
@@ -89,16 +93,9 @@ story
 
 ```
 {
-    storyId
+  storyId
 }
 ```
-
-### ✅ _GET_ /story/author/:id
-
-- token의 userId와 수정하려는 story의 userId가 일치하는 지 체크
-
-**응답**
-200 | 401
 
 <br>
 
@@ -110,9 +107,9 @@ story
 
 ```
 {
-    title, address, waytogo, knowhow,
-    deleteImgnames : [],
-    imgnames : [],
+  title, address, waytogo, knowhow,
+  deleteImgnames : [],
+  imgnames : [],
 }
 ```
 
@@ -120,11 +117,25 @@ story
 
 ```
 {
-    storyId
+  storyId
 }
 ```
 
-### ✅ _DELETE_ /tweets/:id
+<br>
+
+### ✅ _DELETE_ /story/:id
 
 - 데이터id를 가진 스토리와 연결된 이미지 전체 삭제
-- **응답** : 204
+
+**응답** : 204
+
+<br>
+
+### ✅ _GET_ /story/author/:id
+
+- token의 userId와 수정하려는 story의 userId가 일치하는 지 체크
+
+**응답**
+200 | 401
+
+<br>

@@ -1,9 +1,8 @@
-import * as authData from "../data/auth.data.js";
+import * as authData from "../../data/auth/auth.data.js";
 import bcrypt from "bcrypt";
-import { config } from "../config.js";
+import { config } from "../../config.js";
 import "express-async-errors";
 import jwt from "jsonwebtoken";
-import { getStoryById } from "/users/yoou2/desktop/github/carcamping-service/server/data/story.data.js";
 
 function createToken(id) {
   const token = jwt.sign({ id }, config.jwt.screatKey, {

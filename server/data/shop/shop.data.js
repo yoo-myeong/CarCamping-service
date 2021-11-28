@@ -1,10 +1,10 @@
 import SQ from "sequelize";
-import { sequelize } from "../db/database.js";
-import { User } from "./auth.data.js";
+import { sequelize } from "../../db/database.js";
+import { User } from "../auth/auth.data.js";
 
 const DataTypes = SQ.DataTypes;
 
-const Shop = sequelize.define("shop", {
+export const Shop = sequelize.define("shop", {
   stuff: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -45,10 +45,18 @@ Image.belongsTo(Shop);
 
 export async function getAll() {
   return Shop.findAll({
-    include: {
-      model: User,
-      attributes: ["name"],
-    },
+    attributes: ["id", "stuff", "transaction", "price", "createdAt"],
+    include: [
+      {
+        model: User,
+        attributes: ["name"],
+      },
+      {
+        model: Image,
+        attributes: ["imgname"],
+        limit: 1,
+      },
+    ],
   });
 }
 
@@ -90,5 +98,11 @@ export async function getShopByIdWithImg(id) {
       },
       { model: User, attributes: ["name"] },
     ],
+  });
+}
+
+export async function getOneImgByShopId(shopId) {
+  return Image.findOne({
+    where: { shopId },
   });
 }

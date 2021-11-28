@@ -1,4 +1,4 @@
-import * as storyData from "../data/story.data.js";
+import * as storyData from "../../data/story/story.data.js";
 
 async function combineStoriesWithThumbnailAndUsername(story) {
   const data = [];
