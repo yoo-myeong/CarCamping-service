@@ -17,11 +17,15 @@ https://drive.google.com/file/d/1m7d_gJwJjlPvIaQOmjm20J6ozwtx9kyp/view?usp=shari
 
 [stroy API 이동](./spec/Backend/api/story_API.md)
 
+[shop API 이동](./spec/Backend/api/shop_API.md)
+
 ### ✅ Logic Flow
+
+**프론트엔드 로직 도표**
+https://drive.google.com/file/d/1s6dTLs_Y_fOOo49wFdAKVu-GUngUon-j/view?usp=sharing
 
 ## 👉FrontEnd
 
-_backend 서버의 동작을 확인하고 기능 실행만을 목표로 하여 html, css, javascript만으로 구현_
 
 ### ✅ Diagram
 
