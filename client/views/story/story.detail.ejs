@@ -11,8 +11,41 @@
       <div class="d-flex justify-content-end">
         <div class="btn-group" role="group" aria-label="Basic outlined example">
           <div class="mx-3 py-1">
-            <i class="fa fa-heart-o" style="font-size: 28px"></i>
-            <i class="fa fa-heart" style="font-size: 28px; color: red"></i>
+            <button id="heart-red" class="mx-3 btn position-relative hidden">
+              <i class="fa fa-heart" style="font-size: 28px; color: red"></i>
+              <span
+                class="
+                  position-absolute
+                  top-0
+                  start-100
+                  translate-middle
+                  badge
+                  rounded-pill
+                  bg-danger
+                  heartCntSpan
+                "
+                id="redHeartCnt"
+              >
+                99
+              </span>
+            </button>
+            <button id="heart-white" class="mx-3 btn position-relative hidden">
+              <i class="fa fa-heart-o" style="font-size: 28px"></i>
+              <span
+                class="
+                  position-absolute
+                  top-0
+                  start-100
+                  translate-middle
+                  badge
+                  rounded-pill
+                  bg-danger
+                "
+                id="whiteHeartCnt"
+              >
+                99
+              </span>
+            </button>
           </div>
           <button
             id="deatail_updateButton"
@@ -68,7 +101,9 @@
     <script>
       redirectLoginForUnauthorization();
       const storyId = <%=storyId%>
+      getHeartState(storyId)
       makeDetailStory(storyId)
+      activateHeartButton(storyId)
     </script>
   </body>
 </html>

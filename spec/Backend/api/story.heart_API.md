@@ -16,6 +16,12 @@ StoryId : integer, fk
 
 **응답** : 200 | 404
 
+```
+{
+  heartCnt
+}
+```
+
 <br>
 
 ### ✅ _POST_ /story/heart
@@ -26,11 +32,17 @@ StoryId : integer, fk
 
 ```
 {
-    storyId
+  storyId
 }
 ```
 
 **응답** : 201 | 400
+
+```
+{
+  heartCnt
+}
+```
 
 <br>
 
@@ -38,4 +50,10 @@ StoryId : integer, fk
 
 - 하트 삭제
 
-**응답** : 204 | 404
+**응답** : 200
+
+```
+{
+  heartCnt
+}
+```

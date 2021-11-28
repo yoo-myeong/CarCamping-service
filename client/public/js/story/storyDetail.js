@@ -2,6 +2,10 @@ const carouselIndicators = selectById("carousel-indicators");
 const carouselInner = selectById("carousel-inner");
 const detailDeleteButton = $("#detail_deleteButton");
 const dtailUpdateButton = $("#deatail_updateButton");
+const redHeartButton = $("#heart-red");
+const whiteHeartButton = $("#heart-white");
+const whiteHeartCnt = selectById("whiteHeartCnt");
+const redHeartCnt = selectById("redHeartCnt");
 
 dtailUpdateButton.click(async () => {
   const response = await fetchGetApiWithToken(
@@ -68,5 +72,47 @@ async function makeDetailStory(storyId) {
     }
     carouselInner.innerHTML += carouselImg;
     i++;
+  });
+}
+
+function exposeWhiteHeart() {
+  whiteHeartButton.removeClass("hidden");
+  redHeartButton.addClass("hidden");
+}
+function exposeRedHeart() {
+  redHeartButton.removeClass("hidden");
+  whiteHeartButton.addClass("hidden");
+}
+function updateHeartCnt(heartCnt) {
+  redHeartCnt.innerText = heartCnt;
+  whiteHeartCnt.innerText = heartCnt;
+}
+
+async function getHeartState(storyId) {
+  const url = backendURL + "/story/heart/" + storyId;
+  const response = await fetchGetApiWithToken(url, token);
+  if (response.status === 200) {
+    exposeRedHeart();
+  } else {
+    exposeWhiteHeart();
+  }
+  const { heartCnt } = await response.json();
+  updateHeartCnt(heartCnt);
+}
+
+async function activateHeartButton(storyId) {
+  whiteHeartButton.click(async () => {
+    const url = backendURL + "/story/heart";
+    const response = await fetchPostApiWithToken(url, token, { storyId });
+    const { heartCnt } = await response.json();
+    updateHeartCnt(heartCnt);
+    exposeRedHeart();
+  });
+  redHeartButton.click(async () => {
+    const url = backendURL + "/story/heart/" + storyId;
+    const response = await fetchDeleteApiWithToken(url, token);
+    const { heartCnt } = await response.json();
+    updateHeartCnt(heartCnt);
+    exposeWhiteHeart();
   });
 }

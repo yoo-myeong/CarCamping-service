@@ -15,6 +15,12 @@ Story.hasMany(StoryHeart, {
 StoryHeart.belongsTo(User);
 StoryHeart.belongsTo(Story);
 
+export async function getHeartCnt(storyId) {
+  return StoryHeart.count({
+    where: { storyId },
+  });
+}
+
 export async function getHeart(userId, storyId) {
   const storyHeart = await StoryHeart.findOne({
     where: {
@@ -34,12 +40,12 @@ export async function createHeart(userId, storyId) {
 }
 
 export async function deleteHeart(userId, storyId) {
-  StoryHeart.findOne({
+  const storyheart = await StoryHeart.findOne({
     where: {
       storyId,
       userId,
     },
-  }).then((storyheart) => {
-    storyheart.destroy();
   });
+  await storyheart.destroy();
+  return getHeartCnt(storyId);
 }

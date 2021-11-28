@@ -3,25 +3,26 @@ import * as storyHeartData from "../../data/story/story_heart.data.js";
 export async function getHeart(req, res, next) {
   const storyId = req.params.storyId;
   const storyheart = await storyHeartData.getHeart(req.userId, storyId);
+  const heartCnt = await storyHeartData.getHeartCnt(storyId);
   if (storyheart) {
-    return res.sendStatus(200);
+    return res.status(200).json({ heartCnt });
   } else {
-    return res.sendStatus(404);
+    return res.status(404).json({ heartCnt });
   }
 }
 
 export async function createHeart(req, res, next) {
   const storyId = req.body.storyId;
   const stroyheart = await storyHeartData.createHeart(req.userId, storyId);
+  const heartCnt = await storyHeartData.getHeartCnt(storyId);
   if (stroyheart) {
-    return res.sendStatus(201);
+    return res.status(201).json({ heartCnt });
   }
-  res.sendStatus(400);
+  res.status(400).json({ heartCnt });
 }
 
 export async function deleteHeart(req, res, next) {
   const storyId = req.params.storyId;
-  storyHeartData.deleteHeart(req.userId, storyId).then(() => {
-    res.sendStatus(204);
-  });
+  const heartCnt = await storyHeartData.deleteHeart(req.userId, storyId);
+  return res.status(200).json({ heartCnt });
 }
