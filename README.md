@@ -20,7 +20,7 @@ https://drive.google.com/file/d/1m7d_gJwJjlPvIaQOmjm20J6ozwtx9kyp/view?usp=shari
 
 [stroy API](./spec/Backend/api/story_API.md)
 
-[shop API 이동](./spec/Backend/api/shop_API.md)
+[shop API](./spec/Backend/api/shop_API.md)
 
 <br>
 
