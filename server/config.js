@@ -13,7 +13,7 @@ export const config = {
   port: parseInt(required("PORT", 8080)),
   db: {
     database: required("DATABASE"),
-    host: required("HOST"),
+    user: required("USER"),
     password: required("PASSWORD"),
   },
   bcrypt: {

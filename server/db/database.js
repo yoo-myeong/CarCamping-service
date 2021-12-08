@@ -2,9 +2,9 @@ import SQ from "sequelize";
 import { config } from "../config.js";
 
 const Sequelize = SQ.Sequelize;
-const { database, host, password } = config.db;
+const { database, user, password } = config.db;
 
-export const sequelize = new Sequelize(database, host, password, {
+export const sequelize = new Sequelize(database, user, password, {
   host: "localhost",
   dialect: "mysql",
 });
