@@ -5,28 +5,27 @@
 
 <br>
 
-## 👉ERD
+## 👉 Database
 
+#### ✅ ERD
 https://drive.google.com/file/d/1m7d_gJwJjlPvIaQOmjm20J6ozwtx9kyp/view?usp=sharing
+
+<br>
 
 ## 👉BackEnd
 
-### ✅ API SPEC
+#### ✅ API SPEC
 
-[auth API 이동](./spec/Backend/api/auth_API.md)
+[auth API](./spec/Backend/api/auth_API.md)
 
-[stroy API 이동](./spec/Backend/api/story_API.md)
+[stroy API](./spec/Backend/api/story_API.md)
 
-[shop API 이동](./spec/Backend/api/shop_API.md)
+[shop API](./spec/Backend/api/shop_API.md)
 
-### ✅ Logic Flow
-
-**프론트엔드 로직 도표**
-https://drive.google.com/file/d/1s6dTLs_Y_fOOo49wFdAKVu-GUngUon-j/view?usp=sharing
+<br>
 
 ## 👉FrontEnd
 
+#### ✅ Class Diagram
 
-### ✅ Diagram
-
-### ✅ Login Flow
+<br>
