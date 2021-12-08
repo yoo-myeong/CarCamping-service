@@ -7,6 +7,7 @@ const sell_createdAt = selectById("sell_createdAt");
 const sell_price = selectById("sell_price");
 const sell_description = selectById("sell_description");
 const deleteButton = $("#sell_deleteButton");
+const comments = selectById("comments");
 
 deleteButton.click(async () => {
   console.log("clicked");
@@ -60,4 +61,45 @@ async function makeDetailShop(shopId) {
     carouselInner.innerHTML += carouselImg;
     i++;
   });
+}
+
+async function getComments(shopId) {
+  const url = backendURL + "/shop/reply/" + shopId;
+  const response = await fetchGetApiWithToken(url, token);
+  if (response.status === 200) {
+    const replies = await response.json();
+    replies.forEach((reply) => {
+      const replyTime = alignTimeData(reply.createdAt);
+      const comment = `
+      <div class="card my-1" id="reply_card">
+        <div class="card-header">이름 : ${reply.user.name} </div>
+        <div class="card-body">
+          <p class="card-text">댓글 : ${reply.content}</p>
+          <h6 class="text-end">작성일 : ${replyTime}</h6>
+        </div>
+      </div>
+      `;
+      comments.innerHTML += comment;
+    });
+    console.log(replies.length);
+    document.querySelector("#comment-count").innerHTML = replies.length;
+  }
+}
+
+async function clickReplyPostButton(shopId) {
+  const replyButton = $("#replyButton");
+  replyButton.click(() => {
+    createComment(shopId);
+  });
+}
+
+async function createComment(shopId) {
+  const content = $("#replyInput").val();
+  const url = backendURL + "/shop/reply";
+  const response = await fetchPostApiWithToken(url, token, { shopId, content });
+  if (response.status === 201) {
+    location.reload();
+  } else {
+    alert("에러가 발생했습니다.");
+  }
 }

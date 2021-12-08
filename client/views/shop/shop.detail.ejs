@@ -42,19 +42,28 @@
       </div>
       <h5 class="border-bottom py-2"></h5>
       <div id="form-commentInfo">
-        <div id="comment-count">댓글 <span id="comment-count">0</span></div>
-        <div class="form-floating mb-3">
-          <input
-            type="email"
-            class="form-control"
-            id="floatingInput"
-            placeholder="댓글을 입력해주세요"
-          />
-          <label for="floatingInput">댓글입력</label>
+        <div>댓글 <span id="comment-count"></span></div>
+        <div class="input-group">
+          <div class="form-floating w-50">
+            <textarea
+              class="form-control"
+              placeholder="Leave a comment here"
+              style="height: 10rem"
+              id="replyInput"
+            ></textarea>
+            <label for="floatingTextarea2">Comments</label>
+          </div>
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="replyButton"
+          >
+            등록
+          </button>
         </div>
-        <button class="btn btn-outline-info">등록</button>
       </div>
-      <div id="comments"></div>
+      <h5 class="border-bottom py-2"></h5>
+      <div class="my-2 w-50" id="comments"></div>
     </div>
 
     <%-include('../common/basicScript.html') %>
@@ -63,6 +72,8 @@
       redirectLoginForUnauthorization();
       const shopId = <%=shopId%>
       makeDetailShop(shopId)
+      getComments(shopId)
+      clickReplyPostButton(shopId)
     </script>
   </body>
 </html>

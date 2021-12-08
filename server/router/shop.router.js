@@ -20,7 +20,7 @@ router.get("/:id", shopController.getShopById);
 router.post("/", validateShop, isAuth, shopController.createShop);
 router.delete("/:id", isAuth, shopController.deleteShop);
 
-router.get("/reply/:shopId", isAuth, shopReplyController.getAllShopReply);
+router.get("/reply/:shopId", shopReplyController.getAllShopReply);
 router.post("/reply", isAuth, shopReplyController.createShopReply);
 
 export default router;

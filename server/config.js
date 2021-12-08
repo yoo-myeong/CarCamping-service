@@ -22,4 +22,7 @@ export const config = {
   jwt: {
     screatKey: required("JWTSECREATKEY"),
   },
+  // cors: {
+  //   allowedOrigin: required("CORS_ALLOW_ORIGIN"),
+  // },
 };

@@ -37,6 +37,8 @@ async function modifyNavbar() {
       exposeLogoutBtn(data);
       clickNavLogoutButton();
     }
+  } else {
+    exposeLoginBtn();
   }
 }
 

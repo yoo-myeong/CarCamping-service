@@ -10,9 +10,16 @@ import { sequelize } from "./db/database.js";
 import "express-async-errors";
 
 const app = express();
+
+// const corsOption = {
+//   origin: config.cors.allowedOrigin,
+//   optionSuccessStatus: 200,
+// };
+
 app.use(express.json());
 app.use(helmet());
 app.use(cors());
+// app.use(cors(corsOption));
 app.use(morgan("tiny"));
 
 app.use("/auth", authRoutes);
