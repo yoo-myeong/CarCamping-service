@@ -12,17 +12,19 @@ function required(key, defaultValue = undefined) {
 export const config = {
   port: parseInt(required("PORT", 8080)),
   db: {
-    database: required("DATABASE"),
-    user: required("USER"),
-    password: required("PASSWORD"),
+    host: required("DB_HOST"),
+    database: required("DB_DATABASE"),
+    user: required("DB_USER"),
+    password: required("DB_PASSWORD"),
+    port: required("DB_PORT"),
   },
   bcrypt: {
-    saltRound: parseInt(required("SALTROUNDS")),
+    saltRound: parseInt(required("SALTROUNDS"), 12),
   },
   jwt: {
     screatKey: required("JWTSECREATKEY"),
   },
-  // cors: {
-  //   allowedOrigin: required("CORS_ALLOW_ORIGIN"),
-  // },
+  cors: {
+    allowedOrigin: required("CORS_ALLOW_ORIGIN"),
+  },
 };

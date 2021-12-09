@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid">
     <button
       class="navbar-toggler"
@@ -11,8 +11,8 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-      <a class="navbar-brand" href="/">어디차박</a>
+    <div class="collapse navbar-collapse px-5" id="navbarTogglerDemo01">
+      <a id="homeBtn" class="navbar-brand" href="/">어디차박</a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/story"
@@ -24,21 +24,12 @@
             >대여 및 거래</a
           >
         </li>
-        <li class="nav-item">
-          <a
-            class="nav-link active"
-            aria-current="page"
-            href="#"
-            style="display: none"
-            >차박이슈</a
-          >
-        </li>
       </ul>
-      <p
+      <a
         id="navUsername"
-        class="hidden me-3 my-2"
+        class="navbar-brand hidden me-3 my-2"
         style="text-decoration: underline"
-      ></p>
+      ></a>
       <form class="d-flex">
         <input
           class="form-control me-2"

@@ -1,4 +1,4 @@
-import epxress, { response } from "express";
+import epxress from "express";
 const router = epxress.Router();
 
 router.get("/signup", (req, res, next) => {

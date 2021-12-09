@@ -5,21 +5,73 @@
   </head>
   <body>
     <%-include('../common/nav.html') %>
-    <div class="card text-center">
-      <div class="card-header">어디차박은 뭐하는 곳인가요?</div>
-      <div class="card-body">
-        <h5 class="card-title">차박족을 위한 페이지!</h5>
-        <p class="card-text">
-          수많은 차박 캠핑 장소, 노하우, 이슈 등을 공유하며 <br />
-          캠핑차량, 용품을 대여하거나 거래할 수 있습니다. <br />
-          다 함께 한층 더 즐거운 차박캠핑을 만들어 가요.
-        </p>
-        <a href="/story" class="btn btn-primary">다양한 차박 이야기 보러가기</a>
+
+    <header class="masthead">
+      <div class="container">
+        <div class="masthead-subheading">Welcome To 어디차박!</div>
+        <div class="masthead-heading text-uppercase">
+          차박러를 위한 웹사이트
+        </div>
+        <a class="btn btn-primary btn-xl text-uppercase" href="#services"
+          >About Us</a
+        >
       </div>
-      <div class="card-footer text-muted">
-        <img src="/img/main_carcamping.jpg" />
+    </header>
+
+    <!-- Services-->
+    <section class="page-section" id="services">
+      <div class="container">
+        <div class="text-center">
+          <h2 class="section-heading text-uppercase">About Us</h2>
+          <h3 class="section-subheading text-muted">
+            어디차박은 캠핑러들의 교류를 장려하고, 다양한 서비스를 제공하여
+            초보자들의 입문 장벽을 낮춰줍니다.
+          </h3>
+        </div>
+        <div class="row text-center">
+          <div class="col-md-4 team-member">
+            <h4 class="my-3">Sharing</h4>
+            <img
+              class="mx-auto rounded-circle"
+              src="img/sharing.png"
+              alt="..."
+            />
+            <p class="text-muted">
+              내가 가본 캠핑존 공유해보세요.<br />
+              태그를 추가해서 캠핑존의 특징을 부각시키고<br />
+              사진과 후기를 포스팅할 수 있어요.
+            </p>
+          </div>
+          <div class="col-md-4 team-member">
+            <h4 class="my-3">Searching</h4>
+            <img
+              class="mx-auto rounded-circle"
+              src="img/search.png"
+              alt="..."
+            />
+            <p class="text-muted">
+              계획중인 여행지를 검색해보세요.<br />
+              좋아요순, 최근순 등으로 정렬하면<br />
+              더 좋은 장소를 찾을 수 있어요.
+            </p>
+          </div>
+          <div class="col-md-4 team-member">
+            <h4 class="my-3">E-Commerce</h4>
+            <img
+              class="mx-auto rounded-circle"
+              src="img/ecommerce.jpg"
+              alt="..."
+            />
+            <p class="text-muted">
+              차박 용품을 대여 및 거래할 수 있어요. <br />
+              새로 사기 부담스럽고, 창고에 있는 아까운 캠핑용품.<br />
+              대여 또는 거래를 통해 활용해보세요.
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
+
     <%-include('../common/basicScript.html') %>
   </body>
 </html>

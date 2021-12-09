@@ -36,6 +36,6 @@ app.use((err, req, res, next) => {
 });
 
 sequelize.sync({}).then(() => {
-  console.log("server starts");
+  console.log("server starts...!!!");
   app.listen(config.port);
 });

@@ -7,7 +7,7 @@ function exposeLoginBtn() {
   sessionStorage.clear();
   navLoginButton.removeClass("hidden");
   navLogoutButton.addClass("hidden");
-  navUsername.addClass("hidden");
+  navUsername.classList.add("hidden");
 }
 
 function exposeLogoutBtn(data) {
