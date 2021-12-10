@@ -35,7 +35,8 @@ app.use((err, req, res, next) => {
   res.sendStatus(500);
 });
 
-sequelize.sync({}).then(() => {
-  console.log("server starts...!!!");
-  app.listen(config.port);
+sequelize.sync({ alter: true }).then(() => {
+  app.listen(config.port, () => {
+    console.log(`server with port ${config.port} starts...!!!`);
+  });
 });

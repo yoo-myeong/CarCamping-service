@@ -5,75 +5,159 @@
   </head>
   <body>
     <%-include('../common/nav.html') %>
-    <p class="hidden" id="essentialInput" style="color: coral">
-      제목과 주소는 필수 입력 사항입니다.
-    </p>
-    <form action="/story/post" method="POST" enctype="multipart/form-data">
-      <input class="hidden" name="token" id="inputToken" />
-      <div class="input-group input-group-sm my-3" style="width: 800px">
-        <span
-          class="input-group-text"
-          id="inputGroup-sizing-sm"
-          style="width: 100px"
-          >제목</span
-        >
-        <input
-          id="form-title"
-          type="text"
-          class="form-control"
-          aria-label="Sizing example input"
-          aria-describedby="inputGroup-sizing-sm"
-          name="title"
-        />
-      </div>
 
-      <%-include('./map.html') %>
+    <div class="container m-5">
+      <form
+        class="row"
+        action="/story/post"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <input class="hidden" name="token" id="inputToken" />
 
-      <div class="input-group my-3" style="width: 800px; height: 200px">
-        <span class="input-group-text" style="width: 100px">가는방법</span>
-        <textarea
-          id="form-waytogo"
-          name="waytogo"
-          class="form-control"
-          aria-label="With textarea"
-          value="fadsfsdafawe"
-        ></textarea>
-      </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="form-title" class="form-label">제목</label>
+            <input
+              id="form-title"
+              type="text"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm"
+              name="title"
+              required
+            />
+          </div>
+        </div>
 
-      <div class="input-group mb-3" style="width: 800px; height: 200px">
-        <span class="input-group-text" style="width: 100px">팁</span>
-        <textarea
-          id="form-knowhow"
-          name="knowhow"
-          class="form-control"
-          aria-label="With textarea"
-        ></textarea>
-      </div>
+        <%-include('./map.html') %>
 
-      <div class="mb-3" style="width: 400px">
-        <input
-          id="postImgInput"
-          multiple="multiple"
-          class="form-control"
-          type="file"
-          name="storyImg"
-          class="form-control-file"
-        />
-        <div class="invalid-feedback">사진을 꼭 등록해주세요</div>
-      </div>
+        <div class="col-12">
+          <div class="col-sm-4">
+            <label for="inputState" class="form-label">시설종류</label>
+            <select
+              class="form-select"
+              name="campsite"
+              id="form-campsite"
+              required
+              onchange="visualize_paidCampsiteOptions(this.value)"
+            >
+              <option selected>종류 선택</option>
+              <option>유료캠핑장</option>
+              <option>무료캠핑장</option>
+            </select>
+          </div>
+          <div class="col-md my-3 hidden" id="paid_campsite_options">
+            <div class="row">
+              <div class="col-3">
+                <label for="campsite_time" class="form-label">문여는시간</label>
+                <input type="time" name="campsite_startTime" />
+              </div>
+              <div class="col-3">
+                <label for="campsite_time" class="form-label">문닫는시간</label>
+                <input type="time" name="campsite_endTime" />
+              </div>
+              <div class="col-3">
+                <label for="campsite_price" class="form-label">가격</label>
+                <input
+                  type="number"
+                  name="campsite_price"
+                  step="1000"
+                  placeholder="1,000원 단위로 입력해주세요"
+                />
+              </div>
+              <div class="col-3">
+                <label for="campsite_price" class="form-label">링크</label>
+                <input
+                  type="text"
+                  name="campsite_link"
+                  placeholder="링크 입력"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <div class="col-12 mb-3">
-        <button
-          id="form-button"
-          class="hidden"
-          type="submit"
-          class="btn btn-primary"
-        ></button>
-      </div>
-    </form>
-    <button id="button-outta-form" type="submit" class="btn btn-primary">
-      등록
-    </button>
+        <div class="mt-2"><label>태그 선택</label></div>
+        <div class="row">
+          <div class="col">
+            <input
+              type="checkbox"
+              class="btn-check"
+              id="btncheck1"
+              autocomplete="off"
+              name="tags"
+              value="샤워장"
+            />
+            <label class="btn btn-outline-success" for="btncheck1"
+              >샤워장</label
+            >
+
+            <input
+              type="checkbox"
+              class="btn-check"
+              id="btncheck2"
+              autocomplete="off"
+              name="tags"
+              value="매점"
+            />
+            <label class="btn btn-outline-success" for="btncheck2">매점</label>
+
+            <input
+              type="checkbox"
+              class="btn-check"
+              id="btncheck3"
+              autocomplete="off"
+              name="tags"
+              value="청결"
+            />
+            <label class="btn btn-outline-success" for="btncheck3">청결</label>
+          </div>
+        </div>
+
+        <div class="row my-3" style="height: 200px">
+          <div class="form-floating">
+            <textarea
+              id="form-description"
+              name="description"
+              class="form-control"
+              aria-label="With textarea"
+              placeholder="."
+              style="height: 100%"
+              required
+            ></textarea>
+            <label for="floatingTextarea" class="mx-2"
+              >후기를 작성해주세요</label
+            >
+          </div>
+        </div>
+
+        <div class="col-sm-5">
+          <input
+            id="postImgInput"
+            multiple="multiple"
+            class="form-control col-md-3"
+            type="file"
+            name="storyImg"
+            required
+          />
+        </div>
+
+        <div class="col-12 mb-3">
+          <button
+            id="form-button"
+            class="hidden"
+            type="submit"
+            class="btn btn-primary"
+          ></button>
+        </div>
+      </form>
+
+      <button id="button-outta-form" type="submit" class="btn btn-primary">
+        등록
+      </button>
+    </div>
+
     <%-include('../common/basicScript.html') %>
     <script src="/js/story/storyPost.js"></script>
     <script>

@@ -7,49 +7,66 @@
     <%-include('../common/nav.html') %>
 
     <div class="mx-3">
-      <p class="hidden" id="unvalidAlert" style="color: coral">
-        아이디 또는 비밀번호가 올바르지 않습니다.
-      </p>
+      <div>
+        <p class="hidden" id="unvalidAlert" style="color: coral">
+          아이디 또는 비밀번호가 올바르지 않습니다.
+        </p>
 
-      <div class="row my-3">
-        <label for="inputEmail" class="col-sm-1 col-form-label">Email</label>
-        <div class="col-sm-3">
-          <input
-            type="email"
-            class="form-control"
-            id="inputEmail"
-            name="email"
-          />
+        <div class="row my-3">
+          <label for="inputEmail" class="col-sm-1 col-form-label">Email</label>
+          <div class="col-sm-3">
+            <input
+              type="email"
+              class="form-control"
+              id="inputEmail"
+              name="email"
+              required
+            />
+          </div>
+          <div
+            id="error_mail"
+            class="result-email result-check"
+            style="color: coral"
+          ></div>
         </div>
-      </div>
-      <div class="row mb-3">
-        <label for="inputPassword3" class="col-sm-1 col-form-label"
-          >Password</label
+
+        <div class="row mb-3">
+          <label for="inputPassword3" class="col-sm-1 col-form-label"
+            >Password</label
+          >
+          <div class="col-sm-3">
+            <input
+              type="password"
+              class="form-control"
+              id="inputPassword"
+              name="password"
+              minlength="6"
+            />
+          </div>
+        </div>
+
+        <p id="inputAlert" class="hidden" style="color: coral">
+          아이디와 비밀번호를 모두 기입해주세요
+        </p>
+        <button id="loginButton" type="submit" class="btn btn-primary">
+          Log in
+        </button>
+        <button
+          id="signupButton"
+          type="button"
+          class="btn btn-info"
+          onclick="location.href='/auth/signup'"
         >
-        <div class="col-sm-3">
-          <input
-            type="password"
-            class="form-control"
-            id="inputPassword"
-            name="password"
-          />
-        </div>
+          Sign Up
+        </button>
       </div>
-
-      <p id="inputAlert" class="hidden" style="color: coral">
-        아이디와 비밀번호를 모두 기입해주세요
-      </p>
-      <button id="loginButton" type="submit" class="btn btn-primary">
-        Log in
-      </button>
-      <button
-        id="signupButton"
-        type="button"
-        class="btn btn-info"
-        onclick="location.href='/auth/signup'"
+      <div
+        class="spinner-border text-primary m-1 hidden"
+        role="status"
+        id="loginSpinner"
       >
-        Sign Up
-      </button>
+        <span class="visually-hidden">로그인 요청중입니다...</span>
+      </div>
     </div>
 
     <%-include('../common/basicScript.html') %>

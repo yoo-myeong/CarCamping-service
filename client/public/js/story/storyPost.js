@@ -2,15 +2,10 @@ const formButton = $("#form-button");
 const buttonOuttaForm = $("#button-outta-form");
 const inputImg = document.querySelector("#postImgInput");
 
-function postStoryValidation() {
-  const essentialInput = $("#essentialInput");
-  essentialInput.addClass("hidden");
-  const formTitle = $("#form-title").val();
-  const formAddress = $("#form-address").val();
-  if (!(formTitle && formAddress)) {
-    essentialInput.removeClass("hidden");
-  } else {
-    formButton.trigger("click");
+function visualize_paidCampsiteOptions(value) {
+  if (value === "유료캠핑장") $("#paid_campsite_options").removeClass("hidden");
+  else {
+    $("#paid_campsite_options").addClass("hidden");
   }
 }
 
@@ -23,7 +18,7 @@ function checkImgCnt() {
 
 buttonOuttaForm.click(() => {
   if (checkImgCnt()) {
-    postStoryValidation();
+    formButton.trigger("click");
   } else {
     alert("업로드 가능한 이미지 개수는 최대 5개 입니다.");
   }

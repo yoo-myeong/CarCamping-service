@@ -1,20 +1,15 @@
 import * as storyData from "../../data/story/story.data.js";
 
-async function combineStoriesWithThumbnailAndUsername(story) {
-  const data = [];
-  for (let i = 0; i < story.length; i++) {
-    const { id, title, address, createdAt, user } = story[i].dataValues;
-    const imgname = await storyData.getOneImgByStoryId(id);
-    data.push({
-      thumbnail: imgname ? imgname.dataValues.imgname : null,
-      title,
-      address,
-      storyId: id,
-      createdAt,
-      name: user.name,
-    });
+export async function createStory(req, res, next) {
+  // 전달받은 값 중 비어있는 campsite_<> 는 오류를 발생시키므로 삭제
+  for (const key in req.body) {
+    if (req.body[key] === "") {
+      console.log(key);
+      delete req.body[key];
+    }
   }
-  return data;
+  const storyId = await storyData.createStory(req.body, req.userId);
+  res.status(201).json({ storyId });
 }
 
 export async function getStory(req, res, next) {
@@ -22,24 +17,25 @@ export async function getStory(req, res, next) {
   //query가 들어온 경우면 받아올 데이터 filter
   if (name) {
     const story = await storyData.getByname(name);
-    const data = await combineStoriesWithThumbnailAndUsername(story);
-    return res.status(200).json(data);
+    return res.status(200).json(story);
   }
-  const story = await storyData.getAll();
-  const data = await combineStoriesWithThumbnailAndUsername(story);
-  res.status(200).json(data);
+  const story = await storyData.getSimpleStory();
+  res.status(200).json(story);
 }
 
 export async function getStoryById(req, res, next) {
-  const storyId = req.params.id;
-  const story = await storyData.getStoryById(storyId);
-  const imgnames = await storyData.getImgbyStoryId(storyId);
-  const imgArray = [];
-  imgnames.forEach((imgname) => imgArray.push(imgname.imgname));
-  res.status(200).json({
-    story,
-    imgnames: imgArray,
-  });
+  const id = req.params.id;
+  const story = await storyData.getStoryById(id);
+  res.status(200).json(story);
+}
+
+export async function checkAuthor(req, res, next) {
+  const story = await storyData.getStoryById(req.params.id);
+  if (story.userId === req.userId) {
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(401);
+  }
 }
 
 export async function updateStory(req, res, next) {
@@ -76,18 +72,4 @@ export async function deleteStory(req, res, next) {
   }
   await storyData.deleteStory(id);
   res.sendStatus(204);
-}
-
-export async function createStory(req, res, next) {
-  const storyId = await storyData.createStory(req.body, req.userId);
-  res.status(201).json({ storyId });
-}
-
-export async function checkAuthor(req, res, next) {
-  const story = await storyData.getStoryById(req.params.id);
-  if (story.userId === req.userId) {
-    res.sendStatus(200);
-  } else {
-    res.sendStatus(401);
-  }
 }

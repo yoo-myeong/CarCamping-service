@@ -13,20 +13,36 @@ export const Story = sequelize.define("story", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  waytogo: {
-    type: DataTypes.TEXT,
+  campsite: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  campsite_startTime: {
+    type: DataTypes.STRING,
     allowNull: true,
   },
-  knowhow: {
-    type: DataTypes.TEXT,
+  campsite_endTime: {
+    type: DataTypes.STRING,
     allowNull: true,
+  },
+  campsite_price: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  campsite_link: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: false,
   },
 });
 User.hasMany(Story);
 Story.belongsTo(User);
 
 const Image = sequelize.define(
-  "stroyImage",
+  "storyImage",
   {
     imgname: {
       type: DataTypes.STRING,
@@ -42,61 +58,95 @@ Story.hasMany(Image, {
 });
 Image.belongsTo(Story);
 
-export async function getAll() {
+const Tag = sequelize.define("storyTag", {
+  tag: {
+    type: DataTypes.STRING,
+  },
+});
+Story.hasMany(Tag, {
+  onDelete: "CASCADE",
+});
+Tag.belongsTo(Story);
+
+export async function createStory(body, userId) {
+  const imgnames = body.imgnames;
+  const tags = body.tags;
+  delete body.imgnames;
+  delete body.tags;
+  const story = await Story.create({
+    ...body,
+    userId,
+  });
+
+  const storyId = story.dataValues.id;
+
+  for (let i = 0; i < imgnames.length; i++) {
+    const imgname = imgnames[i];
+    Image.create({ imgname, storyId });
+  }
+
+  if (tags) {
+    for (let i = 0; i < tags.length; i++) {
+      const tag = tags[i];
+      Tag.create({ tag, storyId });
+    }
+  }
+
+  return storyId;
+}
+
+export async function getSimpleStory() {
   return Story.findAll({
-    include: {
-      model: User,
-      attributes: ["name"],
-    },
+    attributes: ["title", "address", "id", "createdAt"],
+    include: [
+      {
+        model: User,
+        attributes: ["name"],
+      },
+      {
+        model: Image,
+        attributes: ["imgname"],
+        limit: 1,
+      },
+    ],
   });
 }
 
 export async function getByname(name) {
   return Story.findAll({
-    include: {
-      model: User,
-      where: { name },
-      attributes: ["name"],
-    },
-  });
-}
-
-export async function getStoryById(storyId) {
-  return Story.findByPk(storyId, {
-    attributes: [
-      "title",
-      "createdAt",
-      "address",
-      "waytogo",
-      "knowhow",
-      "userId",
+    attributes: ["title", "address", "id", "createdAt"],
+    include: [
+      {
+        model: User,
+        where: { name },
+        attributes: ["name"],
+      },
+      {
+        model: Image,
+        attributes: ["imgname"],
+        limit: 1,
+      },
     ],
-    include: {
-      model: User,
-      attributes: ["name"],
-    },
   });
 }
 
-export async function createStory(body, userId) {
-  const { title, address, waytogo, knowhow, imgnames } = body;
-  const story = await Story.create({
-    title,
-    address,
-    waytogo,
-    knowhow,
-    userId,
+export async function getStoryById(id) {
+  return Story.findByPk(id, {
+    include: [
+      {
+        model: User,
+        attributes: ["name"],
+      },
+      {
+        model: Tag,
+        attributes: ["tag"],
+      },
+      {
+        model: Image,
+        attributes: ["imgname"],
+      },
+    ],
   });
-  const storyId = story.dataValues.id;
-  for (let i = 0; i < imgnames.length; i++) {
-    const imgname = imgnames[i];
-    Image.create({ imgname, storyId });
-  }
-  return storyId;
-}
-
-export async function getImgbyStoryId(storyId) {
-  return Image.findAll({ where: { storyId } });
 }
 
 export async function getOneImgByStoryId(storyId) {

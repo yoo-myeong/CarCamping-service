@@ -1,6 +1,7 @@
 const loginButton = $("#loginButton");
 const inputAlert = $("#inputAlert");
 const unvalidAlert = $("#unvalidAlert");
+const loginSpinner = $("#loginSpinner");
 
 function clickLoginbtn() {
   loginButton.click(() => {
@@ -11,6 +12,7 @@ function clickLoginbtn() {
     if (!(inputEmail && inputPassword)) {
       inputAlert.removeClass("hidden");
     } else {
+      loginSpinner.removeClass("hidden");
       getTokenFromLoginAPI(inputEmail, inputPassword);
     }
   });
@@ -22,8 +24,10 @@ async function getTokenFromLoginAPI(email, password) {
   const response = await fetchPostApi(url, body);
   const status = response.status;
   if (400 <= status && status < 500) {
+    loginSpinner.addClass("hidden");
     unvalidAlert.removeClass("hidden");
   } else if (status === 202) {
+    loginSpinner.addClass("hidden");
     const { name, token } = await response.json();
     sessionStorage.setItem("token", token);
     sessionStorage.setItem("name", name);

@@ -6,8 +6,12 @@
 id : integer,
 title: string,
 address : string,
-waytogo : text,
-knowhow : text,
+campsite : string,
+campsite_startTime : string,
+campsite_endTime : string,
+campsite_link : string,
+campsite_price : integer,
+description : text,
 createdAt : datetime,
 updatedAt : datetime,
 userId : integer, fk
@@ -21,6 +25,14 @@ imgname : string,
 StoryId : integer, fk
 ```
 
+## storyTag Schema
+
+```
+id : integer
+tag : string,
+StoryId : integer, fk
+```
+
 <br>
 
 ### ✅ _GET_ /story
@@ -31,7 +43,20 @@ StoryId : integer, fk
 
 ```
 [
-{tumbnail, title, address, storyId, createdAt, name} ...
+  {
+    title,
+    address,
+    id,
+    createdAt,
+    user : {
+      name
+    },
+    storyImages : [
+      {
+        imgname :
+      }
+    ] <= only one
+  } ...
 ]
 ```
 
@@ -45,10 +70,20 @@ StoryId : integer, fk
 
 ```
 [
-{
-  imgnames : [],
-  title, address, storyId, createdAt, name
-} ...
+  {
+    title,
+    address,
+    id,
+    createdAt,
+    user : {
+      name
+    },
+    storyImages : [
+      {
+        imgname :
+      }
+    ] <= only one
+  } ...
 ]
 ```
 
@@ -62,15 +97,31 @@ StoryId : integer, fk
 
 ```
 {
-  story : {
-            title,
-            createdAt,
-            address,
-            waytogo,
-            knowhow,
-            { user : {name} }
-          } ,
-  imgnames : []
+    "id",
+    "title",
+    "address",
+    "campsite",
+    "campsite_startTime",
+    "campsite_endTime",
+    "campsite_price",
+    "campsite_link",
+    "description",
+    "createdAt",
+    "updatedAt",
+    "userId",
+    "user": {
+        "name"
+    },
+    "storyTags": [
+        {
+            "tag"
+        }...
+    ],
+    "storyImages": [
+        {
+            "imgname"
+        } ...
+    ]
 }
 ```
 

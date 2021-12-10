@@ -33,4 +33,6 @@ app.use((err, req, res, next) => {
   res.sendStatus(500);
 });
 
-app.listen(8080);
+app.listen(8080, () => {
+  console.log(`server is started on 8080 port`);
+});

@@ -38,22 +38,80 @@ function alignTimeData(time) {
 async function makeDetailStory(storyId) {
   const url = backendURL + "/story/" + storyId;
   const response = await fetchGetApiWithToken(url, token);
-  const { imgnames, story } = await response.json();
-  let i = 0;
+  const story = await response.json();
+  const content_data = {
+    title: story.title,
+    address: story.address,
+    campsite: story.campsite,
+    description: story.description,
+    createdAt: story.createdAt,
+  };
   const name = story.user.name;
   inputIntoInnerText(name, selectById("detail_name"));
-  story.createdAt = alignTimeData(story.createdAt);
-  delete story.user;
-  delete story.userId;
-  for (const key in story) {
+  content_data.createdAt = alignTimeData(content_data.createdAt);
+  
+  // 내용 삽입
+  for (const key in content_data) {
     const element = selectById(`detail_${key}`);
-    if (story[key]) {
-      inputIntoInnerText(story[key], element);
+    if (content_data[key]) {
+      inputIntoInnerText(content_data[key], element);
     } else {
       inputIntoInnerText("없음", element);
     }
   }
-  imgnames.forEach((imgname) => {
+
+  // tag 삽입
+  const storyTags = story.storyTags
+  const description_body = selectById("description_body")
+  storyTags.forEach((storyTag)=>{
+    const tag = storyTag.tag
+    description_body.innerHTML+= `<button class="btn btn-primary me-2" disabled>#${tag}</button>` 
+  })
+
+  // 유료캠핑 아코디언
+  const paid_campsite_info = {
+    시작시간: story.campsite_startTime,
+    마감시간: story.campsite_endTime,
+    비용: story.campsite_price,
+    웹사이트: story.campsite_link,
+  };
+  if (content_data.campsite === "유료캠핑장") {
+    const arcodianFlush = selectById("accordionFlush");
+    for (const key in paid_campsite_info) {
+      if (paid_campsite_info[key]) {
+        arcodianFlush.innerHTML += `<div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingOne">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#flush-collapseOne"
+            aria-expanded="false"
+            aria-controls="flush-collapseOne"
+          >
+            ${key}
+          </button>
+        </h2>
+        <div
+          id="flush-collapseOne"
+          class="accordion-collapse collapse"
+          aria-labelledby="flush-headingOne"
+          data-bs-parent="#accordionFlushExample"
+        >
+          <div class="accordion-body">
+            ${paid_campsite_info[key]}
+          </div>
+        </div>
+    </div>`;
+      }
+    }
+  }
+
+  // 이미지 캐러셀 슬라이딩 기능 구현
+  const storyImages = story.storyImages;
+  let i = 0;
+  storyImages.forEach((storyImage) => {
+    const imgname = storyImage.imgname;
     const bottomButton = `
     <button
     type="button"

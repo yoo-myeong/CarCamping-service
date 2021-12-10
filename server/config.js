@@ -10,13 +10,12 @@ function required(key, defaultValue = undefined) {
 }
 
 export const config = {
-  port: parseInt(required("PORT", 8080)),
+  port: parseInt(required("PORT", 8000)),
   db: {
     host: required("DB_HOST"),
     database: required("DB_DATABASE"),
     user: required("DB_USER"),
     password: required("DB_PASSWORD"),
-    port: required("DB_PORT"),
   },
   bcrypt: {
     saltRound: parseInt(required("SALTROUNDS"), 12),

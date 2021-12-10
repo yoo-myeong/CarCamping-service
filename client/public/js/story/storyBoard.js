@@ -10,14 +10,16 @@ async function getStory() {
       const responseJson = await response.json();
       responseJson.forEach((data) => {
         console.log(data);
-        let { thumbnail, title, address, storyId, createdAt, name } = data;
-        if (!thumbnail) thumbnail = "/img/noimg.png";
+        let { title, address, id, createdAt, user, storyImages } = data;
+        const thumbnail = storyImages[0].imgname;
+        const name = user.name;
         const extraCode = `
         <div href="#">
             <div class="col">
-                <a href="story/detail/${storyId}">
+                <a href="story/detail/${id}">
                 <div class="card">
                     <img
+                        alt="/img/noimg.png"
                         src="${thumbnail}"
                         class="card-img-top"
                     />

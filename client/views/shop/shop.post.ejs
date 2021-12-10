@@ -3,100 +3,119 @@
   <head>
     <%-include('../common/head_html.html') %>
   </head>
+
   <body>
     <%-include('../common/nav.html') %>
-    <p class="hidden" id="essentialInput" style="color: coral">
-      제목과 주소는 필수 입력 사항입니다.
-    </p>
-    <form action="/shop/post" method="POST" enctype="multipart/form-data">
-      <input class="hidden" name="token" id="inputToken" />
-      <div class="input-group input-group-sm my-3 w-50">
-        <span
-          class="input-group-text"
-          id="inputGroup-sizing-sm"
-          style="width: 100px"
-          >판매물건</span
-        >
-        <input
-          id="form_stuff"
-          type="text"
-          class="form-control"
-          aria-label="Sizing example input"
-          aria-describedby="inputGroup-sizing-sm"
-          name="stuff"
-        />
-      </div>
-
-      <div class="input-group input-group-sm my-3 w-75"">
-        <span
-          class="input-group-text"
-          id="inputGroup-sizing-sm"
-          style="width: 100px"
-          >가격</span
-        >
-        <input
-          id="form_price"
-          type="text"
-          class="form-control w-10"
-          aria-label="Sizing example input"
-          aria-describedby="inputGroup-sizing-sm"
-          name="price"
-        />
-        <span
-        class="input-group-text"
-        id="inputGroup-sizing-sm"
-        style="width: 100px"
-        >연락처</span
+    <div class="container m-5">
+      <form
+        class="row"
+        action="/shop/post"
+        method="POST"
+        enctype="multipart/form-data"
       >
-      <input
-        id="form_mobile"
-        type="text"
-        class="form-control w-25"
-        aria-label="Sizing example input"
-        aria-describedby="inputGroup-sizing-sm"
-        name="mobile"
-      />
+        <input class="hidden" name="token" id="inputToken" />
 
-        <select class="mx-3" name="transaction" id="form-transaction">
-            <option>직거래</option>
-            <option>택배거래</option>
-          </select>
-      </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="form_stuff" class="form-label">판매할 물건</label>
+            <input
+              id="form_stuff"
+              type="text"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm"
+              name="stuff"
+              required
+            />
+          </div>
+        </div>
 
-      <div class="input-group my-3 w-50" style="height: 200px">
-        <span class="input-group-text" style="width: 10%;">글</span>
-        <textarea
-          id="form-description"
-          name="description"
-          class="form-control"
-          aria-label="With textarea"
-        ></textarea>
-      </div>
+        <div class="row">
+          <div class="col-sm-3">
+            <label for="form_price" class="form-label">가격</label>
+            <input
+              id="form_price"
+              type="number"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm"
+              name="price"
+              placeholder="숫자만 입력해주세요."
+              required
+            />
+          </div>
+          <div class="col-sm-5">
+            <label for="form_mobile" class="form-label">연락처</label>
+            <input
+              id="form_mobile"
+              type="text"
+              minlength="13"
+              maxlength="13"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm"
+              pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+              placeholder="필요 시 기입하되 '-'를 붙여 입력해주세요."
+              name="mobile"
+            />
+          </div>
+          <div class="col-sm-4">
+            <label for="inputState" class="form-label">거래방법</label>
+            <select
+              class="form-select"
+              name="transaction"
+              id="form-transaction"
+              required
+            >
+              <option>직거래</option>
+              <option>택배거래</option>
+            </select>
+          </div>
+        </div>
 
-      <div class="mb-3" style="width: 400px">
-        <input
-          id="form_image"
-          multiple="multiple"
-          class="form-control"
-          type="file"
-          name="shopImg"
-          class="form-control-file"
-        />
-        <div class="invalid-feedback">사진을 꼭 등록해주세요</div>
-      </div>
+        <div class="row my-3" style="height: 200px">
+          <div class="form-floating">
+            <textarea
+              id="form-description"
+              name="description"
+              class="form-control"
+              aria-label="With textarea"
+              placeholder="."
+              style="height: 100%"
+              required
+            ></textarea>
+            <label for="floatingTextarea" class="mx-2"
+              >물건에 대한 자세한 설명을 작성해주세요</label
+            >
+          </div>
+        </div>
 
-      <div class="col-12 mb-3">
-        <button
-          id="form_button"
-          class="hidden"
-          type="submit"
-          class="btn btn-primary"
-        ></button>
-      </div>
-    </form>
-    <button id="post_button" type="submit" class="btn btn-primary">
-      등록
-    </button>
+        <div class="col-sm-5">
+          <input
+            id="form_image"
+            multiple="multiple"
+            class="form-control"
+            type="file"
+            name="shopImg"
+            class="form-control-file"
+            required
+          />
+        </div>
+
+        <div class="col-12 mb-3">
+          <button
+            id="form_button"
+            class="hidden"
+            type="submit"
+            class="btn btn-primary"
+          ></button>
+        </div>
+      </form>
+      <button id="post_button" type="submit" class="btn btn-primary">
+        등록
+      </button>
+    </div>
+
     <%-include('../common/basicScript.html') %>
     <script src="/js/shop/shop.post.js"></script>
     <script>
