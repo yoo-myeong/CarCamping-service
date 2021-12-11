@@ -80,9 +80,11 @@ export async function createStory(body, userId) {
 
   const storyId = story.dataValues.id;
 
-  for (let i = 0; i < imgnames.length; i++) {
-    const imgname = imgnames[i];
-    Image.create({ imgname, storyId });
+  if (imgnames) {
+    for (let i = 0; i < imgnames.length; i++) {
+      const imgname = imgnames[i];
+      Image.create({ imgname, storyId });
+    }
   }
 
   if (tags) {
@@ -154,19 +156,23 @@ export async function getOneImgByStoryId(storyId) {
 }
 
 export async function updateStory(id, body) {
-  const { title, address, waytogo, knowhow, imgnames, deleteImgnames } = body;
+  // 개별 처리 할 데이터 pop
+  const imgnames = body.imgnames;
+  const tags = body.tags;
+  const deleteImgnames = body.deleteImgnames;
+  console.log(deleteImgnames);
+  delete body.imgnames;
+  delete body.tags;
+  delete body.deleteImgnames;
+
+  // story 테이블 update
   const story = await Story.findByPk(id);
-  story.set({
-    title,
-    address,
-    waytogo,
-    knowhow,
-  });
+  story.set(body);
   await story.save();
 
-  const storyId = story.dataValues.id;
+  // story의 img를 가져와서 삭제리스트에 포함된 것이면 삭제
   if (deleteImgnames) {
-    Image.findAll({ where: { storyId } }).then((images) => {
+    Image.findAll({ where: { storyId: id } }).then((images) => {
       images.forEach((img) => {
         if (deleteImgnames.includes(img.dataValues.imgname)) {
           img.destroy();
@@ -175,11 +181,22 @@ export async function updateStory(id, body) {
     });
   }
 
-  for (let i = 0; i < imgnames.length; i++) {
-    const imgname = imgnames[i];
-    Image.create({ imgname, storyId });
+  // tag 업데이트
+  if (tags) {
+    for (let i = 0; i < tags.length; i++) {
+      const tag = tags[i];
+      Tag.create({ tag, storyId: id });
+    }
   }
-  return storyId;
+
+  // 새 이미지 업로드
+  if (imgnames) {
+    for (let i = 0; i < imgnames.length; i++) {
+      const imgname = imgnames[i];
+      Image.create({ imgname, storyId: id });
+    }
+  }
+  return id;
 }
 
 export async function deleteStory(id) {

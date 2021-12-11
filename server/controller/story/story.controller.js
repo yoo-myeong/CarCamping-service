@@ -1,13 +1,9 @@
 import * as storyData from "../../data/story/story.data.js";
 
 export async function createStory(req, res, next) {
-  // 전달받은 값 중 비어있는 campsite_<> 는 오류를 발생시키므로 삭제
-  for (const key in req.body) {
-    if (req.body[key] === "") {
-      console.log(key);
-      delete req.body[key];
-    }
-  }
+  // 프론트엔드서버 거쳐오면서 null이 ""로 바뀌어서 전달되므로 삭제
+  Object.keys(req.body).forEach((x) => req.body[x] == "" && delete req.body[x]);
+
   const storyId = await storyData.createStory(req.body, req.userId);
   res.status(201).json({ storyId });
 }
@@ -29,16 +25,10 @@ export async function getStoryById(req, res, next) {
   res.status(200).json(story);
 }
 
-export async function checkAuthor(req, res, next) {
-  const story = await storyData.getStoryById(req.params.id);
-  if (story.userId === req.userId) {
-    res.sendStatus(200);
-  } else {
-    res.sendStatus(401);
-  }
-}
-
 export async function updateStory(req, res, next) {
+  // 프론트엔드서버 거쳐오면서 null이 ""로 바뀌어서 전달되므로 삭제
+  Object.keys(req.body).forEach((x) => req.body[x] == "" && delete req.body[x]);
+
   const id = req.params.id;
   const story = await storyData.getStoryById(id);
   if (!story) {
@@ -72,4 +62,13 @@ export async function deleteStory(req, res, next) {
   }
   await storyData.deleteStory(id);
   res.sendStatus(204);
+}
+
+export async function checkAuthor(req, res, next) {
+  const story = await storyData.getStoryById(req.params.id);
+  if (story.userId === req.userId) {
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(401);
+  }
 }

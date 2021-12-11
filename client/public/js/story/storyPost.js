@@ -1,7 +1,3 @@
-const formButton = $("#form-button");
-const buttonOuttaForm = $("#button-outta-form");
-const inputImg = document.querySelector("#postImgInput");
-
 function visualize_paidCampsiteOptions(value) {
   if (value === "유료캠핑장") $("#paid_campsite_options").removeClass("hidden");
   else {
@@ -10,13 +6,16 @@ function visualize_paidCampsiteOptions(value) {
 }
 
 function checkImgCnt() {
+  const inputImg = document.querySelector("#postImgInput");
   if (inputImg.files.length <= 5) {
     return true;
   }
   return false;
 }
 
+const buttonOuttaForm = $("#button-outta-form");
 buttonOuttaForm.click(() => {
+  const formButton = $("#form-button");
   if (checkImgCnt()) {
     formButton.trigger("click");
   } else {

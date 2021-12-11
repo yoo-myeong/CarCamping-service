@@ -1,13 +1,13 @@
 const carouselIndicators = selectById("carousel-indicators");
 const carouselInner = selectById("carousel-inner");
 const detailDeleteButton = $("#detail_deleteButton");
-const dtailUpdateButton = $("#deatail_updateButton");
+const detailUpdateButton = $("#deatail_updateButton");
 const redHeartButton = $("#heart-red");
 const whiteHeartButton = $("#heart-white");
 const whiteHeartCnt = selectById("whiteHeartCnt");
 const redHeartCnt = selectById("redHeartCnt");
 
-dtailUpdateButton.click(async () => {
+detailUpdateButton.click(async () => {
   const response = await fetchGetApiWithToken(
     backendURL + "/story/author/" + storyId,
     token
@@ -49,7 +49,7 @@ async function makeDetailStory(storyId) {
   const name = story.user.name;
   inputIntoInnerText(name, selectById("detail_name"));
   content_data.createdAt = alignTimeData(content_data.createdAt);
-  
+
   // 내용 삽입
   for (const key in content_data) {
     const element = selectById(`detail_${key}`);
@@ -61,12 +61,12 @@ async function makeDetailStory(storyId) {
   }
 
   // tag 삽입
-  const storyTags = story.storyTags
-  const description_body = selectById("description_body")
-  storyTags.forEach((storyTag)=>{
-    const tag = storyTag.tag
-    description_body.innerHTML+= `<button class="btn btn-primary me-2" disabled>#${tag}</button>` 
-  })
+  const storyTags = story.storyTags;
+  const cardHeader = document.querySelector(".card-header-container");
+  storyTags.forEach((storyTag) => {
+    const tag = storyTag.tag;
+    cardHeader.innerHTML += `<button class="btn btn-primary me-2" disabled>#${tag}</button>`;
+  });
 
   // 유료캠핑 아코디언
   const paid_campsite_info = {

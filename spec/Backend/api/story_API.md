@@ -56,7 +56,8 @@ StoryId : integer, fk
         imgname :
       }
     ] <= only one
-  } ...
+  }
+  ...
 ]
 ```
 
@@ -83,7 +84,8 @@ StoryId : integer, fk
         imgname :
       }
     ] <= only one
-  } ...
+  }
+  ...
 ]
 ```
 
@@ -135,8 +137,16 @@ StoryId : integer, fk
 
 ```
 {
-  title, address, waytogo, knowhow,
-  imgnames : []
+    "title",
+    "address",
+    "campsite",
+    "campsite_startTime",
+    "campsite_endTime",
+    "campsite_price",
+    "campsite_link",
+    "tags" : [],
+    "description" ,
+    "imgnames" : []
 }
 ```
 
@@ -158,9 +168,17 @@ StoryId : integer, fk
 
 ```
 {
-  title, address, waytogo, knowhow,
-  deleteImgnames : [],
-  imgnames : [],
+  title,
+  address,
+  campsite,
+  campsite_startTime,
+  campsite_endTime,
+  campsite_price,
+  campsite_link,
+  description,
+  tags: ?Option,
+  imgnames: [],
+  deleteImgnames: []
 }
 ```
 

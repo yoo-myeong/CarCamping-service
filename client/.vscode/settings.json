@@ -3,6 +3,5 @@
     "titleBar.activeBackground": "#f537b6",
     "titleBar.inactiveBackground": "#f537b6"
   },
-  "editor.fontSize": 13,
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
