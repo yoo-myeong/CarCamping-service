@@ -9,7 +9,7 @@ async function getShop() {
     const url = backendURL + "/shop";
     const response = await fetchGetApiWithToken(url, token);
     if (response.status !== 200) {
-      location.href = "/error";
+      res.status(400).json({ msg: "fetch from server failed" });
     } else {
       const responseJson = await response.json();
       responseJson.forEach((data) => {

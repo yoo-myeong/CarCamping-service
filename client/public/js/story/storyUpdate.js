@@ -56,7 +56,7 @@ async function inputIntoElement(storyId) {
     const imgname = storyImage.imgname;
     const deleteImg = `
     <div id="${imgname}Div" class="border border-info rounded m-3">
-      <img class="card-img-top" src="/${imgname}" class="d-block w-100" alt="..." />
+      <img class="card-img-top" src="/story/story_${storyId}/${imgname}" class="d-block w-100" alt="..." />
       <button id = "${imgname}_Button" type="button" class="btn-close" aria-label="Close">
       </button>
     <div>`;

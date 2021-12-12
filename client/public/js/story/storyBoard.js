@@ -5,22 +5,21 @@ async function getStory() {
     const url = backendURL + "/story";
     const response = await fetchGetApiWithToken(url, token);
     if (response.status !== 200) {
-      location.href = "/error";
+      res.status(400).send({ msg: "fetch error" });
     } else {
       const responseJson = await response.json();
       responseJson.forEach((data) => {
-        console.log(data);
         let { title, address, id, createdAt, user, storyImages } = data;
         const thumbnail = storyImages[0].imgname;
         const name = user.name;
         const extraCode = `
         <div href="#">
             <div class="col">
-                <a href="story/detail/${id}">
+                <a href="/story/${id}">
                 <div class="card">
                     <img
                         alt="/img/noimg.png"
-                        src="${thumbnail}"
+                        src="/story/story_${id}/${thumbnail}"
                         class="card-img-top"
                     />
                     <div class="card-body">
