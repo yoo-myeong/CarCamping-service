@@ -25,13 +25,12 @@ router.post("/post", upload.array("shopImg", 5), async (req, res, next) => {
     imgnames: filenames,
   };
   const response = await nodeFetch.fetchPostApiWithToken(url, json, token);
-  const { shopId } = await response.json();
+  const responseToJson = await response.json();
   if (response.status === 201) {
-    return res.redirect("/shop/detail/" + shopId);
-  } else if (response.status === 400) {
-    return res.redirect("/auth/login");
+    return res.redirect("/shop/detail/" + responseToJson.shopId);
   } else {
-    return res.redirect("/error");
+    console.error(responseToJson);
+    return res.send("error");
   }
 });
 

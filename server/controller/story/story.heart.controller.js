@@ -1,4 +1,4 @@
-import * as storyHeartData from "../../data/story/story_heart.data.js";
+import * as storyHeartData from "../../data/story/story.heart.data.js";
 
 export async function getHeart(req, res, next) {
   const storyId = req.params.storyId;

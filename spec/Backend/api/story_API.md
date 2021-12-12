@@ -51,11 +51,7 @@ StoryId : integer, fk
     user : {
       name
     },
-    storyImages : [
-      {
-        imgname :
-      }
-    ] <= only one
+    storyImages : [{ imgname }]  <= 1개
   }
   ...
 ]
@@ -79,11 +75,7 @@ StoryId : integer, fk
     user : {
       name
     },
-    storyImages : [
-      {
-        imgname :
-      }
-    ] <= only one
+    storyImages : [ { imgname } ] <= 1개
   }
   ...
 ]
@@ -111,19 +103,9 @@ StoryId : integer, fk
     "createdAt",
     "updatedAt",
     "userId",
-    "user": {
-        "name"
-    },
-    "storyTags": [
-        {
-            "tag"
-        }...
-    ],
-    "storyImages": [
-        {
-            "imgname"
-        } ...
-    ]
+    "user": { "name" },
+    "storyTags": [ { "tag" }, ... ],
+    "storyImages": [ { "imgname" }, ... ]
 }
 ```
 
@@ -144,7 +126,7 @@ StoryId : integer, fk
     "campsite_endTime",
     "campsite_price",
     "campsite_link",
-    "tags" : [],
+    "tags" : V or [ V, ...]
     "description" ,
     "imgnames" : []
 }

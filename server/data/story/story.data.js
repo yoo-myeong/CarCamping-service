@@ -88,9 +88,13 @@ export async function createStory(body, userId) {
   }
 
   if (tags) {
-    for (let i = 0; i < tags.length; i++) {
-      const tag = tags[i];
-      Tag.create({ tag, storyId });
+    if (Array.isArray(tags)) {
+      for (let i = 0; i < tags.length; i++) {
+        const tag = tags[i];
+        Tag.create({ tag, storyId });
+      }
+    } else {
+      Tag.create({ tag: tags, storyId });
     }
   }
 

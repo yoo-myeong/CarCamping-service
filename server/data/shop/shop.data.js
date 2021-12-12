@@ -19,9 +19,11 @@ export const Shop = sequelize.define("shop", {
   },
   transaction: {
     type: DataTypes.STRING,
+    allowNull: false,
   },
   description: {
     type: DataTypes.TEXT,
+    allowNull: false,
   },
 });
 Shop.belongsTo(User);
@@ -61,6 +63,7 @@ export async function getAll() {
 }
 
 export async function createShop(body, userId) {
+  console.log(body); ////////////////////////////////////////////////////////////////////
   const { stuff, price, mobile, transaction, description, imgnames } = body;
   const shop = await Shop.create({
     stuff,

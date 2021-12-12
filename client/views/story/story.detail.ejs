@@ -64,12 +64,21 @@
         </div>
       </div>
       <h2 id="detail_title" class="border-bottom py-2">제목 :</h2>
-      <div class="d-flex justify-content-end">
-        <p id="detail_name" class="mx-2">작성자 :</p>
+      <div class="d-flex justify-content-between">
+        <div
+          id="map"
+          style="width: 300px; height: 300px; margin-top: 10px"
+        ></div>
+        <div>
+          <div class="d-flex justify-content-end">
+            <p id="detail_name" class="mx-2">작성자 :</p>
+          </div>
+          <div class="d-flex justify-content-end">
+            <p id="detail_createdAt">작성날짜 :</p>
+          </div>
+        </div>
       </div>
-      <div class="d-flex justify-content-end">
-        <p id="detail_createdAt">작성날짜 :</p>
-      </div>
+
       <h5 id="detail_address" class="border-bottom my-3 py-2">🌎 주소 :</h5>
       <h5 id="detail_campsite" class="my-3 py-2">🚞 시설종류 :</h5>
 
@@ -86,10 +95,13 @@
         </div>
       </div>
 
-      <%-include('./imgCarousel.html') %>
+      <div class="d-flex justify-content-center">
+        <%-include('./story_template/imgCarousel.html') %>
+      </div>
     </div>
 
     <%-include('../common/basicScript.html') %>
+    <%-include('./story_template/getMap.html') %>
     <script src="/js/story/storyDetail.js"></script>
     <script>
       redirectLoginForUnauthorization();

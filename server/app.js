@@ -3,9 +3,9 @@ import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
 import { config } from "./config.js";
-import authRoutes from "./router/auth.router.js";
-import storyRoutes from "./router/story.router.js";
-import shopRoutes from "./router/shop.router.js";
+import authRoutes from "./router/auth/auth.router.js";
+import storyRoutes from "./router/story/story.router.js";
+import shopRoutes from "./router/shop/shop.router.js";
 import { sequelize } from "./db/database.js";
 import "express-async-errors";
 

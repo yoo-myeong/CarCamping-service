@@ -6,6 +6,10 @@ export async function getShop(req, res, next) {
 }
 
 export async function createShop(req, res, next) {
+  console.log(req.body);
+  Object.keys(req.body).forEach(
+    (x) => req.body[x] === "" && delete req.body[x]
+  );
   const shopId = await shopData.createShop(req.body, req.userId);
   res.status(201).json({ shopId });
 }

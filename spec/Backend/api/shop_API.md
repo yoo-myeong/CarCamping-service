@@ -46,8 +46,8 @@ ShopId : integer, fk
 ```
 {
     stuff, mobile, createdAt, price, description,
-    imgnames : [],
-      : { name  }
+    imgnames : ![],
+      : { name }
 }
 ```
 

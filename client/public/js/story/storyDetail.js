@@ -20,6 +20,13 @@ detailUpdateButton.click(async () => {
 });
 
 detailDeleteButton.click(async () => {
+  // 프론트엔드서버 삭제요청
+  $.ajax({
+    method: "DELETE",
+    url: `/story/${storyId}`,
+  });
+
+  // 백엔드 서버 삭제요청
   const url = backendURL + "/story/" + storyId;
   const response = await fetchDeleteApiWithToken(url, token);
   if (response.status === 204) {
@@ -27,7 +34,7 @@ detailDeleteButton.click(async () => {
   } else if (response.status === 403) {
     alert("삭제권한이 없습니다.");
   } else {
-    location.href = "/error";
+    alert("server error");
   }
 });
 
@@ -59,13 +66,14 @@ async function makeDetailStory(storyId) {
       inputIntoInnerText("없음", element);
     }
   }
+  createMap(content_data.address);
 
   // tag 삽입
   const storyTags = story.storyTags;
   const cardHeader = document.querySelector(".card-header-container");
   storyTags.forEach((storyTag) => {
     const tag = storyTag.tag;
-    cardHeader.innerHTML += `<button class="btn btn-primary me-2" disabled>#${tag}</button>`;
+    cardHeader.innerHTML += `<button class="tagBtn btn btn-primary me-2" disabled>#${tag}</button>`;
   });
 
   // 유료캠핑 아코디언
@@ -123,8 +131,8 @@ async function makeDetailStory(storyId) {
     </button>`;
     const carouselImg =
       i == 0
-        ? `<div class="carousel-item active"><img src="/${imgname}" class="d-block w-100" /></div>`
-        : `<div class="carousel-item"><img src="/${imgname}" class="d-block w-100" /></div>`;
+        ? `<div class="carousel-item active"><img src="/story/story_${storyId}/${imgname}" class="d-block w-100 h-100" /></div>`
+        : `<div class="carousel-item"><img src="/story/story_${storyId}/${imgname}" class="d-block w-100 h-100" /></div>`;
     if (i >= 1) {
       carouselIndicators.innerHTML += bottomButton;
     }
@@ -174,3 +182,5 @@ async function activateHeartButton(storyId) {
     exposeWhiteHeart();
   });
 }
+
+createMap();
