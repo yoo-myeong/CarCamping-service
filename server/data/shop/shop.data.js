@@ -25,6 +25,10 @@ export const Shop = sequelize.define("shop", {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  transtype: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 });
 Shop.belongsTo(User);
 
@@ -47,7 +51,9 @@ Image.belongsTo(Shop);
 
 export async function getAll() {
   return Shop.findAll({
-    attributes: ["id", "stuff", "transaction", "price", "createdAt"],
+    attributes: {
+      exclude: ["userId, updatedAt"],
+    },
     include: [
       {
         model: User,
@@ -64,13 +70,22 @@ export async function getAll() {
 
 export async function createShop(body, userId) {
   console.log(body); ////////////////////////////////////////////////////////////////////
-  const { stuff, price, mobile, transaction, description, imgnames } = body;
+  const {
+    stuff,
+    price,
+    mobile,
+    transaction,
+    description,
+    transtype,
+    imgnames,
+  } = body;
   const shop = await Shop.create({
     stuff,
     price,
     mobile,
     transaction,
     description,
+    transtype,
     userId,
   });
   const shopId = shop.dataValues.id;
@@ -81,19 +96,17 @@ export async function createShop(body, userId) {
   return shopId;
 }
 
-export async function getShopById(id) {
-  return Shop.findByPk(id);
-}
-
 export async function deleteShop(id) {
   Shop.findByPk(id).then((shop) => {
     shop.destroy();
   });
 }
 
-export async function getShopByIdWithImg(id) {
+export async function getShopById(id) {
   return Shop.findByPk(id, {
-    attributes: ["stuff", "mobile", "createdAt", "price", "description"],
+    attributes: {
+      exclude: ["updatedAt"],
+    },
     include: [
       {
         model: Image,

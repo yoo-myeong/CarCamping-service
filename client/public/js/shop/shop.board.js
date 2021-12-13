@@ -14,19 +14,27 @@ async function getShop() {
       const responseJson = await response.json();
       responseJson.forEach((data) => {
         console.log(data);
-        let { id, stuff, transaction, price, createdAt, user, shopImages } =
-          data;
-        if (!shopImages) shopImages[imgname] = "/img/noimg.png";
+        let {
+          id,
+          stuff,
+          transaction,
+          price,
+          transtype,
+          createdAt,
+          user,
+          shopImages,
+        } = data;
         const td_componenet = `
         <tr onclick="location.href = '/shop/detail/${id}'" style="cursor: pointer">
             <td class="product-img" style="width: 13%">
                 <img
                 class="d-block w-100"
-                src="${shopImages[0].imgname}"
+                src="/shop/shop_${id}/${shopImages[0].imgname}"
                 />
             </td>
+            <td class="stuff">${stuff}</td>
+            <td class="transtype">${transtype}</td>
             <td class="deal-way">${transaction}</td>
-            <td class="deal-way">${stuff}</td>
             <td class="price">${price}</td>
             <td class="createdAt">${alignTimeData(createdAt)}</td>
             <td class="seller">${user.name}</td>

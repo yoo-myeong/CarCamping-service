@@ -21,8 +21,7 @@ router.get("/post", (req, res, next) => {
   res.status(200).render("story/story.post.ejs");
 });
 
-// post 미들웨어보다 위에 있으면 /post요청도 여기서 받게 되므로 더 아래에 배치
-router.get("/:id", (req, res, next) => {
+router.get("/detail/:id", (req, res, next) => {
   const storyId = req.params.id;
   res.status(200).render("story/story.detail.ejs", { storyId });
 });
@@ -37,14 +36,16 @@ router.post("/", uploads_temp, async (req, res, next) => {
   Object.keys(req.body).filter(
     (x) => req.body[x] == null && delete req.body[key]
   );
+
   const json = {
     ...req.body,
     imgnames: filenames,
   };
 
   const response = await nodeFetch.fetchPostApiWithToken(url, json, token);
-  const { storyId } = await response.json();
+  const response_JsonFormat = await response.json();
   if (response.status === 201) {
+    const storyId = response_JsonFormat.storyId;
     const isexist = fs.existsSync(`./uploads/story/story_${storyId}`);
     if (isexist) {
       return res
@@ -61,9 +62,10 @@ router.post("/", uploads_temp, async (req, res, next) => {
           `./uploads/story/story_${storyId}/${imgname}`
         );
       });
-      return res.redirect("/story/" + storyId);
+      return res.redirect("/story/detail/" + storyId);
     }
   } else {
+    console.error(response_JsonFormat);
     return res.status(500).json({ msg: "can't create story or store images" });
   }
 });
@@ -117,7 +119,7 @@ router.put("/:id", uploads_temp, async (req, res) => {
   const response = await nodeFetch.fetchPutApiWithToken(url, json, token);
   const { storyId } = await response.json();
   if (response.status === 200) {
-    return res.redirect("/story/" + storyId);
+    return res.redirect("/story/detail" + storyId);
   } else if (response.status === 400) {
     return res.redirect("/auth/login");
   } else if (response.status === 403) {

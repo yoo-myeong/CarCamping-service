@@ -17,16 +17,17 @@ createdAt : DateTime
 **응답** : 200
 
 ```
-{
-    [
-        {
-            createdAt,
-            content,
-            user : {name},
-        },
-        ...
-    ]
-}
+
+[
+    {
+        createdAt,
+        content,
+        userId,
+        user : {name},
+    },
+    ...
+]
+
 ```
 
 <br>

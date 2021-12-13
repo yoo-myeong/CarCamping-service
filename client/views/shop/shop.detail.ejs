@@ -31,27 +31,58 @@
       </div>
       <%-include('./shop_template/imgCarousel.html') %>
       <h5 id="sell_price" class="border-bottom py-2">가격 :</h5>
-      <div class="card my-3">
-        <div class="card-body">
-          <div
-            id="sell_description"
-            class="card-text"
-            style="white-space: pre-line"
-          ></div>
-        </div>
-      </div>
+      <ol class="list-group">
+        <li
+          class="
+            list-group-item
+            d-flex
+            justify-content-between
+            align-items-start
+          "
+        >
+          <div class="ms-2 me-auto" id="sell_transtype">
+            <div class="fw-bold">🤝거래종류 :</div>
+          </div>
+        </li>
+        <li
+          class="
+            list-group-item
+            d-flex
+            justify-content-between
+            align-items-start
+          "
+        >
+          <div class="ms-2 me-auto" id="sell_transaction">
+            <div class="fw-bold">🚚거래방법 :</div>
+          </div>
+        </li>
+        <li
+          class="
+            list-group-item
+            d-flex
+            justify-content-between
+            align-items-start
+          "
+        >
+          <div class="ms-2 me-auto" id="sell_description">
+            <div class="fw-bold">✍물건설명 :<br /></div>
+          </div>
+        </li>
+      </ol>
       <h5 class="border-bottom py-2"></h5>
       <div id="form-commentInfo">
-        <div>댓글 <span id="comment-count"></span></div>
         <div class="input-group">
           <div class="form-floating w-50">
             <textarea
               class="form-control"
               placeholder="Leave a comment here"
-              style="height: 10rem"
+              style="height: 5rem"
               id="replyInput"
             ></textarea>
-            <label for="floatingTextarea2">Comments</label>
+            <label for="floatingTextarea2"
+              >댓글로 연락처를 요청하고 작성자가 수락하면 연락처가
+              열람됩니다</label
+            >
           </div>
           <button
             class="btn btn-outline-secondary"
@@ -63,7 +94,8 @@
         </div>
       </div>
       <h5 class="border-bottom py-2"></h5>
-      <div class="my-2 w-50" id="comments"></div>
+      <div style="font-size: 1.5rem">댓글 <span id="comment-count"></span></div>
+      <div class="my-2 w-100" id="comments"></div>
     </div>
 
     <%-include('../common/basicScript.html') %>

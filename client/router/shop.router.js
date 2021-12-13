@@ -2,8 +2,12 @@ import epxress from "express";
 import multer from "multer";
 import * as nodeFetch from "../middleware/nodeFetch.js";
 import { config } from "../config.js";
+import fs from "fs";
 
-const upload = multer({ dest: "uploads" });
+const uploads_temp = multer({ dest: "uploads/shop/shopImg_temp" }).array(
+  "shopImg",
+  5
+);
 
 const router = epxress.Router();
 
@@ -15,28 +19,55 @@ router.get("/post", (req, res, next) => {
   res.render("shop/shop.post.ejs");
 });
 
-router.post("/post", upload.array("shopImg", 5), async (req, res, next) => {
+router.post("/post", uploads_temp, async (req, res, next) => {
   const filenames = req.files.map((img) => img.filename);
   const url = config.backendURL + "/shop";
   const token = req.body.token;
   delete req.body.token;
+
   const json = {
     ...req.body,
     imgnames: filenames,
   };
+
   const response = await nodeFetch.fetchPostApiWithToken(url, json, token);
-  const responseToJson = await response.json();
+  const response_JsonFormat = await response.json();
   if (response.status === 201) {
-    return res.redirect("/shop/detail/" + responseToJson.shopId);
+    const shopId = response_JsonFormat.shopId;
+    const isexist = fs.existsSync(`./uploads/shop/shop_${shopId}`);
+    if (isexist) {
+      return res
+        .status(500)
+        .json({ msg: "Image directory with this id already exists" });
+    } else {
+      // shopId를 폴더로 생성해서 temp에 저장한 이미지 옮긴 후 shopId 반환
+      fs.mkdirSync(`./uploads/shop/shop_${shopId}`, (err) =>
+        res.status(500).json(err)
+      );
+      filenames.forEach((imgname) => {
+        fs.renameSync(
+          `./uploads/shop/shopImg_temp/${imgname}`,
+          `./uploads/shop/shop_${shopId}/${imgname}`
+        );
+      });
+      return res.redirect("/shop/detail/" + shopId);
+    }
   } else {
-    console.error(responseToJson);
-    return res.send("error");
+    console.error(response_JsonFormat);
+    return res.status(500).json({ msg: "can't create shop or store images" });
   }
 });
 
 router.get("/detail/:id", (req, res, next) => {
   const shopId = req.params.id;
   res.render("shop/shop.detail.ejs", { shopId });
+});
+
+router.delete("/:id", (req, res, next) => {
+  fs.rmSync(`./uploads/shop/shop_${req.params.id}`, {
+    recursive: true,
+    force: true,
+  });
 });
 
 export default router;

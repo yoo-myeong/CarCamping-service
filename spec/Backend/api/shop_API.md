@@ -8,6 +8,7 @@ stuff : string,
 price : integer,
 mobile : string,
 description : text,
+transtype : string,
 transaction : string,
 createdAt : DateTime,
 updatedAt : DateTime
@@ -29,7 +30,11 @@ ShopId : integer, fk
 
 ```
 {
-    id, transaction, price, createdAt,
+    id,
+    transaction,
+    price,
+    createdAt,
+    transtype,
     user : { name },
     shopImages : { imgname }
 }
@@ -45,7 +50,12 @@ ShopId : integer, fk
 
 ```
 {
-    stuff, mobile, createdAt, price, description,
+    stuff,
+    mobile,
+    createdAt,
+    price,
+    description,
+    transtype,
     imgnames : ![],
       : { name }
 }
@@ -61,7 +71,12 @@ ShopId : integer, fk
 
 ```
 {
-    stuff, price, mobile, transaction, description,
+    stuff,
+    price,
+    mobile,
+    transaction,
+    description,
+    transtype,
     imgnames : []
 }
 ```

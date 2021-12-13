@@ -124,7 +124,7 @@ export async function getSimpleStory() {
   });
 }
 
-export async function getByname(name) {
+export async function getByusername(name) {
   return Story.findAll({
     attributes: ["title", "address", "id", "createdAt"],
     include: [

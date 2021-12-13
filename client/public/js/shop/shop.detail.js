@@ -5,6 +5,8 @@ const sell_author = selectById("sell_author");
 const sell_mobile = selectById("sell_mobile");
 const sell_createdAt = selectById("sell_createdAt");
 const sell_price = selectById("sell_price");
+const sell_transaction = selectById("sell_transaction");
+const sell_transtype = selectById("sell_transtype");
 const sell_description = selectById("sell_description");
 const deleteButton = $("#sell_deleteButton");
 const comments = selectById("comments");
@@ -14,6 +16,11 @@ deleteButton.click(async () => {
   const url = backendURL + "/shop/" + shopId;
   const response = await fetchDeleteApiWithToken(url, token);
   if (response.status === 204) {
+    // 백엔드서버에서 인증된 후 삭제성공하면 프론트엔드서버 삭제요청
+    $.ajax({
+      method: "DELETE",
+      url: `/shop/${shopId}`,
+    });
     location.href = "/shop";
   } else if (response.status === 403) {
     alert("삭제권한이 없습니다.");
@@ -29,13 +36,24 @@ function alignTimeData(time) {
 async function makeDetailShop(shopId) {
   const url = backendURL + "/shop/" + shopId;
   const response = await fetchGetApiWithToken(url, token);
-  const { stuff, mobile, createdAt, price, description, shopImages, user } =
-    await response.json();
+  const {
+    stuff,
+    mobile,
+    createdAt,
+    price,
+    description,
+    transaction,
+    shopImages,
+    transtype,
+    user,
+  } = await response.json();
   const alignedTime = alignTimeData(createdAt);
   inputIntoInnerText(stuff, sell_stuff);
   inputIntoInnerText(mobile, sell_mobile);
   inputIntoInnerText(alignedTime, sell_createdAt);
   inputIntoInnerText(price, sell_price);
+  inputIntoInnerText(transaction, sell_transaction);
+  inputIntoInnerText(transtype, sell_transtype);
   inputIntoInnerText(description, sell_description);
   inputIntoInnerText(user.name, sell_author);
 
@@ -53,8 +71,8 @@ async function makeDetailShop(shopId) {
       </button>`;
     const carouselImg =
       i == 0
-        ? `<div class="carousel-item active"><img src="/${imgname}" class="d-block w-100" /></div>`
-        : `<div class="carousel-item"><img src="/${imgname}" class="d-block w-100" /></div>`;
+        ? `<div class="carousel-item active"><img src="/shop/shop_${shopId}/${imgname}" class="d-block w-100" /></div>`
+        : `<div class="carousel-item"><img src="/shop/shop_${shopId}/${imgname}" class="d-block w-100" /></div>`;
     if (i >= 1) {
       carouselIndicators.innerHTML += bottomButton;
     }
@@ -64,24 +82,53 @@ async function makeDetailShop(shopId) {
 }
 
 async function getComments(shopId) {
-  const url = backendURL + "/shop/reply/" + shopId;
-  const response = await fetchGetApiWithToken(url, token);
+  // 댓글 가져오기
+  const response = await fetchGetApiWithToken(
+    backendURL + "/shop/reply/" + shopId,
+    token
+  );
   if (response.status === 200) {
     const replies = await response.json();
-    replies.forEach((reply) => {
+    const accessMobiles = await fetchGetApiWithToken(
+      backendURL + "/shop/mobile/" + shopId,
+      token
+    );
+    const accessMobiles_JSON = await accessMobiles.json();
+    const AccessIds = accessMobiles_JSON.map(
+      (accessmobile) => accessmobile.userId
+    );
+    replies.forEach(async (reply) => {
+      let disableTEXT = "";
+      if (AccessIds.includes(reply.userId)) disableTEXT = "disabled";
+
+      // 게시글 작성자인지 확인해서 연락처공유 버튼 생성, disabled 적용
+      const writerAuthResponse = await fetchGetApiWithToken(
+        backendURL + "/shop/author/" + shopId,
+        token
+      );
+      let accessBtn = "";
+      if (writerAuthResponse.status === 200) {
+        accessBtn = `<button type="button" class="btn btn-secondary btn-sm ms-3 ${disableTEXT}">연락처공유</button>`;
+      }
+
+      // 댓글 생성
       const replyTime = alignTimeData(reply.createdAt);
       const comment = `
       <div class="card my-1" id="reply_card">
-        <div class="card-header">이름 : ${reply.user.name} </div>
-        <div class="card-body">
-          <p class="card-text">댓글 : ${reply.content}</p>
-          <h6 class="text-end">작성일 : ${replyTime}</h6>
-        </div>
+          <div class="card-header d-flex justify-content-between">
+            <div><p>이름 : ${reply.user.name}</p></div>
+            <div>
+              <span class="text-end">작성일 : ${replyTime}</span>
+              ${accessBtn}
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="card-text">${reply.content}</p>
+          </div>
       </div>
       `;
       comments.innerHTML += comment;
     });
-    console.log(replies.length);
     document.querySelector("#comment-count").innerHTML = replies.length;
   }
 }

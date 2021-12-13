@@ -31,6 +31,15 @@ export async function deleteShop(req, res, next) {
 
 export async function getShopById(req, res, next) {
   const id = req.params.id;
-  const shop = await shopData.getShopByIdWithImg(id);
+  const shop = await shopData.getShopById(id);
   res.status(200).json(shop);
+}
+
+export async function chekckAuthor(req, res, next) {
+  const shop = await shopData.getShopById(req.params.id);
+  if (shop.userId === req.userId) {
+    return res.sendStatus(200);
+  } else {
+    return res.sendStatus(403);
+  }
 }

@@ -9,10 +9,10 @@ export async function createStory(req, res, next) {
 }
 
 export async function getStory(req, res, next) {
-  const name = req.query.name;
+  const username = req.query.username;
   //query가 들어온 경우면 받아올 데이터 filter
-  if (name) {
-    const story = await storyData.getByname(name);
+  if (username) {
+    const story = await storyData.getByusername(username);
     return res.status(200).json(story);
   }
   const story = await storyData.getSimpleStory();

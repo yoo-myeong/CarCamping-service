@@ -23,7 +23,7 @@ ShopReply.belongsTo(User);
 export async function getAllReply(shopId) {
   const replies = await ShopReply.findAll({
     where: { shopId },
-    attributes: ["content", "createdAt"],
+    attributes: ["content", "createdAt", "userId"],
     include: {
       model: User,
       attributes: ["name"],

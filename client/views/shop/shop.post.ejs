@@ -31,7 +31,7 @@
         </div>
 
         <div class="row">
-          <div class="col-sm-3">
+          <div class="col-sm-2">
             <label for="form_price" class="form-label">가격</label>
             <input
               id="form_price"
@@ -40,11 +40,12 @@
               aria-label="Sizing example input"
               aria-describedby="inputGroup-sizing-sm"
               name="price"
-              placeholder="숫자만 입력해주세요."
+              step="1000"
+              placeholder="천 단위로 입력해주세요."
               required
             />
           </div>
-          <div class="col-sm-5">
+          <div class="col-sm-4">
             <label for="form_mobile" class="form-label">연락처</label>
             <input
               id="form_mobile"
@@ -55,12 +56,24 @@
               aria-label="Sizing example input"
               aria-describedby="inputGroup-sizing-sm"
               pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
-              placeholder="필요 시 기입하되 '-'를 붙여 입력해주세요."
+              placeholder="'-'를 붙여 입력해주세요."
               name="mobile"
               required
             />
           </div>
-          <div class="col-sm-4">
+          <div class="col-sm-3">
+            <label for="inputState" class="form-label">거래종류</label>
+            <select
+              class="form-select"
+              name="transtype"
+              id="form-transtype"
+              required
+            >
+              <option>대여</option>
+              <option>판매</option>
+            </select>
+          </div>
+          <div class="col-sm-3">
             <label for="inputState" class="form-label">거래방법</label>
             <select
               class="form-select"

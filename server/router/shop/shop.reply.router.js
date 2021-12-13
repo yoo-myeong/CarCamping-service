@@ -1,5 +1,5 @@
 import express from "express";
-import * as shopReplyController from "../../controller/shop/shopReply.controller.js";
+import * as shopReplyController from "../../controller/shop/shop.reply.controller.js";
 import { isAuth } from "../../middleware/isAuth.js";
 
 const router = express.Router();

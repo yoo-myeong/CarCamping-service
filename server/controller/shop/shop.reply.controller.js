@@ -1,4 +1,4 @@
-import * as shopReplyData from "../../data/shop/shopReply.data.js";
+import * as shopReplyData from "../../data/shop/shop.reply.data.js";
 
 export async function getAllShopReply(req, res, next) {
   const shopId = req.params.shopId;
