@@ -20,16 +20,15 @@ detailUpdateButton.click(async () => {
 });
 
 detailDeleteButton.click(async () => {
-  // 프론트엔드서버 삭제요청
-  $.ajax({
-    method: "DELETE",
-    url: `/story/${storyId}`,
-  });
-
   // 백엔드 서버 삭제요청
   const url = backendURL + "/story/" + storyId;
   const response = await fetchDeleteApiWithToken(url, token);
   if (response.status === 204) {
+    // 백엔드서버에서 인증된 후 삭제성공하면 프론트엔드서버 삭제요청
+    $.ajax({
+      method: "DELETE",
+      url: `/story/${storyId}`,
+    });
     location.href = "/story";
   } else if (response.status === 403) {
     alert("삭제권한이 없습니다.");
@@ -131,8 +130,12 @@ async function makeDetailStory(storyId) {
     </button>`;
     const carouselImg =
       i == 0
-        ? `<div class="carousel-item active"><img src="/story/story_${storyId}/${imgname}" class="d-block w-100 h-100" /></div>`
-        : `<div class="carousel-item"><img src="/story/story_${storyId}/${imgname}" class="d-block w-100 h-100" /></div>`;
+        ? `<div class="carousel-item active">
+            <img src="/story/story_${storyId}/${imgname}" class="d-block w-100 h-100" />
+          </div>`
+        : `<div class="carousel-item">
+            <img src="/story/story_${storyId}/${imgname}" class="d-block w-100 h-100" />
+          </div>`;
     if (i >= 1) {
       carouselIndicators.innerHTML += bottomButton;
     }

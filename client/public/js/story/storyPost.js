@@ -27,3 +27,27 @@ buttonOuttaForm.click(() => {
     alert("주소를 입력해주세요.");
   }
 });
+
+async function createTagCheckbox() {
+  const url = backendURL + "/taglist";
+  const response = await fetchGetApiWithToken(url, token);
+  const tagnames = await response.json();
+  tagnames.forEach((tagname, index) => {
+    const tag = tagname.tagname;
+    const code = `
+    <input
+      type="checkbox"
+      class="btn-check"
+      id="btncheck${index}"
+      autocomplete="off"
+      name="tags"
+      value="${tag}"
+    />
+    <label class="btn btn-outline-success" for="btncheck${index}"
+      >${tag}</label
+    >
+    `;
+    document.querySelector("#tagContainer").innerHTML += code;
+  });
+}
+createTagCheckbox();

@@ -22,7 +22,7 @@ function checkImgCnt() {
   return false;
 }
 
-async function inputIntoElement(storyId) {
+async function inputDBdata(storyId) {
   const url = backendURL + "/story/" + storyId;
   const response = await fetchGetApiWithToken(url, token);
   const story = await response.json();
@@ -56,7 +56,7 @@ async function inputIntoElement(storyId) {
     const imgname = storyImage.imgname;
     const deleteImg = `
     <div id="${imgname}Div" class="border border-info rounded m-3">
-      <img class="card-img-top" src="/story/story_${storyId}/${imgname}" class="d-block w-100" alt="..." />
+      <img class="card-img-top" src="/story/story_${storyId}/${imgname}" class="d-block w-100" />
       <button id = "${imgname}_Button" type="button" class="btn-close" aria-label="Close">
       </button>
     <div>`;
@@ -72,6 +72,35 @@ async function inputIntoElement(storyId) {
       newImgCntLimit++;
       $(`#${imgname}Div`).fadeOut();
     });
+  });
+
+  // tagContainer tag삽입
+  const response2 = await fetchGetApiWithToken(backendURL + "/taglist", token);
+  const tagnames = await response2.json();
+  tagnames.forEach((tagname, index) => {
+    const tag = tagname.tagname;
+    const storyTags = story.storyTags.map((data) => data.tag);
+    let checkState;
+    if (storyTags.includes(tag)) {
+      checkState = `checked`;
+    } else {
+      checkState = ``;
+    }
+    const code = `
+    <input
+      type="checkbox"
+      class="btn-check"
+      id="btncheck${index}"
+      autocomplete="off"
+      name="tags"
+      value="${tag}"
+      ${checkState}
+    />
+    <label class="btn btn-outline-success" for="btncheck${index}"
+      >${tag}</label
+    >
+    `;
+    document.querySelector("#tagContainer").innerHTML += code;
   });
 }
 

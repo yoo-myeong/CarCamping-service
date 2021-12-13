@@ -6,6 +6,7 @@ import { config } from "./config.js";
 import authRoutes from "./router/auth/auth.router.js";
 import storyRoutes from "./router/story/story.router.js";
 import shopRoutes from "./router/shop/shop.router.js";
+import taglistRoutes from "./router/taglist/taglist.router.js";
 import { sequelize } from "./db/database.js";
 import "express-async-errors";
 
@@ -25,6 +26,7 @@ app.use(morgan("tiny"));
 app.use("/auth", authRoutes);
 app.use("/story", storyRoutes);
 app.use("/shop", shopRoutes);
+app.use("/taglist", taglistRoutes);
 
 app.use((req, res) => {
   res.sendStatus(404);
