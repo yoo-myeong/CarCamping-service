@@ -158,7 +158,7 @@ StoryId : integer, fk
   campsite_price,
   campsite_link,
   description,
-  tags: ?Option,
+  tags: V or [V ...],
   imgnames: [],
   deleteImgnames: []
 }

@@ -37,6 +37,6 @@ app.use((err, req, res, next) => {
 
 sequelize.sync({ alter: true }).then(() => {
   app.listen(config.port, () => {
-    console.log(`server with port ${config.port} starts...!!!`);
+    console.log(`server starts on ${config.port}...!!!`);
   });
 });

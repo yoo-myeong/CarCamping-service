@@ -58,11 +58,17 @@ Story.hasMany(Image, {
 });
 Image.belongsTo(Story);
 
-const Tag = sequelize.define("storyTag", {
-  tag: {
-    type: DataTypes.STRING,
+const Tag = sequelize.define(
+  "storyTag",
+  {
+    tag: {
+      type: DataTypes.STRING,
+    },
   },
-});
+  {
+    timestamps: false,
+  }
+);
 Story.hasMany(Tag, {
   onDelete: "CASCADE",
 });
@@ -155,10 +161,6 @@ export async function getStoryById(id) {
   });
 }
 
-export async function getOneImgByStoryId(storyId) {
-  return Image.findOne({ where: { storyId } });
-}
-
 export async function updateStory(id, body) {
   // 개별 처리 할 데이터 pop
   const imgnames = body.imgnames;
@@ -186,10 +188,18 @@ export async function updateStory(id, body) {
   }
 
   // tag 업데이트
+  const storyTags = await Tag.findAll({ where: { storyId: id } });
+  storyTags.forEach((storyTag) => {
+    storyTag.destroy();
+  });
   if (tags) {
-    for (let i = 0; i < tags.length; i++) {
-      const tag = tags[i];
-      Tag.create({ tag, storyId: id });
+    if (Array.isArray(tags)) {
+      for (let i = 0; i < tags.length; i++) {
+        const tag = tags[i];
+        Tag.create({ tag, storyId: id });
+      }
+    } else {
+      Tag.create({ tag: tags, storyId: id });
     }
   }
 
