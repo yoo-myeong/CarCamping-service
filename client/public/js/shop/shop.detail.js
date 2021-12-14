@@ -103,7 +103,7 @@ async function getComments(shopId) {
       token
     );
 
-    // 접속자의 userId 확인 후 연락처를 노출
+    // 접속자의 userId가 AccessIds의 원소면 연락처를 노출
     const { userId } = await writerAuthResponse.json();
     if (AccessIds.includes(userId)) {
       inputIntoInnerText(mobile_number, sell_mobile);
