@@ -99,4 +99,8 @@ ShopId : integer, fk
 
 **응답** : 204 | 409
 
+```
+{ userId }
+```
+
 <br>

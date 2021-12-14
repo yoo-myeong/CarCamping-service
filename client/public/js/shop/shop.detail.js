@@ -10,7 +10,7 @@ const sell_transtype = selectById("sell_transtype");
 const sell_description = selectById("sell_description");
 const deleteButton = $("#sell_deleteButton");
 const comments = selectById("comments");
-
+let mobile_number;
 deleteButton.click(async () => {
   console.log("clicked");
   const url = backendURL + "/shop/" + shopId;
@@ -49,14 +49,13 @@ async function makeDetailShop(shopId) {
   } = await response.json();
   const alignedTime = alignTimeData(createdAt);
   inputIntoInnerText(stuff, sell_stuff);
-  inputIntoInnerText(mobile, sell_mobile);
   inputIntoInnerText(alignedTime, sell_createdAt);
   inputIntoInnerText(price, sell_price);
   inputIntoInnerText(transaction, sell_transaction);
   inputIntoInnerText(transtype, sell_transtype);
   inputIntoInnerText(description, sell_description);
   inputIntoInnerText(user.name, sell_author);
-
+  mobile_number = mobile;
   let i = 0;
   shopImages.forEach((shopImg) => {
     const imgname = shopImg.imgname;
@@ -97,18 +96,36 @@ async function getComments(shopId) {
     const AccessIds = accessMobiles_JSON.map(
       (accessmobile) => accessmobile.userId
     );
+
+    // 게시글 작성자인지 확인
+    const writerAuthResponse = await fetchGetApiWithToken(
+      backendURL + "/shop/author/" + shopId,
+      token
+    );
+
+    // 접속자의 userId 확인 후 연락처를 노출
+    const { userId } = await writerAuthResponse.json();
+    if (AccessIds.includes(userId)) {
+      inputIntoInnerText(mobile_number, sell_mobile);
+    } else {
+      inputIntoInnerText("010-****-****", sell_mobile);
+    }
+
     replies.forEach(async (reply) => {
       let disableTEXT = "";
-      if (AccessIds.includes(reply.userId)) disableTEXT = "disabled";
+      let onclinkTEXT = "";
+      if (AccessIds.includes(reply.userId)) {
+        disableTEXT = "disabled";
+      } else {
+        onclinkTEXT = `onclick = "postAccessMobile(${reply.userId})"`;
+      }
 
-      // 게시글 작성자인지 확인해서 연락처공유 버튼 생성, disabled 적용
-      const writerAuthResponse = await fetchGetApiWithToken(
-        backendURL + "/shop/author/" + shopId,
-        token
-      );
+      //작성자면 연락처공유 버튼 생성
       let accessBtn = "";
       if (writerAuthResponse.status === 200) {
-        accessBtn = `<button type="button" class="btn btn-secondary btn-sm ms-3 ${disableTEXT}">연락처공유</button>`;
+        accessBtn = `<button type="button" class="btn btn-secondary btn-sm ms-3" ${onclinkTEXT} ${disableTEXT}>
+                        연락처공유
+                     </button>`;
       }
 
       // 댓글 생성
@@ -149,4 +166,11 @@ async function createComment(shopId) {
   } else {
     alert("에러가 발생했습니다.");
   }
+}
+
+async function postAccessMobile(userId) {
+  await fetchPostApiWithToken(backendURL + "/shop/mobile/" + shopId, token, {
+    userId,
+  });
+  location.reload();
 }

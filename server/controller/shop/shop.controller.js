@@ -38,8 +38,8 @@ export async function getShopById(req, res, next) {
 export async function chekckAuthor(req, res, next) {
   const shop = await shopData.getShopById(req.params.id);
   if (shop.userId === req.userId) {
-    return res.sendStatus(200);
+    return res.status(200).json({ userId: req.userId });
   } else {
-    return res.sendStatus(403);
+    return res.status(403).json({ userId: req.userId });
   }
 }

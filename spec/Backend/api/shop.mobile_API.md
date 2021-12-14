@@ -18,7 +18,7 @@ userId : integer, fk
 [ { "id", "userId", "shopId" }, ... ]
 ```
 
-### ✅ _POST_ /shop/mobile.:shopId
+### ✅ _POST_ /shop/mobile/:shopId
 
 - 접근 가능 유저 생성
 

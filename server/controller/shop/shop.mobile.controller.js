@@ -12,7 +12,7 @@ export async function createMobileAccess(req, res, next) {
   const shop = await ShopData.getShopById(shopId);
   if (req.userId !== shop.userId) {
     return res.status(403).json({
-      message: "your userId is not allowed",
+      message: `you can't create accessAuth for shop which of id is ${shopId}`,
     });
   } else {
     const accessUserId = req.body.userId;
