@@ -24,7 +24,7 @@ function checkImgCnt() {
 
 async function inputDBdata(storyId) {
   const url = backendURL + "/story/" + storyId;
-  const response = await fetchGetApiWithToken(url, token);
+  const response = await fetchGetApiWithToken(url);
   const story = await response.json();
   const content_data = {
     title: story.title,
@@ -75,7 +75,7 @@ async function inputDBdata(storyId) {
   });
 
   // tagContainer tag삽입
-  const response2 = await fetchGetApiWithToken(backendURL + "/taglist", token);
+  const response2 = await fetchGetApiWithToken(backendURL + "/taglist");
   const tagnames = await response2.json();
   tagnames.forEach((tagname, index) => {
     const tag = tagname.tagname;

@@ -13,8 +13,6 @@
         method="POST"
         enctype="multipart/form-data"
       >
-        <input class="hidden" name="token" id="inputToken" />
-
         <div class="row">
           <div class="col-md-6">
             <label for="form-title" class="form-label">제목</label>
@@ -129,7 +127,6 @@
     <%-include('../common/basicScript.html') %>
     <script src="/js/story/storyPost.js"></script>
     <script>
-      setTokenintoInput();
       redirectLoginForUnauthorization();
     </script>
   </body>

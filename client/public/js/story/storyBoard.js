@@ -1,9 +1,9 @@
 const cardBox = document.getElementById("cardBox");
 
 async function getStory() {
-  if (token) {
+  if (username) {
     const url = backendURL + "/story";
-    const response = await fetchGetApiWithToken(url, token);
+    const response = await fetchGetApiWithToken(url);
     if (response.status !== 200) {
       console.error({ msg: "fetch error" });
     } else {
@@ -42,11 +42,10 @@ async function getStory() {
 }
 
 async function getMyStory() {
-  if (token) {
+  if (username) {
     cardBox.innerHTML = "";
-    const username = sessionStorage.getItem("name");
     const url = backendURL + `/story?username=${username}`;
-    const response = await fetchGetApiWithToken(url, token);
+    const response = await fetchGetApiWithToken(url, username);
     if (response.status !== 200) {
       console.error({ msg: "fetch error" });
     } else {

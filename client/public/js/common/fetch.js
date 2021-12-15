@@ -1,52 +1,43 @@
-async function fetchPostApi(url, json) {
+async function fetchPostApiWithoutJSON(url) {
   const response = await fetch(url, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(json),
+    credentials: "include",
   });
   return response;
 }
 
-async function authenticateTokenFromMeAPI(token) {
+async function authenticateTokenFromMeAPI() {
   const response = await fetch(backendURL + "/auth/me", {
     method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    credentials: "include",
   });
   return response;
 }
 
-async function fetchGetApiWithToken(url, token) {
+async function fetchGetApiWithToken(url) {
   const response = await fetch(url, {
     method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    credentials: "include",
   });
   return response;
 }
 
-async function fetchPostApiWithToken(url, token, json) {
+async function fetchPostApiWithToken(url, json) {
   const response = await fetch(url, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(json),
+    credentials: "include",
   });
   return response;
 }
 
-async function fetchDeleteApiWithToken(url, token) {
+async function fetchDeleteApiWithToken(url) {
   const response = await fetch(url, {
     method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    credentials: "include",
   });
   return response;
 }

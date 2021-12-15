@@ -30,7 +30,7 @@ buttonOuttaForm.click(() => {
 
 async function createTagCheckbox() {
   const url = backendURL + "/taglist";
-  const response = await fetchGetApiWithToken(url, token);
+  const response = await fetchGetApiWithToken(url);
   const tagnames = await response.json();
   tagnames.forEach((tagname, index) => {
     const tag = tagname.tagname;

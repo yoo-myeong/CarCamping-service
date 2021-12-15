@@ -14,7 +14,7 @@ let mobile_number;
 deleteButton.click(async () => {
   console.log("clicked");
   const url = backendURL + "/shop/" + shopId;
-  const response = await fetchDeleteApiWithToken(url, token);
+  const response = await fetchDeleteApiWithToken(url);
   if (response.status === 204) {
     // 백엔드서버에서 인증된 후 삭제성공하면 프론트엔드서버 삭제요청
     $.ajax({
@@ -35,7 +35,7 @@ function alignTimeData(time) {
 
 async function makeDetailShop(shopId) {
   const url = backendURL + "/shop/" + shopId;
-  const response = await fetchGetApiWithToken(url, token);
+  const response = await fetchGetApiWithToken(url);
   const {
     stuff,
     mobile,
@@ -83,14 +83,12 @@ async function makeDetailShop(shopId) {
 async function getComments(shopId) {
   // 댓글 가져오기
   const response = await fetchGetApiWithToken(
-    backendURL + "/shop/reply/" + shopId,
-    token
+    backendURL + "/shop/reply/" + shopId
   );
   if (response.status === 200) {
     const replies = await response.json();
     const accessMobiles = await fetchGetApiWithToken(
-      backendURL + "/shop/mobile/" + shopId,
-      token
+      backendURL + "/shop/mobile/" + shopId
     );
     const accessMobiles_JSON = await accessMobiles.json();
     const AccessIds = accessMobiles_JSON.map(
@@ -99,8 +97,7 @@ async function getComments(shopId) {
 
     // 게시글 작성자인지 확인
     const writerAuthResponse = await fetchGetApiWithToken(
-      backendURL + "/shop/author/" + shopId,
-      token
+      backendURL + "/shop/author/" + shopId
     );
 
     // 접속자의 userId가 AccessIds의 원소면 연락처를 노출
@@ -160,7 +157,7 @@ async function clickReplyPostButton(shopId) {
 async function createComment(shopId) {
   const content = $("#replyInput").val();
   const url = backendURL + "/shop/reply";
-  const response = await fetchPostApiWithToken(url, token, { shopId, content });
+  const response = await fetchPostApiWithToken(url, { shopId, content });
   if (response.status === 201) {
     location.reload();
   } else {
@@ -169,7 +166,7 @@ async function createComment(shopId) {
 }
 
 async function postAccessMobile(userId) {
-  await fetchPostApiWithToken(backendURL + "/shop/mobile/" + shopId, token, {
+  await fetchPostApiWithToken(backendURL + "/shop/mobile/" + shopId, {
     userId,
   });
   location.reload();

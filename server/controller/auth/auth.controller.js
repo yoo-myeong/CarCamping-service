@@ -11,6 +11,16 @@ function createToken(id) {
   return token;
 }
 
+function setToken(res, token) {
+  const options = {
+    maxAge: 86400000,
+    httpOnly: true,
+    sameSite: "none",
+    secure: true,
+  };
+  res.cookie("token", token, options);
+}
+
 export async function signup(req, res, next) {
   const { email, password, name } = req.body;
   const emailFromDB = await authData.getUserByEmail(email);
@@ -20,9 +30,11 @@ export async function signup(req, res, next) {
   const hasedPassword = await bcrypt.hash(password, config.bcrypt.saltRound);
   const data = await authData.createUser(email, hasedPassword, name);
   const newUser = data.toJSON();
+
   const token = createToken(newUser.id);
-  console.log(token);
-  res.status(201).json({ name: newUser.name, token });
+  setToken(res, token);
+
+  res.sendStatus(201);
 }
 
 export async function login(req, res, next) {
@@ -36,7 +48,9 @@ export async function login(req, res, next) {
     return res.status(401).json({ message: "wrong email or wrong password" });
   }
   const token = createToken(user.id);
-  res.status(202).json({ token, name: user.name });
+  setToken(res, token);
+
+  res.status(202).json({ token, username: user.name });
 }
 
 export async function me(req, res, next) {
@@ -44,5 +58,12 @@ export async function me(req, res, next) {
   if (!user) {
     return res.status(401).json({ message: "invalid token" });
   }
-  res.status(200).json({ token: req.token, name: user.name, userId: user.id });
+  res
+    .status(200)
+    .json({ token: req.token, username: user.name, userId: user.id });
+}
+
+export async function logout(req, res, next) {
+  res.cookie("token", "");
+  res.sendStatus(200);
 }

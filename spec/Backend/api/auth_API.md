@@ -25,12 +25,6 @@ password : string
 
 **응답** : 201 | 409
 
-```
-{
-    token, name
-}
-```
-
 <br>
 
 ### ✅ _POST_ /auth/login
@@ -49,9 +43,15 @@ password : string
 
 ```
 {
-    token, name
+    token, username
 }
 ```
+
+<br>
+
+### ✅ _POST_ /auth/logout
+
+**응답** : 200
 
 <br>
 
@@ -59,16 +59,10 @@ password : string
 
 - 로그인상태
 
-**요청**
-
-```
-header에 token 담아서 요청
-```
-
 **응답** : 200 | 401
 
 ```
 {
-    name
+    token, username, userId
 }
 ```

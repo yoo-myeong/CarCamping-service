@@ -13,7 +13,6 @@
         method="POST"
         enctype="multipart/form-data"
       >
-        <input class="hidden" name="token" id="inputToken" />
         <div class="hidden" id="hiddenUpdateFormTag"></div>
 
         <div class="row">
@@ -140,7 +139,6 @@
     <%-include('../common/basicScript.html') %>
     <script src="/js/story/storyUpdate.js"></script>
     <script>
-      setTokenintoInput();
       redirectLoginForUnauthorization();
       const storyId = <%=storyId%>
       inputDBdata(storyId)

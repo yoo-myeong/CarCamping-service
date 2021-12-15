@@ -9,8 +9,7 @@ const redHeartCnt = selectById("redHeartCnt");
 
 detailUpdateButton.click(async () => {
   const response = await fetchGetApiWithToken(
-    backendURL + "/story/author/" + storyId,
-    token
+    backendURL + "/story/author/" + storyId
   );
   if (response.status === 200) {
     location.href = "/story/update/" + storyId;
@@ -22,7 +21,7 @@ detailUpdateButton.click(async () => {
 detailDeleteButton.click(async () => {
   // 백엔드 서버 삭제요청
   const url = backendURL + "/story/" + storyId;
-  const response = await fetchDeleteApiWithToken(url, token);
+  const response = await fetchDeleteApiWithToken(url);
   if (response.status === 204) {
     // 백엔드서버에서 인증된 후 삭제성공하면 프론트엔드서버 삭제요청
     $.ajax({
@@ -43,7 +42,7 @@ function alignTimeData(time) {
 
 async function makeDetailStory(storyId) {
   const url = backendURL + "/story/" + storyId;
-  const response = await fetchGetApiWithToken(url, token);
+  const response = await fetchGetApiWithToken(url);
   const story = await response.json();
   const content_data = {
     title: story.title,
@@ -159,7 +158,7 @@ function updateHeartCnt(heartCnt) {
 
 async function getHeartState(storyId) {
   const url = backendURL + "/story/heart/" + storyId;
-  const response = await fetchGetApiWithToken(url, token);
+  const response = await fetchGetApiWithToken(url);
   if (response.status === 200) {
     exposeRedHeart();
   } else {
@@ -172,14 +171,14 @@ async function getHeartState(storyId) {
 async function activateHeartButton(storyId) {
   whiteHeartButton.click(async () => {
     const url = backendURL + "/story/heart";
-    const response = await fetchPostApiWithToken(url, token, { storyId });
+    const response = await fetchPostApiWithToken(url, { storyId });
     const { heartCnt } = await response.json();
     updateHeartCnt(heartCnt);
     exposeRedHeart();
   });
   redHeartButton.click(async () => {
     const url = backendURL + "/story/heart/" + storyId;
-    const response = await fetchDeleteApiWithToken(url, token);
+    const response = await fetchDeleteApiWithToken(url);
     const { heartCnt } = await response.json();
     updateHeartCnt(heartCnt);
     exposeWhiteHeart();

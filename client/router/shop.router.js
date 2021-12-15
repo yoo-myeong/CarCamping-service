@@ -22,8 +22,7 @@ router.get("/post", (req, res, next) => {
 router.post("/post", uploads_temp, async (req, res, next) => {
   const filenames = req.files.map((img) => img.filename);
   const url = config.backendURL + "/shop";
-  const token = req.body.token;
-  delete req.body.token;
+  const token = req.cookies["token"];
 
   const json = {
     ...req.body,

@@ -16,7 +16,7 @@ export async function fetchPostApiWithToken(url, json, token) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      cookie: `token=${token}`,
     },
     body: JSON.stringify(json),
   });
@@ -28,7 +28,7 @@ export async function fetchPutApiWithToken(url, json, token) {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      cookie: `token=${token}`,
     },
     body: JSON.stringify(json),
   });

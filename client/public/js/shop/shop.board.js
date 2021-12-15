@@ -5,15 +5,14 @@ function alignTimeData(time) {
 }
 
 async function getShop() {
-  if (token) {
+  if (username) {
     const url = backendURL + "/shop";
-    const response = await fetchGetApiWithToken(url, token);
+    const response = await fetchGetApiWithToken(url);
     if (response.status !== 200) {
       res.status(400).json({ msg: "fetch from server failed" });
     } else {
       const responseJson = await response.json();
       responseJson.forEach((data) => {
-        console.log(data);
         let {
           id,
           stuff,

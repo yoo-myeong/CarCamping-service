@@ -3,11 +3,13 @@ import storyRouter from "./router/story.router.js";
 import authRouter from "./router/auth.router.js";
 import shopRouter from "./router/shop.router.js";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 const app = express();
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 app.use(morgan("tiny"));
 app.use(express.static("public"));
 app.use(express.static("uploads"));
