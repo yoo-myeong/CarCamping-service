@@ -1,19 +1,17 @@
 const loginButton = $("#loginButton");
-const inputAlert = $("#inputAlert");
-const unvalidAlert = $("#unvalidAlert");
 const loginSpinner = $("#loginSpinner");
+const inputAlert = () => alert("아이디와 비밀번호 모두 기입해주세요");
+const unvalidAlert = () => alert("아이디 또는 비밀번호가 올바르지 않습니다.");
 
-function clickLoginbtn() {
+function activateLoginbtn() {
   loginButton.click(() => {
-    unvalidAlert.addClass("hidden");
-    inputAlert.addClass("hidden");
-    const inputEmail = $("#inputEmail")[0].value;
-    const inputPassword = $("#inputPassword")[0].value;
-    if (!(inputEmail && inputPassword)) {
-      inputAlert.removeClass("hidden");
+    const emailInput = $("#emailInput").val();
+    const passwordInput = $("#passwordInput").val();
+    if (!(emailInput && passwordInput)) {
+      inputAlert();
     } else {
       loginSpinner.removeClass("hidden");
-      getTokenFromLoginAPI(inputEmail, inputPassword);
+      getTokenFromLoginAPI(emailInput, passwordInput);
     }
   });
 }
@@ -25,7 +23,7 @@ async function getTokenFromLoginAPI(email, password) {
   const status = response.status;
   if (400 <= status && status < 500) {
     loginSpinner.addClass("hidden");
-    unvalidAlert.removeClass("hidden");
+    unvalidAlert();
   } else if (status === 202) {
     loginSpinner.addClass("hidden");
     const { username } = await response.json();

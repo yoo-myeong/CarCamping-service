@@ -8,17 +8,13 @@
 
     <div class="mx-3">
       <div>
-        <p class="hidden" id="unvalidAlert" style="color: coral">
-          아이디 또는 비밀번호가 올바르지 않습니다.
-        </p>
-
         <div class="row my-3">
-          <label for="inputEmail" class="col-sm-1 col-form-label">Email</label>
+          <label for="emailInput" class="col-sm-1 col-form-label">Email</label>
           <div class="col-sm-3">
             <input
               type="email"
               class="form-control"
-              id="inputEmail"
+              id="emailInput"
               name="email"
               required
             />
@@ -31,23 +27,20 @@
         </div>
 
         <div class="row mb-3">
-          <label for="inputPassword3" class="col-sm-1 col-form-label"
+          <label for="passwordInput" class="col-sm-1 col-form-label"
             >Password</label
           >
           <div class="col-sm-3">
             <input
               type="password"
               class="form-control"
-              id="inputPassword"
+              id="passwordInput"
               name="password"
               minlength="6"
             />
           </div>
         </div>
 
-        <p id="inputAlert" class="hidden" style="color: coral">
-          아이디와 비밀번호를 모두 기입해주세요
-        </p>
         <button id="loginButton" type="submit" class="btn btn-primary">
           Log in
         </button>
@@ -72,7 +65,7 @@
     <%-include('../common/basicScript.html') %>
     <script src="/js/auth/login.js"></script>
     <script>
-      clickLoginbtn();
+      activateLoginbtn();
     </script>
   </body>
 </html>

@@ -1,14 +1,14 @@
 const cardBox = document.getElementById("cardBox");
 
 async function getStory(query) {
-  const queryString = !query
+  const additionalAddress = !query
     ? ""
     : query === "heart"
     ? "/heart/stories"
     : "/?sort=" + query;
 
   if (username) {
-    const url = backendURL + "/story" + queryString;
+    const url = backendURL + "/story" + additionalAddress;
     const response = await fetchGetApiWithToken(url);
     cardBox.innerHTML = "";
     if (response.status !== 200) {

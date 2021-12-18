@@ -35,8 +35,6 @@ router.post("/", uploads_temp, async (req, res, next) => {
   const filenames = req.files.map((img) => img.filename);
   const url = config.backendURL + "/story";
   const token = req.cookies["token"];
-  console.log(`filename is ${filenames}`); /////////////////////////////////////
-  console.log(`token is ${token}!!!!!!!!!!!!!!!!!!!`); //////////////////////////////////////////////////////////
 
   // null값을 다시 object에 넣으면 value는 null이 아니라 ""가 되므로 걸러내기
   Object.keys(req.body).filter(

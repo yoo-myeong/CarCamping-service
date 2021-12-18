@@ -1,11 +1,11 @@
 const carouselIndicators = selectById("carousel-indicators");
 const carouselInner = selectById("carousel-inner");
+const whiteHeartCnt = selectById("whiteHeartCnt");
+const redHeartCnt = selectById("redHeartCnt");
 const detailDeleteButton = $("#detail_deleteButton");
 const detailUpdateButton = $("#deatail_updateButton");
 const redHeartButton = $("#heart-red");
 const whiteHeartButton = $("#heart-white");
-const whiteHeartCnt = selectById("whiteHeartCnt");
-const redHeartCnt = selectById("redHeartCnt");
 
 detailUpdateButton.click(async () => {
   const response = await fetchGetApiWithToken(
