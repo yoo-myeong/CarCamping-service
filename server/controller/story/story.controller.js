@@ -10,12 +10,18 @@ export async function createStory(req, res, next) {
 
 export async function getStory(req, res, next) {
   const username = req.query.username;
+  const sort = req.query.sort;
+  const search = req.query.search;
+  const decodedSearch = decodeURI(search);
   //query가 들어온 경우면 받아올 데이터 filter
   if (username) {
     const story = await storyData.getByusername(username);
     return res.status(200).json(story);
+  } else if (search !== undefined) {
+    const story = await storyData.searchSimpleStory(search);
+    return res.status(200).json(story);
   }
-  const story = await storyData.getSimpleStory();
+  const story = await storyData.getSimpleStory(sort);
   res.status(200).json(story);
 }
 

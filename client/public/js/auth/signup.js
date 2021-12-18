@@ -38,7 +38,7 @@ function validateJoinSubmit() {
 
 async function signup(name, email, password) {
   const url = backendURL + "/auth/signup";
-  const response = await fetchPostApi(url, {
+  const response = await fetchPostApiWithToken(url, {
     name,
     email,
     password,

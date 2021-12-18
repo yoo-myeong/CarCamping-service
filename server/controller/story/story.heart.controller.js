@@ -11,6 +11,11 @@ export async function getHeart(req, res, next) {
   }
 }
 
+export async function getStoryWithHeart(req, res, next) {
+  const story = await storyHeartData.getStoryWithHeart();
+  return res.status(200).json(story);
+}
+
 export async function createHeart(req, res, next) {
   const storyId = req.body.storyId;
   const stroyheart = await storyHeartData.createHeart(req.userId, storyId);

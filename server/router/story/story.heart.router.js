@@ -6,6 +6,7 @@ import { validate } from "../../middleware/validator.js";
 
 const router = express.Router();
 
+router.get("/stories", isAuth, storyHeartController.getStoryWithHeart);
 router.get("/:storyId", isAuth, storyHeartController.getHeart);
 router.post("/", isAuth, storyHeartController.createHeart);
 router.delete("/:storyId", isAuth, storyHeartController.deleteHeart);

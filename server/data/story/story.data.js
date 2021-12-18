@@ -2,7 +2,10 @@ import SQ from "sequelize";
 import { sequelize } from "../../db/database.js";
 import { User } from "../auth/auth.data.js";
 
+const Op = SQ.Op;
 const DataTypes = SQ.DataTypes;
+const ORDER_DESC = { order: [["createdAt", "DESC"]] };
+const ORDER_ASC = { order: [["createdAt", "ASC"]] };
 
 export const Story = sequelize.define("story", {
   title: {
@@ -41,7 +44,7 @@ export const Story = sequelize.define("story", {
 User.hasMany(Story);
 Story.belongsTo(User);
 
-const Image = sequelize.define(
+export const Image = sequelize.define(
   "storyImage",
   {
     imgname: {
@@ -87,10 +90,9 @@ export async function createStory(body, userId) {
   const storyId = story.dataValues.id;
 
   if (imgnames) {
-    for (let i = 0; i < imgnames.length; i++) {
-      const imgname = imgnames[i];
+    imgnames.forEach((imgname) => {
       Image.create({ imgname, storyId });
-    }
+    });
   }
 
   if (tags) {
@@ -107,8 +109,34 @@ export async function createStory(body, userId) {
   return storyId;
 }
 
-export async function getSimpleStory() {
+export async function getSimpleStory(sort) {
+  const sortDirection = !sort || sort === "desc" ? ORDER_DESC : ORDER_ASC;
+
   return Story.findAll({
+    ...sortDirection,
+    attributes: ["title", "address", "id", "createdAt"],
+    include: [
+      {
+        model: User,
+        attributes: ["name"],
+      },
+      {
+        model: Image,
+        attributes: ["imgname"],
+        limit: 1,
+      },
+    ],
+  });
+}
+
+export async function searchSimpleStory(search) {
+  return Story.findAll({
+    ...ORDER_DESC,
+    where: {
+      address: {
+        [Op.like]: "%" + search + "%",
+      },
+    },
     attributes: ["title", "address", "id", "createdAt"],
     include: [
       {
@@ -126,6 +154,7 @@ export async function getSimpleStory() {
 
 export async function getByusername(name) {
   return Story.findAll({
+    ...ORDER_DESC,
     attributes: ["title", "address", "id", "createdAt"],
     include: [
       {
@@ -172,9 +201,9 @@ export async function updateStory(id, body) {
   delete body.deleteImgnames;
 
   // story 테이블 update
-  const story = await Story.findByPk(id);
-  story.set(body);
-  await story.save();
+  Story.update(body, {
+    where: { id },
+  });
 
   // story의 img를 가져와서 삭제리스트에 포함된 것이면 삭제
   if (deleteImgnames) {

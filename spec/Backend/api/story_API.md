@@ -83,6 +83,54 @@ StoryId : integer, fk
 
 <br>
 
+### ✅ _GET_ /stroy?sort=:sort
+
+- 시간 순 정렬상태의 데이터 가져오기
+
+**응답** : 200
+
+```
+[
+  {
+    title,
+    address,
+    id,
+    createdAt,
+    user : {
+      name
+    },
+    storyImages : [ { imgname } ] <= 1개
+  }
+  ...
+]
+```
+
+<br>
+
+### ✅ _GET_ /stroy?search=:search
+
+- 해당 주소의 데이터 가져오기
+
+**응답** : 200
+
+```
+[
+  {
+    title,
+    address,
+    id,
+    createdAt,
+    user : {
+      name
+    },
+    storyImages : [ { imgname } ] <= 1개
+  }
+  ...
+]
+```
+
+<br>
+
 ### ✅ _GET_ /story/:id
 
 - 특정 스토리의 디테일 페이지 데이터 가져오기
