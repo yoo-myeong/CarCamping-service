@@ -21,16 +21,24 @@ https://drive.google.com/file/d/1m7d_gJwJjlPvIaQOmjm20J6ozwtx9kyp/view?usp=shari
 
 #### ✅ API SPEC
 
-[auth API](./spec/Backend/api/auth_API.md)
+[/auth API](./spec/Backend/api/auth_API.md) <br>
 
-[stroy API](./spec/Backend/api/story_API.md)
+[/stroy API](./spec/Backend/api/story_API.md)<br>
 
-[shop API](./spec/Backend/api/shop_API.md)
+[/stroy/heart API](./spec/Backend/api/story.heart_API.md)<br>
+
+[/shop API](./spec/Backend/api/shop_API.md)<br>
+
+[/shop/mobile API](./spec/Backend/api/shop.mobile_API.md)<br>
+
+[/shop/reply API](./spec/Backend/api/shop.reply_API.md)<br>
+
+[/taglist API](./spec/Backend/api/taglist_API.md)<br>
 
 <br>
 
 ## 👉FrontEnd
 
-#### ✅ Class Diagram
+#### ✅ Logic Flow 
 
-<br>
+<img src="./spec/Frontend/frontend-LogicFlow.drawio.png">
