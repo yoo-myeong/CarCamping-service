@@ -21,6 +21,11 @@ router.get("/post", (req, res, next) => {
   res.status(200).render("story/story.post.ejs");
 });
 
+router.get("/search/:address", (req, res, next) => {
+  const search = req.params.address;
+  res.status(200).render("story/story.board.search.ejs", { search });
+});
+
 router.get("/detail/:id", (req, res, next) => {
   const storyId = req.params.id;
   res.status(200).render("story/story.detail.ejs", { storyId });
@@ -30,6 +35,8 @@ router.post("/", uploads_temp, async (req, res, next) => {
   const filenames = req.files.map((img) => img.filename);
   const url = config.backendURL + "/story";
   const token = req.cookies["token"];
+  console.log(`filename is ${filenames}`); /////////////////////////////////////
+  console.log(`token is ${token}!!!!!!!!!!!!!!!!!!!`); //////////////////////////////////////////////////////////
 
   // null값을 다시 object에 넣으면 value는 null이 아니라 ""가 되므로 걸러내기
   Object.keys(req.body).filter(
@@ -42,8 +49,8 @@ router.post("/", uploads_temp, async (req, res, next) => {
   };
 
   const response = await nodeFetch.fetchPostApiWithToken(url, json, token);
-  const response_JsonFormat = await response.json();
   if (response.status === 201) {
+    const response_JsonFormat = await response.json();
     const storyId = response_JsonFormat.storyId;
     const isexist = fs.existsSync(`./uploads/story/story_${storyId}`);
     if (isexist) {
@@ -64,7 +71,7 @@ router.post("/", uploads_temp, async (req, res, next) => {
       return res.redirect("/story/detail/" + storyId);
     }
   } else {
-    console.error(response_JsonFormat);
+    console.error("backend server error");
     return res.status(500).json({ msg: "can't create story or store images" });
   }
 });

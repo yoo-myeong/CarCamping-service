@@ -57,3 +57,25 @@ StoryId : integer, fk
   heartCnt
 }
 ```
+
+### ✅ _GET_ /story/heart/stories
+
+    - 하트 개수가 많은 순으로 정렬해서 story 데이터 전달
+
+**응답** : 200 | 404
+
+```
+[
+  {
+    title,
+    address,
+    id,
+    createdAt,
+    user : {
+      name
+    },
+    storyImages : [{ imgname }]  <= 1개
+  }
+  ...
+]
+```

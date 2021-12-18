@@ -1,7 +1,7 @@
 import SQ from "sequelize";
 import { sequelize } from "../../db/database.js";
 import { User } from "../auth/auth.data.js";
-import { Story } from "./story.data.js";
+import { Story, Image } from "./story.data.js";
 
 const DataTypes = SQ.DataTypes;
 
@@ -29,6 +29,32 @@ export async function getHeart(userId, storyId) {
     },
   });
   return storyHeart;
+}
+
+export async function getStoryWithHeart() {
+  return Story.findAll({
+    attributes: ["title", "address", "id", "createdAt"],
+    include: [
+      {
+        model: StoryHeart,
+        attributes: [],
+      },
+      {
+        model: User,
+        attributes: ["name"],
+      },
+      {
+        model: Image,
+        attributes: ["imgname"],
+        limit: 1,
+      },
+    ],
+    group: "id",
+    order: [
+      [sequelize.fn("COUNT", sequelize.col("storyhearts.id")), "DESC"],
+      ["createdAt", "DESC"],
+    ],
+  });
 }
 
 export async function createHeart(userId, storyId) {

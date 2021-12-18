@@ -13,10 +13,12 @@ function createToken(id) {
 
 function setToken(res, token) {
   const options = {
+    domain: config.domain,
+    path: "/",
     maxAge: 86400000,
     httpOnly: true,
-    sameSite: "none",
-    secure: true,
+    // sameSite: "none",
+    // secure: true,
   };
   res.cookie("token", token, options);
 }
@@ -28,11 +30,7 @@ export async function signup(req, res, next) {
     return res.status(409).json({ message: "this email is alreay registered" });
   }
   const hasedPassword = await bcrypt.hash(password, config.bcrypt.saltRound);
-  const data = await authData.createUser(email, hasedPassword, name);
-  const newUser = data.toJSON();
-
-  const token = createToken(newUser.id);
-  setToken(res, token);
+  authData.createUser(email, hasedPassword, name);
 
   res.sendStatus(201);
 }

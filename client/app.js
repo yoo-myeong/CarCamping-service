@@ -1,9 +1,10 @@
 import express from "express";
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
 import storyRouter from "./router/story.router.js";
 import authRouter from "./router/auth.router.js";
 import shopRouter from "./router/shop.router.js";
-import morgan from "morgan";
-import cookieParser from "cookie-parser";
+
 const app = express();
 
 app.set("view engine", "ejs");
@@ -36,5 +37,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(8080, () => {
-  console.log(`server is started on 8080 port`);
+  console.log(`server is started on 8080 port~~~!!!`);
 });

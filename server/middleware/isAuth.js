@@ -15,15 +15,19 @@ export async function isAuth(req, res, next) {
   }
 
   if (!token) {
+    console.log("no token");
     return res.sendStatus(401);
   }
 
   jwt.verify(token, config.jwt.screatKey, async (err, decode) => {
     if (err) {
+      console.error(err);
+      console.log(`${token} is invalid token`);
       return res.sendStatus(401);
     }
     const user = await authData.findById(decode.id);
     if (!user) {
+      console.log("no user");
       return res.sendStatus(401);
     }
     req.userId = user.id;

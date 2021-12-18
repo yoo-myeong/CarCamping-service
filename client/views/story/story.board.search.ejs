@@ -49,8 +49,9 @@
     <%-include('../common/basicScript.html') %>
     <script src="/js/story/storyBoard.js"></script>
     <script>
+      const search = `<%=search%>`;
       redirectLoginForUnauthorization();
-      getStory();
+      getSearchStory(search);
     </script>
   </body>
 </html>

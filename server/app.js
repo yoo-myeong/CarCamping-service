@@ -13,6 +13,8 @@ import { config } from "./config.js";
 
 const app = express();
 
+app.all("/", (req, res) => res.send("carcamping backend server"));
+
 const corsOption = {
   origin: config.cors.allowedOrigin,
   optionSuccessStatus: 200,
@@ -39,7 +41,7 @@ app.use((err, req, res, next) => {
   res.sendStatus(500);
 });
 
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync().then(() => {
   app.listen(config.port, () => {
     console.log(`server starts on ${config.port}...!!!`);
   });

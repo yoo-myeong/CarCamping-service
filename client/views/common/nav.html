@@ -30,17 +30,23 @@
         class="navbar-brand hidden me-3 my-2"
         style="text-decoration: underline"
       ></a>
-      <form class="d-flex">
+      <div class="d-flex">
         <input
+          id="searchInput"
           class="form-control me-2"
           type="search"
           placeholder="장소를 검색해보세요"
           aria-label="Search"
         />
-        <button class="btn btn-outline-success me-2 py-2" type="submit">
+        <button
+          id="searchBtn"
+          class="btn btn-outline-success me-2 py-2"
+          type="submit"
+          onclick="searchPlace()"
+        >
           Search
         </button>
-      </form>
+      </div>
       <button
         id="navLoginButton"
         class="btn btn-outline-success me-2 my-2 hidden"

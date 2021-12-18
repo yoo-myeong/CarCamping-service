@@ -26,4 +26,5 @@ export const config = {
   cors: {
     allowedOrigin: required("CORS_ALLOW_ORIGIN"),
   },
+  domain: required("DOMAIN"),
 };
