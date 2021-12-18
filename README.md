@@ -10,12 +10,18 @@
 
 <br>
 
+# 서비스 구조
+
+....
+
+<br>
+
+# 설계
+
 ## 👉 Database
 
 #### ✅ ERD
 https://drive.google.com/file/d/1m7d_gJwJjlPvIaQOmjm20J6ozwtx9kyp/view?usp=sharing
-
-<br>
 
 ## 👉BackEnd
 
@@ -34,8 +40,6 @@ https://drive.google.com/file/d/1m7d_gJwJjlPvIaQOmjm20J6ozwtx9kyp/view?usp=shari
 [/shop/reply API](./spec/Backend/api/shop.reply_API.md)<br>
 
 [/taglist API](./spec/Backend/api/taglist_API.md)<br>
-
-<br>
 
 ## 👉FrontEnd
 
