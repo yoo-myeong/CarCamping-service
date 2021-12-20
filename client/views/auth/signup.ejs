@@ -14,67 +14,48 @@
       </div>
 
       <div class="col-sm-6 col-md-offset-3">
-        <p id="inputAlert" class="hidden" style="color: coral">
-          ❗ 모두 기입해주세요 ❗
-        </p>
-        <form id="signUpForm" action="/auth/signup" method="post">
-          <div class="form-group">
-            <label for="inputName">성명</label>
-            <input
-              type="text"
-              class="form-control"
-              id="inputName"
-              placeholder="이름을 입력해 주세요"
-              name="name"
-            />
-          </div>
-          <div class="form-group">
-            <label for="inputEmail">이메일 주소</label>
-            <input
-              type="email"
-              class="form-control"
-              id="inputEmail"
-              placeholder="이메일 주소를 입력해주세요"
-              name="email"
-            />
-          </div>
+        <div class="form-group">
+          <label for="inputName">성명</label>
+          <input
+            type="text"
+            class="form-control"
+            id="inputName"
+            placeholder="이름을 입력해 주세요"
+            name="name"
+          />
+        </div>
 
-          <p class="hidden" id="invalidEmailAlert" style="color: coral">
-            이미 가입된 이메일입니다.
-          </p>
-          <p class="hidden" id="notEmailAlert" style="color: coral">
-            이메일 형식이 아닙니다.
-          </p>
+        <div class="form-group">
+          <label for="inputEmail">이메일 주소</label>
+          <input
+            type="email"
+            class="form-control"
+            id="inputEmail"
+            placeholder="이메일 주소를 입력해주세요"
+            name="email"
+          />
+        </div>
 
-          <div class="form-group">
-            <label for="inputPassword1">비밀번호</label>
-            <input
-              type="password"
-              class="form-control"
-              id="inputPassword1"
-              placeholder="비밀번호를 입력해주세요"
-              name="password"
-            />
-          </div>
-          <div class="form-group">
-            <label for="inputPassword2">비밀번호 확인</label>
-            <input
-              type="password"
-              class="form-control"
-              id="inputPassword2"
-              placeholder="비밀번호 확인을 위해 다시한번 입력 해 주세요"
-              name="inputPassword2"
-            />
-          </div>
-
-          <p class="hidden" id="shortPasswordAlert" style="color: coral">
-            비밀번호는 6자리 이상으로 입력해주세요.
-          </p>
-          <p class="hidden" id="diffrentPasswordAlert" style="color: coral">
-            비밀번호가 일치하지 않습니다.
-          </p>
-          <button id="hiddenFormButton" style="display: none"></button>
-        </form>
+        <div class="form-group">
+          <label for="inputPassword1">비밀번호</label>
+          <input
+            type="password"
+            class="form-control"
+            id="inputPassword1"
+            placeholder="비밀번호를 입력해주세요"
+            name="password"
+          />
+        </div>
+        <div class="form-group">
+          <label for="inputPassword2">비밀번호 확인</label>
+          <input
+            type="password"
+            class="form-control"
+            id="inputPassword2"
+            placeholder="비밀번호 확인을 위해 다시한번 입력 해 주세요"
+            name="inputPassword2"
+          />
+        </div>
         <button id="join-submit" class="btn btn-primary my-3">
           회원가입<i class="fa fa-check spaceLeft"></i>
         </button>

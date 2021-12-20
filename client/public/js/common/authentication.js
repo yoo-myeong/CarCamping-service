@@ -10,14 +10,14 @@ function exposeLoginBtn() {
   navUsername.classList.add("hidden");
 }
 
-function exposeLogoutBtn(data) {
-  navUsername.innerText = `안녕하세요! ${data.username}님`;
+function exposeLogoutBtn(username) {
+  navUsername.innerText = `안녕하세요! ${username}님`;
   navLoginButton.addClass("hidden");
   navLogoutButton.removeClass("hidden");
   navUsername.classList.remove("hidden");
 }
 
-async function clickNavLogoutButton() {
+async function activateLogoutBtnClick() {
   navLogoutButton.click(() => {
     sessionStorage.clear();
     fetchPostApiWithoutJSON(backendURL + "/auth/logout");
@@ -28,15 +28,15 @@ async function clickNavLogoutButton() {
   });
 }
 
-async function modifyNavbar() {
+async function assembleNavbar() {
   if (username) {
     const response = await authenticateTokenFromMeAPI();
     if (response.status === 401) {
       exposeLoginBtn();
     } else {
       const data = await response.json();
-      exposeLogoutBtn(data);
-      clickNavLogoutButton();
+      exposeLogoutBtn(data.username);
+      activateLogoutBtnClick();
     }
   } else {
     exposeLoginBtn();

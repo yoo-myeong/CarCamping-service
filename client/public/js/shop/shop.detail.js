@@ -8,9 +8,11 @@ const sell_price = selectById("sell_price");
 const sell_transaction = selectById("sell_transaction");
 const sell_transtype = selectById("sell_transtype");
 const sell_description = selectById("sell_description");
-const deleteButton = $("#sell_deleteButton");
 const comments = selectById("comments");
+const deleteButton = $("#sell_deleteButton");
+
 let mobile_number;
+
 deleteButton.click(async () => {
   console.log("clicked");
   const url = backendURL + "/shop/" + shopId;
@@ -120,9 +122,10 @@ async function getComments(shopId) {
       //작성자면 연락처공유 버튼 생성
       let accessBtn = "";
       if (writerAuthResponse.status === 200) {
-        accessBtn = `<button type="button" class="btn btn-secondary btn-sm ms-3" ${onclinkTEXT} ${disableTEXT}>
-                        연락처공유
-                     </button>`;
+        accessBtn = `
+        <button type="button" class="btn btn-secondary btn-sm ms-3" ${onclinkTEXT} ${disableTEXT}>
+          연락처공유
+        </button>`;
       }
 
       // 댓글 생성
