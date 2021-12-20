@@ -37,9 +37,7 @@ router.post("/", uploads_temp, async (req, res, next) => {
   const token = req.cookies["token"];
 
   // null값을 다시 object에 넣으면 value는 null이 아니라 ""가 되므로 걸러내기
-  Object.keys(req.body).filter(
-    (x) => req.body[x] == null && delete req.body[key]
-  );
+  Object.keys(req.body).forEach((x) => req.body[x] == "" && delete req.body[x]);
 
   const json = {
     ...req.body,
@@ -110,9 +108,8 @@ router.put("/:id", uploads_temp, async (req, res) => {
   });
 
   // null값을 다시 object에 넣으면 value는 null이 아니라 ""가 되므로 걸러내기
-  Object.keys(req.body).filter(
-    (x) => req.body[x] == null && delete req.body[key]
-  );
+  Object.keys(req.body).forEach((x) => req.body[x] == "" && delete req.body[x]);
+
   const json = {
     ...req.body,
     imgnames: filenames,
