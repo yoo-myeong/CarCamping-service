@@ -115,6 +115,7 @@ router.put("/:id", uploads_temp, async (req, res) => {
   Object.keys(req.body).filter(
     (x) => req.body[x] == null && delete req.body[key]
   );
+
   const json = {
     ...req.body,
     imgnames: filenames,
