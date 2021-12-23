@@ -1,5 +1,20 @@
 import fetch from "node-fetch";
 
+export async function fetchGetApi(url) {
+  fetch(url, {
+    method: "GET",
+  });
+}
+
+export async function fetchGetApiWithToken(url, token) {
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      cookie: `token=${token}`,
+    },
+  });
+}
+
 export async function fetchPostApi(url, json) {
   const response = await fetch(url, {
     method: "POST",

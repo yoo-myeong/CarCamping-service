@@ -24,6 +24,14 @@ export const User = sequelize.define(
   }
 );
 
+export function createAdmin(password) {
+  User.create({
+    email: "admin@carcamp.com",
+    password,
+    name: "admin",
+  });
+}
+
 export async function createUser(email, password, name) {
   return await User.create({ email, password, name });
 }

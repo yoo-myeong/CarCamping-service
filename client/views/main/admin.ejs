@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%-include('../common/head_html.html') %>
+  </head>
+  <body>
+    <%-include('../common/nav.html') %>
+    <div class="row text-center">
+      <div class="mt-3">등록된 태그</div>
+      <div class="col" id="tagContainer"></div>
+    </div>
+    <div class="row text-center justify-content-center">
+      <div class="mt-3">추가할 태그 입력</div>
+      <input
+        class="col-3"
+        type="text"
+        onkeyup="if(window.event.keyCode==13){addTag(this)}"
+      />
+    </div>
+
+    <%-include('../common/basicScript.html') %>
+    <script>
+      async function createTagCheckbox() {
+        const url = backendURL + "/taglist";
+        const response = await fetchGetApiWithToken(url);
+        const tagnames = await response.json();
+        tagnames.forEach((tagname, index) => {
+          const tag = tagname.tagname;
+          const code = `<div
+                          id="closeBtnDiv${index}"
+                          class="btn-group m-1"
+                          role="group"
+                          aria-label="Basic mixed styles example"
+                        >
+                          <input
+                            type="checkbox"
+                            class="btn-check"
+                            id="btncheck${index}"
+                            autocomplete="off"
+                            name="tags"
+                            value="${tag}"
+                          />
+                          <label class="btn btn-outline-success" for="btncheck${index}"
+                            >${tag}
+                          </label>
+                          <button id="closeBtn${index}" type="button" class="btn btn-danger">
+                            ❌
+                          </button>
+                        </div>`;
+          document.querySelector("#tagContainer").innerHTML += code;
+        });
+        tagnames.forEach((tagname, index) => {
+          const tag = tagname.tagname;
+          $(`#closeBtn${index}`).click(() => {
+            $(`#closeBtnDiv${index}`).fadeOut();
+            fetchDeleteApiWithToken(backendURL + `/taglist/${tag}`);
+          });
+        });
+      }
+      createTagCheckbox();
+
+      function addTag(element) {
+        const tagname = element.value;
+        element.value = "";
+        fetchPostApiWithToken(backendURL + "/taglist", { tagname });
+        location.reload();
+      }
+    </script>
+  </body>
+</html>

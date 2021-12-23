@@ -32,6 +32,9 @@ app.use("/story", storyRoutes);
 app.use("/shop", shopRoutes);
 app.use("/taglist", taglistRoutes);
 
+//heroku 서버 수면 깨우기
+app.get("/start", (req, res) => res.sendStatus(200));
+
 app.use((req, res) => {
   res.sendStatus(404);
 });

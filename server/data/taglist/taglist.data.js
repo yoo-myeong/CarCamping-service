@@ -21,3 +21,15 @@ export async function getAllTags() {
     attributes: ["tagname"],
   });
 }
+
+export async function deleteTagByName(tagname) {
+  Taglist.findOne({
+    where: {
+      tagname,
+    },
+  }).then((Tag) => Tag.destroy());
+}
+
+export async function createTag(body) {
+  Taglist.create(body);
+}

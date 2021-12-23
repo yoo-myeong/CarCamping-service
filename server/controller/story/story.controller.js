@@ -1,3 +1,4 @@
+import { config } from "../../config.js";
 import * as storyData from "../../data/story/story.data.js";
 
 export async function createStory(req, res, next) {
@@ -55,7 +56,7 @@ export async function deleteStory(req, res, next) {
       .status(404)
       .json({ message: `there's no story that id is ${id}` });
   }
-  if (req.userId !== story.userId) {
+  if (req.userId !== story.userId && req.email !== config.admin.email) {
     return res
       .status(403)
       .json({ message: "you're not allowed to delete this story" });

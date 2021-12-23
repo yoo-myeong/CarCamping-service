@@ -27,4 +27,8 @@ export const config = {
     allowedOrigin: required("CORS_ALLOW_ORIGIN"),
   },
   domain: required("DOMAIN"),
+  admin: {
+    email: required("ADMIN_EMAIL"),
+    password: required("ADMIN_PASSWORD"),
+  },
 };

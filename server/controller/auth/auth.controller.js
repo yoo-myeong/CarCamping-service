@@ -23,6 +23,17 @@ function setToken(res, token) {
   res.cookie("token", token, options);
 }
 
+//admin계정이 없다면 생성해주기
+authData.getUserByEmail(config.admin.email).then((result) => {
+  if (!result) {
+    const hasedPassword = bcrypt.hashSync(
+      config.admin.password,
+      config.bcrypt.saltRound
+    );
+    authData.createAdmin(hasedPassword);
+  }
+});
+
 export async function signup(req, res, next) {
   const { email, password, name } = req.body;
   const emailFromDB = await authData.getUserByEmail(email);
@@ -55,6 +66,16 @@ export async function me(req, res, next) {
   const user = await authData.findById(req.userId);
   if (!user) {
     return res.status(401).json({ message: "invalid token" });
+  }
+  res
+    .status(200)
+    .json({ token: req.token, username: user.name, userId: user.id });
+}
+
+export async function admin(req, res, next) {
+  const user = await authData.findById(req.userId);
+  if (!user || user.email !== config.admin.email) {
+    return res.status(401).json({ message: "forbidden token" });
   }
   res
     .status(200)

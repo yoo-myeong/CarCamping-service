@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import storyRouter from "./router/story.router.js";
 import authRouter from "./router/auth.router.js";
 import shopRouter from "./router/shop.router.js";
+import * as nodeFetch from "./middleware/nodeFetch.js";
+import { config } from "./config.js";
 
 const app = express();
 
@@ -16,6 +18,7 @@ app.use(express.static("public"));
 app.use(express.static("uploads"));
 
 app.all("/", (req, res, next) => {
+  nodeFetch.fetchGetApi(config.backendURL + "/start");
   res.render("main/main.ejs");
 });
 
@@ -23,7 +26,17 @@ app.use("/story", storyRouter);
 app.use("/auth", authRouter);
 app.use("/shop", shopRouter);
 
-app.all("/error", (req, res, next) => {
+app.all("/admin", async (req, res) => {
+  const token = req.cookies["token"];
+  const response = await nodeFetch.fetchGetApiWithToken(
+    config.backendURL + "/auth/admin",
+    token
+  );
+  if (response.status === 200) res.render("main/admin.ejs");
+  else res.sendStatus(403);
+});
+
+app.all("/error", () => {
   throw new Error("server error");
 });
 
