@@ -17,13 +17,10 @@ function setToken(res, token) {
     path: "/",
     maxAge: 86400000,
     httpOnly: true,
-    // sameSite: "none",
-    // secure: true,
   };
   res.cookie("token", token, options);
 }
 
-//admin계정이 없다면 생성해주기
 authData.getUserByEmail(config.admin.email).then((result) => {
   if (!result) {
     const hasedPassword = bcrypt.hashSync(

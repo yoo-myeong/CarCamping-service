@@ -4,7 +4,8 @@ import cookieParser from "cookie-parser";
 import storyRouter from "./router/story.router.js";
 import authRouter from "./router/auth.router.js";
 import shopRouter from "./router/shop.router.js";
-import * as nodeFetch from "./middleware/nodeFetch.js";
+import adminRouter from "./router/admin.router.js";
+import * as nodeFetch from "./fetch/nodeFetch.js";
 import { config } from "./config.js";
 
 const app = express();
@@ -25,22 +26,13 @@ app.all("/", (req, res, next) => {
 app.use("/story", storyRouter);
 app.use("/auth", authRouter);
 app.use("/shop", shopRouter);
-
-app.all("/admin", async (req, res) => {
-  const token = req.cookies["token"];
-  const response = await nodeFetch.fetchGetApiWithToken(
-    config.backendURL + "/auth/admin",
-    token
-  );
-  if (response.status === 200) res.render("main/admin.ejs");
-  else res.sendStatus(403);
-});
+app.use("/admin", adminRouter);
 
 app.all("/error", () => {
   throw new Error("server error");
 });
 
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.sendStatus(404);
 });
 
@@ -50,5 +42,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(8080, () => {
-  console.log(`server is started on 8080 port~~~!!!`);
+  console.log("server started on 8080 port");
 });

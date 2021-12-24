@@ -26,6 +26,7 @@ function validateJoinSubmit() {
         } else if (inputPassword1 === inputPassword2) {
           if (inputPassword1.length < 6) shortPasswordAlert();
           else {
+            $("#Spinner").removeClass("hidden");
             signup(inputName, inputEmail, inputPassword1);
           }
         }

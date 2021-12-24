@@ -1,4 +1,5 @@
 import * as taglistData from "../../data/taglist/taglist.data.js";
+import { config } from "../../config.js";
 
 export async function getAllTags(req, res, next) {
   const tags = await taglistData.getAllTags();
@@ -7,12 +8,16 @@ export async function getAllTags(req, res, next) {
 
 export async function deleteTags(req, res) {
   const tagname = req.params.name;
-  taglistData.deleteTagByName(tagname);
-  res.sendStatus(204);
+  if (req.email === config.admin.email) {
+    taglistData.deleteTagByName(tagname);
+    res.sendStatus(204);
+  }
 }
 
 export async function creatTag(req, res) {
   const body = req.body;
-  taglistData.createTag(body);
-  res.sendStatus(201);
+  if (req.email === config.admin.email) {
+    taglistData.createTag(body);
+    res.sendStatus(201);
+  }
 }

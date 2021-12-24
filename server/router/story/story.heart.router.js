@@ -1,8 +1,6 @@
 import express from "express";
-import { body } from "express-validator";
 import * as storyHeartController from "../../controller/story/story.heart.controller.js";
 import { isAuth } from "../../middleware/isAuth.js";
-import { validate } from "../../middleware/validator.js";
 
 const router = express.Router();
 
