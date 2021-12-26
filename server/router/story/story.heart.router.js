@@ -4,7 +4,7 @@ import { isAuth } from "../../middleware/isAuth.js";
 
 const router = express.Router();
 
-router.get("/stories", isAuth, storyHeartController.getStoryWithHeart);
+router.get("/stories", isAuth, storyHeartController.getStoryOrderedByHeart);
 router.get("/:storyId", isAuth, storyHeartController.getHeart);
 router.post("/", isAuth, storyHeartController.createHeart);
 router.delete("/:storyId", isAuth, storyHeartController.deleteHeart);

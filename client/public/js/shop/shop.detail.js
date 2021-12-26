@@ -1,24 +1,18 @@
-const carouselIndicators = selectById("carousel-indicators");
-const carouselInner = selectById("carousel-inner");
-const sell_stuff = selectById("sell_stuff");
-const sell_author = selectById("sell_author");
-const sell_mobile = selectById("sell_mobile");
-const sell_createdAt = selectById("sell_createdAt");
-const sell_price = selectById("sell_price");
-const sell_transaction = selectById("sell_transaction");
-const sell_transtype = selectById("sell_transtype");
-const sell_description = selectById("sell_description");
-const comments = selectById("comments");
-const deleteButton = $("#sell_deleteButton");
+const sellingStuff = selectById("sell_stuff");
+const sellingAuthor = selectById("sell_author");
+const sellingMobile = selectById("sell_mobile");
+const sellingCreatedAt = selectById("sell_createdAt");
+const sellingPrice = selectById("sell_price");
+const sellingTransaction = selectById("sell_transaction");
+const sellingTranstype = selectById("sell_transtype");
+const sellingDescription = selectById("sell_description");
 
 let mobile_number;
 
-deleteButton.click(async () => {
-  console.log("clicked");
-  const url = backendURL + "/shop/" + shopId;
-  const response = await fetchDeleteApiWithToken(url);
+$("#sell_deleteButton").click(async () => {
+  const shopDetailURL = backendURL + "/shop/" + shopId;
+  const response = await fetchDeleteApiWithToken(shopDetailURL);
   if (response.status === 204) {
-    // 백엔드서버에서 인증된 후 삭제성공하면 프론트엔드서버 삭제요청
     $.ajax({
       method: "DELETE",
       url: `/shop/${shopId}`,
@@ -26,8 +20,6 @@ deleteButton.click(async () => {
     location.href = "/shop";
   } else if (response.status === 403) {
     alert("삭제권한이 없습니다.");
-  } else {
-    location.href = "/error";
   }
 });
 
@@ -35,7 +27,9 @@ function alignTimeData(time) {
   return time.split("T")[0] + " " + time.split("T")[1].slice(0, 7);
 }
 
-async function makeDetailShop(shopId) {
+async function fillDetailShopData(shopId) {
+  const carouselIndicators = selectById("carousel-indicators");
+  const carouselInner = selectById("carousel-inner");
   const url = backendURL + "/shop/" + shopId;
   const response = await fetchGetApiWithToken(url);
   const {
@@ -50,16 +44,15 @@ async function makeDetailShop(shopId) {
     user,
   } = await response.json();
   const alignedTime = alignTimeData(createdAt);
-  inputIntoInnerText(stuff, sell_stuff);
-  inputIntoInnerText(alignedTime, sell_createdAt);
-  inputIntoInnerText(price, sell_price);
-  inputIntoInnerText(transaction, sell_transaction);
-  inputIntoInnerText(transtype, sell_transtype);
-  inputIntoInnerText(description, sell_description);
-  inputIntoInnerText(user.name, sell_author);
+  inputIntoInnerText(stuff, sellingStuff);
+  inputIntoInnerText(alignedTime, sellingCreatedAt);
+  inputIntoInnerText(price, sellingPrice);
+  inputIntoInnerText(transaction, sellingTransaction);
+  inputIntoInnerText(transtype, sellingTranstype);
+  inputIntoInnerText(description, sellingDescription);
+  inputIntoInnerText(user.name, sellingAuthor);
   mobile_number = mobile;
-  let i = 0;
-  shopImages.forEach((shopImg) => {
+  shopImages.forEach((shopImg, i) => {
     const imgname = shopImg.imgname;
     const bottomButton = `
       <button
@@ -78,58 +71,47 @@ async function makeDetailShop(shopId) {
       carouselIndicators.innerHTML += bottomButton;
     }
     carouselInner.innerHTML += carouselImg;
-    i++;
   });
 }
 
 async function getComments(shopId) {
-  // 댓글 가져오기
-  const response = await fetchGetApiWithToken(
+  const responseFromGetReplyAPI = await fetchGetApiWithToken(
     backendURL + "/shop/reply/" + shopId
   );
-  if (response.status === 200) {
-    const replies = await response.json();
-    const accessMobiles = await fetchGetApiWithToken(
+  if (responseFromGetReplyAPI.status === 200) {
+    const replies = await responseFromGetReplyAPI.json();
+    const accessableUsers = await fetchGetApiWithToken(
       backendURL + "/shop/mobile/" + shopId
     );
-    const accessMobiles_JSON = await accessMobiles.json();
-    const AccessIds = accessMobiles_JSON.map(
-      (accessmobile) => accessmobile.userId
+    const accessableUsersParsed = await accessableUsers.json();
+    const accessableUserIds = accessableUsersParsed.map(
+      (accessalbeUser) => accessalbeUser.userId
     );
+    const shopAuthorURL = backendURL + "/shop/author/" + shopId;
+    const responseGetWriterAPI = await fetchGetApiWithToken(shopAuthorURL);
+    const { userId } = await responseGetWriterAPI.json();
 
-    // 게시글 작성자인지 확인
-    const writerAuthResponse = await fetchGetApiWithToken(
-      backendURL + "/shop/author/" + shopId
-    );
-
-    // 접속자의 userId가 AccessIds의 원소면 연락처를 노출
-    const { userId } = await writerAuthResponse.json();
-    if (AccessIds.includes(userId)) {
-      inputIntoInnerText(mobile_number, sell_mobile);
-    } else {
-      inputIntoInnerText("010-****-****", sell_mobile);
-    }
+    accessableUserIds.includes(userId)
+      ? inputIntoInnerText(mobile_number, sell_mobile)
+      : inputIntoInnerText("010-****-****", sell_mobile);
 
     replies.forEach(async (reply) => {
       let disableTEXT = "";
       let onclinkTEXT = "";
-      if (AccessIds.includes(reply.userId)) {
-        disableTEXT = "disabled";
-      } else {
-        onclinkTEXT = `onclick = "postAccessMobile(${reply.userId})"`;
-      }
-
-      //작성자면 연락처공유 버튼 생성
       let accessBtn = "";
-      if (writerAuthResponse.status === 200) {
+      accessableUserIds.includes(reply.userId)
+        ? (disableTEXT = "disabled")
+        : (onclinkTEXT = `onclick = "createAccessableUser(${reply.userId})"`);
+
+      if (responseGetWriterAPI.status === 200) {
         accessBtn = `
         <button type="button" class="btn btn-secondary btn-sm ms-3" ${onclinkTEXT} ${disableTEXT}>
           연락처공유
         </button>`;
       }
 
-      // 댓글 생성
       const replyTime = alignTimeData(reply.createdAt);
+      const comments = selectById("comments");
       const comment = `
       <div class="card my-1" id="reply_card">
           <div class="card-header d-flex justify-content-between">
@@ -150,27 +132,24 @@ async function getComments(shopId) {
   }
 }
 
-async function clickReplyPostButton(shopId) {
-  const replyButton = $("#replyButton");
-  replyButton.click(() => {
-    createComment(shopId);
-  });
-}
+$("#replyButton").click(() => {
+  createComment(shopId);
+});
 
 async function createComment(shopId) {
   const content = $("#replyInput").val();
-  const url = backendURL + "/shop/reply";
-  const response = await fetchPostApiWithToken(url, { shopId, content });
+  const postReplyURL = backendURL + "/shop/reply";
+  const postData = { shopId, content };
+  const response = await fetchPostApiWithToken(postReplyURL, postData);
   if (response.status === 201) {
     location.reload();
   } else {
-    alert("에러가 발생했습니다.");
+    alert("댓글을 작성할 수 없습니다. 나중에 시도해주세요.");
   }
 }
 
-async function postAccessMobile(userId) {
-  await fetchPostApiWithToken(backendURL + "/shop/mobile/" + shopId, {
-    userId,
-  });
+async function createAccessableUser(userId) {
+  const postData = { userId };
+  await fetchPostApiWithToken(backendURL + "/shop/mobile/" + shopId, postData);
   location.reload();
 }

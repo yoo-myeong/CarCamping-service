@@ -3,7 +3,6 @@ import { config } from "../config.js";
 import * as authData from "../data/auth/auth.data.js";
 
 export async function isAuth(req, res, next) {
-  // 브라우저는 쿠키로 전송하지만 모바일은 헤더를 추가해서 보내므로 두 가지를 검사해서 토큰 할당
   let token;
   const authHeader = req.get("Authorization");
   if (authHeader && authHeader.startsWith("Bearer")) {

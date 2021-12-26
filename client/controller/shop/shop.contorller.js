@@ -16,30 +16,28 @@ export async function rederDeatilPage(req, res, next) {
 }
 
 export async function postShop(req, res, next) {
-  const filenames = req.files.map((img) => img.filename);
-  const url = config.backendURL + "/shop";
+  const imgnames = req.files.map((img) => img.filename);
+  const postShopURL = config.backendURL + "/shop";
   const token = req.cookies["token"];
-
-  const json = {
-    ...req.body,
-    imgnames: filenames,
-  };
-
-  const response = await nodeFetch.fetchPostApiWithToken(url, json, token);
-  const response_JsonFormat = await response.json();
-  if (response.status === 201) {
-    const shopId = response_JsonFormat.shopId;
+  const postData = { ...req.body, imgnames };
+  const responseFromPostShopAPI = await nodeFetch.fetchPostApiWithToken(
+    postShopURL,
+    postData,
+    token
+  );
+  const responseParsed = await responseFromPostShopAPI.json();
+  if (responseFromPostShopAPI.status === 201) {
+    const shopId = responseParsed.shopId;
     const isexist = fs.existsSync(`./uploads/shop/shop_${shopId}`);
     if (isexist) {
       return res
         .status(500)
-        .json({ msg: "Image directory with this id already exists" });
+        .json({ msg: "Image directory of this id already exists" });
     } else {
-      // shopId를 폴더로 생성해서 temp에 저장한 이미지 옮긴 후 shopId 반환
       fs.mkdirSync(`./uploads/shop/shop_${shopId}`, (err) =>
         res.status(500).json(err)
       );
-      filenames.forEach((imgname) => {
+      imgnames.forEach((imgname) => {
         fs.renameSync(
           `./uploads/shop/shopImg_temp/${imgname}`,
           `./uploads/shop/shop_${shopId}/${imgname}`
@@ -48,7 +46,7 @@ export async function postShop(req, res, next) {
       return res.redirect("/shop/detail/" + shopId);
     }
   } else {
-    console.error(response_JsonFormat);
+    console.error(responseParsed);
     return res.status(500).json({ msg: "can't create shop or store images" });
   }
 }

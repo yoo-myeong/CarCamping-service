@@ -4,7 +4,7 @@ import { isAuth } from "../../middleware/isAuth.js";
 
 const router = express.Router();
 
-router.get("/:shopId", shopReplyController.getAllShopReply);
+router.get("/:id", shopReplyController.getAllShopReply);
 router.post("/", isAuth, shopReplyController.createShopReply);
 
 export default router;

@@ -69,30 +69,13 @@ export async function getAll() {
 }
 
 export async function createShop(body, userId) {
-  console.log(body); ////////////////////////////////////////////////////////////////////
-  const {
-    stuff,
-    price,
-    mobile,
-    transaction,
-    description,
-    transtype,
-    imgnames,
-  } = body;
-  const shop = await Shop.create({
-    stuff,
-    price,
-    mobile,
-    transaction,
-    description,
-    transtype,
-    userId,
-  });
+  const imgnames = body.imgnames;
+  delete body[imgnames];
+  const shop = await Shop.create({ ...body, userId });
   const shopId = shop.dataValues.id;
-  for (let i = 0; i < imgnames.length; i++) {
-    const imgname = imgnames[i];
+  imgnames.forEach((imgname) => {
     Image.create({ imgname, shopId });
-  }
+  });
   return shopId;
 }
 

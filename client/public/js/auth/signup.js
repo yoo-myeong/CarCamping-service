@@ -12,23 +12,21 @@ function email_check(email) {
 
 function validateJoinSubmit() {
   $("#join-submit").click(() => {
-    const inputEmail = $("#inputEmail")[0].value;
-    const inputName = $("#inputName")[0].value;
-    const inputPassword1 = $("#inputPassword1")[0].value;
-    const inputPassword2 = $("#inputPassword2")[0].value;
+    const inputEmail = $("#inputEmail").val();
+    const inputName = $("#inputName").val();
+    const inputPassword1 = $("#inputPassword1").val();
+    const inputPassword2 = $("#inputPassword2").val();
 
     if (inputEmail && inputName && inputPassword1 && inputPassword2) {
       if (!email_check(inputEmail)) {
         notEmailAlert();
-      } else {
-        if (inputPassword1 !== inputPassword2) {
-          diffrentPasswordAlert();
-        } else if (inputPassword1 === inputPassword2) {
-          if (inputPassword1.length < 6) shortPasswordAlert();
-          else {
-            $("#Spinner").removeClass("hidden");
-            signup(inputName, inputEmail, inputPassword1);
-          }
+      } else if (inputPassword1 !== inputPassword2) {
+        diffrentPasswordAlert();
+      } else if (inputPassword1 === inputPassword2) {
+        if (inputPassword1.length < 6) shortPasswordAlert();
+        else {
+          $("#Spinner").removeClass("hidden");
+          signup(inputName, inputEmail, inputPassword1);
         }
       }
     } else {
@@ -38,18 +36,15 @@ function validateJoinSubmit() {
 }
 
 async function signup(name, email, password) {
-  const url = backendURL + "/auth/signup";
-  const response = await fetchPostApiWithToken(url, {
-    name,
-    email,
-    password,
-  });
+  const signupURL = backendURL + "/auth/signup";
+  const postDada = { name, email, password };
+  const response = await fetchPostApiWithToken(signupURL, postDada);
   const status = response.status;
   if (status === 409) {
     invalidEmailAlert();
   } else if (status === 201) {
     location.href = "/auth/login";
   } else {
-    location.href = "/error";
+    alert("회원가입에 실패했습니다.");
   }
 }

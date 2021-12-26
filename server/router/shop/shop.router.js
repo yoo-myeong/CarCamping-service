@@ -17,14 +17,12 @@ const validateShop = [
   validate,
 ];
 
+router.use("/reply", shopReplyRoutes);
+router.use("/mobile", shopMobileRoutes);
 router.get("/", shopController.getShop);
 router.get("/:id", shopController.getShopById);
 router.post("/", validateShop, isAuth, shopController.createShop);
 router.delete("/:id", isAuth, shopController.deleteShop);
 router.get("/author/:id", isAuth, shopController.chekckAuthor);
-
-router.use("/reply", shopReplyRoutes);
-
-router.use("/mobile", shopMobileRoutes);
 
 export default router;

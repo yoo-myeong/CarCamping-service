@@ -1,9 +1,6 @@
-import SQ from "sequelize";
 import { sequelize } from "../../db/database.js";
 import { User } from "../auth/auth.data.js";
 import { Shop } from "./shop.data.js";
-
-const DataTypes = SQ.DataTypes;
 
 const shopMobileAccess = sequelize.define(
   "shop_mobile_access",

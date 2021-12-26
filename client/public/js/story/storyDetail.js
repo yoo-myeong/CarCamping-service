@@ -2,15 +2,27 @@ const carouselIndicators = selectById("carousel-indicators");
 const carouselInner = selectById("carousel-inner");
 const whiteHeartCnt = selectById("whiteHeartCnt");
 const redHeartCnt = selectById("redHeartCnt");
-const detailDeleteButton = $("#detail_deleteButton");
-const detailUpdateButton = $("#deatail_updateButton");
 const redHeartButton = $("#heart-red");
 const whiteHeartButton = $("#heart-white");
 
-detailUpdateButton.click(async () => {
-  const response = await fetchGetApiWithToken(
-    backendURL + "/story/author/" + storyId
-  );
+whiteHeartButton.click(async () => {
+  const url = backendURL + "/story/heart";
+  const response = await fetchPostApiWithToken(url, { storyId });
+  const { heartCnt } = await response.json();
+  updateHeartCnt(heartCnt);
+  exposeRedHeart();
+});
+redHeartButton.click(async () => {
+  const url = backendURL + "/story/heart/" + storyId;
+  const response = await fetchDeleteApiWithToken(url);
+  const { heartCnt } = await response.json();
+  updateHeartCnt(heartCnt);
+  exposeWhiteHeart();
+});
+
+$("#deatail_updateButton").click(async () => {
+  const checkAuthURL = backendURL + "/story/author/" + storyId;
+  const response = await fetchGetApiWithToken(checkAuthURL);
   if (response.status === 200) {
     location.href = "/story/update/" + storyId;
   } else {
@@ -18,21 +30,17 @@ detailUpdateButton.click(async () => {
   }
 });
 
-detailDeleteButton.click(async () => {
-  // 백엔드 서버 삭제요청
-  const url = backendURL + "/story/" + storyId;
-  const response = await fetchDeleteApiWithToken(url);
+$("#detail_deleteButton").click(async () => {
+  const deleteStoryURL = backendURL + "/story/" + storyId;
+  const response = await fetchDeleteApiWithToken(deleteStoryURL);
   if (response.status === 204) {
-    // 백엔드서버에서 인증된 후 삭제성공하면 프론트엔드서버 삭제요청
     $.ajax({
       method: "DELETE",
       url: `/story/${storyId}`,
     });
     location.href = "/story";
-  } else if (response.status === 403) {
-    alert("삭제권한이 없습니다.");
   } else {
-    alert("server error");
+    alert("삭제권한이 없습니다.");
   }
 });
 
@@ -40,9 +48,9 @@ function alignTimeData(time) {
   return time.split("T")[0] + " " + time.split("T")[1].slice(0, 7);
 }
 
-async function makeDetailStory(storyId) {
-  const url = backendURL + "/story/" + storyId;
-  const response = await fetchGetApiWithToken(url);
+async function fillDetailStory(storyId) {
+  const getStoryDetailURL = backendURL + "/story/" + storyId;
+  const response = await fetchGetApiWithToken(getStoryDetailURL);
   const story = await response.json();
   const content_data = {
     title: story.title,
@@ -51,74 +59,77 @@ async function makeDetailStory(storyId) {
     description: story.description,
     createdAt: story.createdAt,
   };
+  content_data.createdAt = alignTimeData(content_data.createdAt);
   const name = story.user.name;
   inputIntoInnerText(name, selectById("detail_name"));
-  content_data.createdAt = alignTimeData(content_data.createdAt);
 
-  // 내용 삽입
-  for (const key in content_data) {
-    const element = selectById(`detail_${key}`);
-    if (content_data[key]) {
-      inputIntoInnerText(content_data[key], element);
-    } else {
-      inputIntoInnerText("없음", element);
-    }
-  }
-  createMap(content_data.address);
-
-  // tag 삽입
-  const storyTags = story.storyTags;
-  const cardHeader = document.querySelector(".card-header-container");
-  storyTags.forEach((storyTag) => {
-    const tag = storyTag.tag;
-    cardHeader.innerHTML += `<button class="tagBtn btn btn-primary me-2" disabled>#${tag}</button>`;
-  });
-
-  // 유료캠핑 아코디언
-  const paid_campsite_info = {
-    시작시간: story.campsite_startTime,
-    마감시간: story.campsite_endTime,
-    비용: story.campsite_price,
-    웹사이트: story.campsite_link,
-  };
-  if (content_data.campsite === "유료캠핑장") {
-    const arcodianFlush = selectById("accordionFlush");
-    for (const key in paid_campsite_info) {
-      if (paid_campsite_info[key]) {
-        arcodianFlush.innerHTML += `<div class="accordion-item">
-        <h2 class="accordion-header" id="flush-headingOne">
-          <button
-            class="accordion-button collapsed"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#flush-collapseOne"
-            aria-expanded="false"
-            aria-controls="flush-collapseOne"
-          >
-            ${key}
-          </button>
-        </h2>
-        <div
-          id="flush-collapseOne"
-          class="accordion-collapse collapse"
-          aria-labelledby="flush-headingOne"
-          data-bs-parent="#accordionFlushExample"
-        >
-          <div class="accordion-body">
-            ${paid_campsite_info[key]}
-          </div>
-        </div>
-    </div>`;
+  const insertContents = new Promise(() => {
+    for (const key in content_data) {
+      const element = selectById(`detail_${key}`);
+      if (content_data[key]) {
+        inputIntoInnerText(content_data[key], element);
+      } else {
+        inputIntoInnerText("없음", element);
       }
     }
-  }
+  });
 
-  // 이미지 캐러셀 슬라이딩 기능 구현
-  const storyImages = story.storyImages;
-  let i = 0;
-  storyImages.forEach((storyImage) => {
-    const imgname = storyImage.imgname;
-    const bottomButton = `
+  createMap(content_data.address);
+
+  const insertTags = new Promise(() => {
+    const storyTags = story.storyTags;
+    const cardHeader = document.querySelector(".card-header-container");
+    storyTags.forEach((storyTag) => {
+      const tag = storyTag.tag;
+      cardHeader.innerHTML += `<button class="tagBtn btn btn-primary me-2" disabled>#${tag}</button>`;
+    });
+  });
+
+  const createInfoOfPaidCampSite = new Promise(() => {
+    const paid_campsite_info = {
+      시작시간: story.campsite_startTime,
+      마감시간: story.campsite_endTime,
+      비용: story.campsite_price,
+      웹사이트: story.campsite_link,
+    };
+    if (content_data.campsite === "유료캠핑장") {
+      const arcodianFlush = selectById("accordionFlush");
+      for (const key in paid_campsite_info) {
+        if (paid_campsite_info[key]) {
+          arcodianFlush.innerHTML += `<div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingOne">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#flush-collapseOne"
+              aria-expanded="false"
+              aria-controls="flush-collapseOne"
+            >
+              ${key}
+            </button>
+          </h2>
+          <div
+            id="flush-collapseOne"
+            class="accordion-collapse collapse"
+            aria-labelledby="flush-headingOne"
+            data-bs-parent="#accordionFlushExample"
+          >
+            <div class="accordion-body">
+              ${paid_campsite_info[key]}
+            </div>
+          </div>
+      </div>`;
+        }
+      }
+    }
+  });
+
+  const createImgCarrasel = new Promise(() => {
+    const storyImages = story.storyImages;
+    storyImages.forEach((storyImage, i) => {
+      const imgname = storyImage.imgname;
+      const bottomButton = `
     <button
     type="button"
     data-bs-target="#carouselExampleIndicators"
@@ -127,19 +138,19 @@ async function makeDetailStory(storyId) {
     aria-label="Slide ${i + 1}"
     >
     </button>`;
-    const carouselImg =
-      i == 0
-        ? `<div class="carousel-item active">
+      const carouselImg =
+        i == 0
+          ? `<div class="carousel-item active">
             <img src="/story/story_${storyId}/${imgname}" class="d-block w-100 h-100" />
           </div>`
-        : `<div class="carousel-item">
+          : `<div class="carousel-item">
             <img src="/story/story_${storyId}/${imgname}" class="d-block w-100 h-100" />
           </div>`;
-    if (i >= 1) {
-      carouselIndicators.innerHTML += bottomButton;
-    }
-    carouselInner.innerHTML += carouselImg;
-    i++;
+      if (i >= 1) {
+        carouselIndicators.innerHTML += bottomButton;
+      }
+      carouselInner.innerHTML += carouselImg;
+    });
   });
 }
 
@@ -167,22 +178,3 @@ async function getHeartState(storyId) {
   const { heartCnt } = await response.json();
   updateHeartCnt(heartCnt);
 }
-
-async function activateHeartButton(storyId) {
-  whiteHeartButton.click(async () => {
-    const url = backendURL + "/story/heart";
-    const response = await fetchPostApiWithToken(url, { storyId });
-    const { heartCnt } = await response.json();
-    updateHeartCnt(heartCnt);
-    exposeRedHeart();
-  });
-  redHeartButton.click(async () => {
-    const url = backendURL + "/story/heart/" + storyId;
-    const response = await fetchDeleteApiWithToken(url);
-    const { heartCnt } = await response.json();
-    updateHeartCnt(heartCnt);
-    exposeWhiteHeart();
-  });
-}
-
-createMap();

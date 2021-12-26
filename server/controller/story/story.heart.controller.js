@@ -11,7 +11,7 @@ export async function getHeart(req, res, next) {
   }
 }
 
-export async function getStoryWithHeart(req, res, next) {
+export async function getStoryOrderedByHeart(req, res, next) {
   const story = await storyHeartData.getStoryWithHeart();
   return res.status(200).json(story);
 }

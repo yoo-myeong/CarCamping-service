@@ -11,12 +11,12 @@ export async function getStory(req, res, next) {
   const sort = req.query.sort;
   const search = req.query.search;
   const decodedSearch = decodeURI(search);
-  //query가 들어온 경우면 받아올 데이터 filter
   if (username) {
     const story = await storyData.getByusername(username);
     return res.status(200).json(story);
-  } else if (search !== undefined) {
-    const story = await storyData.searchSimpleStory(search);
+  }
+  if (search) {
+    const story = await storyData.searchSimpleStory(decodedSearch);
     return res.status(200).json(story);
   }
   const story = await storyData.getSimpleStory(sort);
@@ -40,10 +40,9 @@ export async function updateStory(req, res, next) {
   if (req.userId !== story.userId) {
     return res
       .status(403)
-      .json({ message: "you're not allowed to update this story" });
+      .json({ message: "not allowed to update this story" });
   }
   const body = req.body;
-  console.log(body);
   const storyId = await storyData.updateStory(id, body);
   res.status(200).json({ storyId });
 }

@@ -32,7 +32,6 @@ export async function getAllReply(shopId) {
   return replies;
 }
 
-export async function createShopReply(createData) {
-  const reply = await ShopReply.create(createData);
-  return reply;
+export async function createShopReply(reply) {
+  return ShopReply.create(reply);
 }

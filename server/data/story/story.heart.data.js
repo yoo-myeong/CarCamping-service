@@ -1,9 +1,6 @@
-import SQ from "sequelize";
 import { sequelize } from "../../db/database.js";
 import { User } from "../auth/auth.data.js";
 import { Story, Image } from "./story.data.js";
-
-const DataTypes = SQ.DataTypes;
 
 const StoryHeart = sequelize.define("storyheart", {});
 User.hasMany(StoryHeart, {
@@ -31,7 +28,7 @@ export async function getHeart(userId, storyId) {
   return storyHeart;
 }
 
-export async function getStoryWithHeart() {
+export async function getStoryOrderedByHeart() {
   return Story.findAll({
     attributes: ["title", "address", "id", "createdAt"],
     include: [

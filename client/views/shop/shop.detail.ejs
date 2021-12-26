@@ -101,11 +101,10 @@
     <%-include('../common/basicScript.html') %>
     <script src="/js/shop/shop.detail.js"></script>
     <script>
-      redirectLoginForUnauthorization();
       const shopId = <%=shopId%>
-      makeDetailShop(shopId)
+      redirectLoginForUnauthorization();
+      fillDetailShopData(shopId)
       getComments(shopId)
-      clickReplyPostButton(shopId)
     </script>
   </body>
 </html>

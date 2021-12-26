@@ -31,32 +31,29 @@ function filterNotEmptyString(obj) {
 }
 
 export async function postStory(req, res, next) {
-  const filenames = req.files.map((img) => img.filename);
-  const url = config.backendURL + "/story";
+  const imgnames = req.files.map((img) => img.filename);
+  const postStoryURL = config.backendURL + "/story";
   const token = req.cookies["token"];
-
-  req.body = filterNotEmptyString(req.body);
-
-  const json = {
-    ...req.body,
-    imgnames: filenames,
-  };
-
-  const response = await nodeFetch.fetchPostApiWithToken(url, json, token);
-  if (response.status === 201) {
-    const response_JsonFormat = await response.json();
-    const storyId = response_JsonFormat.storyId;
+  const bodyFilteredNotEmpty = filterNotEmptyString(req.body);
+  const postData = { ...bodyFilteredNotEmpty, imgnames };
+  const responseFromPostStoryAPI = await nodeFetch.fetchPostApiWithToken(
+    postStoryURL,
+    postData,
+    token
+  );
+  if (responseFromPostStoryAPI.status === 201) {
+    const responseParsed = await responseFromPostStoryAPI.json();
+    const storyId = responseParsed.storyId;
     const isexist = fs.existsSync(`./uploads/story/story_${storyId}`);
     if (isexist) {
       return res
         .status(500)
-        .json({ msg: "Image directory with this id already exists" });
+        .json({ msg: "Image directory of this id already exists" });
     } else {
-      // storyId를 폴더로 생성해서 temp에 저장한 이미지 옮긴 후 storyId 반환
       fs.mkdirSync(`./uploads/story/story_${storyId}`, (err) =>
         res.status(500).json(err)
       );
-      filenames.forEach((imgname) => {
+      imgnames.forEach((imgname) => {
         fs.renameSync(
           `./uploads/story/storyImg_temp/${imgname}`,
           `./uploads/story/story_${storyId}/${imgname}`
@@ -72,51 +69,43 @@ export async function postStory(req, res, next) {
 
 export async function updateStory(req, res) {
   const id = req.params.id;
-  const filenames = req.files.map((img) => img.filename);
-  // temp에 저장된 이미지 옮기기
-  filenames.forEach((imgname) => {
+  const imgnames = req.files.map((img) => img.filename);
+  imgnames.forEach((imgname) => {
     fs.renameSync(
       `./uploads/story/storyImg_temp/${imgname}`,
       `./uploads/story/story_${id}/${imgname}`
     );
   });
-
-  const url = config.backendURL + "/story/" + id;
+  const putStoryURL = config.backendURL + "/story/" + id;
   const token = req.cookies["token"];
-  const deleteImgnamesOfBody = req.body.deleteImgnames;
+  const deleteImgnamesInReqBody = req.body.deleteImgnames;
   delete req.body.deleteImgnames;
-
-  // deleteimg가 하나 일 경우 배열이 아닌 상태로 전달받으므로 새로 전달할 배열 생성해서 push
   let deleteImgnames = [];
-  if (Array.isArray(deleteImgnamesOfBody)) {
-    deleteImgnames = deleteImgnamesOfBody;
+  if (Array.isArray(deleteImgnamesInReqBody)) {
+    deleteImgnames = deleteImgnamesInReqBody;
   } else {
-    deleteImgnames.push(deleteImgnamesOfBody);
+    deleteImgnames.push(deleteImgnamesInReqBody);
   }
-  // deleteImgnames의 이름을 가진 파일 비동기로 삭제
   deleteImgnames.forEach((deleteImgname) => {
     fs.unlink(`./uploads/story/story_${id}/${deleteImgname}`, (err) =>
       console.error(err)
     );
   });
-
-  req.body = filterNotEmptyString(req.body);
-
-  const json = {
-    ...req.body,
-    imgnames: filenames,
-    deleteImgnames,
-  };
-
-  const response = await nodeFetch.fetchPutApiWithToken(url, json, token);
-  const { storyId } = await response.json();
-  if (response.status === 200) {
+  const bodyFilteredNotEmpty = filterNotEmptyString(req.body);
+  const postData = { ...bodyFilteredNotEmpty, imgnames, deleteImgnames };
+  const responseFromPutStoryAPI = await nodeFetch.fetchPutApiWithToken(
+    putStoryURL,
+    postData,
+    token
+  );
+  const { storyId } = await responseFromPutStoryAPI.json();
+  if (responseFromPutStoryAPI.status === 200) {
     return res.redirect("/story/detail/" + storyId);
-  } else if (response.status === 400) {
+  } else if (responseFromPutStoryAPI.status === 400) {
     return res.redirect("/auth/login");
-  } else if (response.status === 403) {
+  } else if (responseFromPutStoryAPI.status === 403) {
     alert("삭제 권한이 없습니다.");
-  } else if (response.status === 404) {
+  } else if (responseFromPutStoryAPI.status === 404) {
     return res.redirect("/story");
   } else {
     return res.status(500).json({ msg: "fetch error" });

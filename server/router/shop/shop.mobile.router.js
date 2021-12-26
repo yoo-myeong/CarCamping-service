@@ -4,7 +4,7 @@ import { isAuth } from "../../middleware/isAuth.js";
 
 const router = express.Router();
 
-router.get("/:shopId", isAuth, shopMobileController.getMobileAccessById);
-router.post("/:shopId", isAuth, shopMobileController.createMobileAccess);
+router.get("/:id", isAuth, shopMobileController.getMobileAccessById);
+router.post("/:id", isAuth, shopMobileController.createMobileAccess);
 
 export default router;

@@ -191,7 +191,6 @@ export async function getStoryById(id) {
 }
 
 export async function updateStory(id, body) {
-  // 개별 처리 할 데이터 pop
   const imgnames = body.imgnames;
   const tags = body.tags;
   const deleteImgnames = body.deleteImgnames;
@@ -200,12 +199,10 @@ export async function updateStory(id, body) {
   delete body.tags;
   delete body.deleteImgnames;
 
-  // story 테이블 update
   Story.update(body, {
     where: { id },
   });
 
-  // story의 img를 가져와서 삭제리스트에 포함된 것이면 삭제
   if (deleteImgnames) {
     Image.findAll({ where: { storyId: id } }).then((images) => {
       images.forEach((img) => {
@@ -216,7 +213,6 @@ export async function updateStory(id, body) {
     });
   }
 
-  // tag 업데이트
   const storyTags = await Tag.findAll({ where: { storyId: id } });
   storyTags.forEach((storyTag) => {
     storyTag.destroy();
@@ -232,7 +228,6 @@ export async function updateStory(id, body) {
     }
   }
 
-  // 새 이미지 업로드
   if (imgnames) {
     for (let i = 0; i < imgnames.length; i++) {
       const imgname = imgnames[i];

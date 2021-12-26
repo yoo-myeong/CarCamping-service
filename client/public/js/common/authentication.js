@@ -1,40 +1,40 @@
 const username = sessionStorage.getItem("username");
-const navLoginButton = $("#navLoginButton");
-const navLogoutButton = $("#navLogoutButton");
-const navUsername = document.querySelector("#navUsername");
+const LoginButton = $("#LoginButton");
+const LogoutButton = $("#LogoutButton");
+const greetToUser = document.querySelector("#greetToUser");
 
 function exposeLoginBtn() {
   sessionStorage.clear();
-  navLoginButton.removeClass("hidden");
-  navLogoutButton.addClass("hidden");
-  navUsername.classList.add("hidden");
+  LoginButton.removeClass("hidden");
+  LogoutButton.addClass("hidden");
+  greetToUser.classList.add("hidden");
 }
 
 function exposeLogoutBtn(username) {
-  navUsername.innerText = `안녕하세요! ${username}님`;
-  navLoginButton.addClass("hidden");
-  navLogoutButton.removeClass("hidden");
-  navUsername.classList.remove("hidden");
+  greetToUser.innerText = `안녕하세요! ${username}님`;
+  LoginButton.addClass("hidden");
+  LogoutButton.removeClass("hidden");
+  greetToUser.classList.remove("hidden");
 }
 
 async function activateLogoutBtnClick() {
-  navLogoutButton.click(() => {
+  LogoutButton.click(async () => {
     sessionStorage.clear();
-    fetchPostApiWithoutJSON(backendURL + "/auth/logout");
-    navLoginButton.removeClass("hidden");
-    navLogoutButton.addClass("hidden");
-    navUsername.classList.add("hidden");
+    await fetchPostApiWithoutJSON(backendURL + "/auth/logout");
+    LoginButton.removeClass("hidden");
+    LogoutButton.addClass("hidden");
+    greetToUser.classList.add("hidden");
     location.href = "/";
   });
 }
 
 async function assembleNavbar() {
   if (username) {
-    const response = await authenticateTokenFromMeAPI();
-    if (response.status === 401) {
+    const responseFromMeAPI = await authenticateTokenFromMeAPI();
+    if (responseFromMeAPI.status === 401) {
       exposeLoginBtn();
     } else {
-      const data = await response.json();
+      const data = await responseFromMeAPI.json();
       exposeLogoutBtn(data.username);
       activateLogoutBtnClick();
     }
