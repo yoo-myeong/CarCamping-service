@@ -1,43 +1,29 @@
-async function fetchPostApiWithoutJSON(url) {
-  const response = await fetch(url, {
-    method: "POST",
-    credentials: "include",
-  });
-  return response;
-}
+export class HttpClient {
+  constructor() {
+    this.baseURL = backendURL;
+  }
 
-async function authenticateTokenFromMeAPI() {
-  const response = await fetch(backendURL + "/auth/me", {
-    method: "GET",
-    credentials: "include",
-  });
-  return response;
-}
+  async fetch(url, options) {
+    const res = await fetch(`${this.baseURL}${url}`, {
+      ...options,
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        ...options.headers,
+      },
+    });
+    let data;
+    try {
+      data = await res.json();
+    } catch (error) {
+      console.error(error);
+    }
 
-async function fetchGetApiWithToken(url) {
-  const response = await fetch(url, {
-    method: "GET",
-    credentials: "include",
-  });
-  return response;
-}
-
-async function fetchPostApiWithToken(url, json) {
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(json),
-    credentials: "include",
-  });
-  return response;
-}
-
-async function fetchDeleteApiWithToken(url) {
-  const response = await fetch(url, {
-    method: "DELETE",
-    credentials: "include",
-  });
-  return response;
+    if (res.status > 299 || res.status < 200) {
+      const message = data && data.message ? data.message : "에러발생!";
+      const error = new Error(message);
+      throw error;
+    }
+    return data;
+  }
 }
