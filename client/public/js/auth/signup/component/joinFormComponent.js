@@ -1,10 +1,9 @@
-export class JoinComponent {
+export class JoinFormComponent {
   constructor(elements, submit) {
     this.emailInput = elements.email;
     this.nameInput = elements.name;
     this.password1Input = elements.password1;
     this.password2Input = elements.password2;
-    this.spinner = elements.spinner;
     this.submit = submit;
   }
 
@@ -36,13 +35,5 @@ export class JoinComponent {
 
   setOnJoinSubmitListener(listener) {
     this.submit.click(listener);
-  }
-
-  exposeSpinner() {
-    this.spinner.removeClass("hidden");
-  }
-
-  hideSpinner() {
-    this.spinner.addClass("hidden");
   }
 }
