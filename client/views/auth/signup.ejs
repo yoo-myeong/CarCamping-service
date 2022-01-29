@@ -16,13 +16,7 @@
       <div class="col-sm-6 col-md-offset-3">
         <div class="form-group">
           <label for="inputName">성명</label>
-          <input
-            type="text"
-            class="form-control"
-            id="inputName"
-            placeholder="이름을 입력해 주세요"
-            name="name"
-          />
+          <input type="text" class="form-control" id="inputName" placeholder="이름을 입력해 주세요" name="name" />
         </div>
 
         <div class="form-group">
@@ -56,23 +50,14 @@
             name="inputPassword2"
           />
         </div>
-        <button id="join-submit" class="btn btn-primary my-3">
-          회원가입<i class="fa fa-check spaceLeft"></i>
-        </button>
+        <button id="join-submit" class="btn btn-primary my-3">회원가입<i class="fa fa-check spaceLeft"></i></button>
       </div>
-      <div
-        class="spinner-border text-primary m-1 hidden"
-        role="status"
-        id="Spinner"
-      >
+      <div class="spinner-border text-primary m-1 hidden" role="status" id="Spinner">
         <span class="visually-hidden">요청중입니다...</span>
       </div>
     </article>
 
     <%-include('../common/basicScript.html') %>
-    <script src="/js/auth/signup.js"></script>
-    <script>
-      validateJoinSubmit();
-    </script>
+    <script src="/js/auth/signup/join.js" type="module"></script>
   </body>
 </html>

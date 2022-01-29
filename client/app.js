@@ -28,10 +28,6 @@ app.use("/auth", authRouter);
 app.use("/shop", shopRouter);
 app.use("/admin", adminRouter);
 
-app.all("/error", () => {
-  throw new Error("server error");
-});
-
 app.use((req, res) => {
   res.sendStatus(404);
 });

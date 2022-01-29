@@ -10,13 +10,7 @@
     <div class="container my-3">
       <div class="d-flex justify-content-end">
         <div class="btn-group" role="group" aria-label="Basic outlined example">
-          <button
-            id="sell_deleteButton"
-            type="button"
-            class="btn btn-outline-primary"
-          >
-            삭제
-          </button>
+          <button id="sell_deleteButton" type="button" class="btn btn-outline-primary">삭제</button>
         </div>
       </div>
       <h2 id="sell_stuff" class="border-bottom py-2">물건명 :</h2>
@@ -32,38 +26,17 @@
       <%-include('./shop_template/imgCarousel.html') %>
       <h5 id="sell_price" class="border-bottom py-2">가격 :</h5>
       <ol class="list-group">
-        <li
-          class="
-            list-group-item
-            d-flex
-            justify-content-between
-            align-items-start
-          "
-        >
+        <li class="list-group-item d-flex justify-content-between align-items-start">
           <div class="ms-2 me-auto" id="sell_transtype">
             <div class="fw-bold">🤝거래종류 :</div>
           </div>
         </li>
-        <li
-          class="
-            list-group-item
-            d-flex
-            justify-content-between
-            align-items-start
-          "
-        >
+        <li class="list-group-item d-flex justify-content-between align-items-start">
           <div class="ms-2 me-auto" id="sell_transaction">
             <div class="fw-bold">🚚거래방법 :</div>
           </div>
         </li>
-        <li
-          class="
-            list-group-item
-            d-flex
-            justify-content-between
-            align-items-start
-          "
-        >
+        <li class="list-group-item d-flex justify-content-between align-items-start">
           <div class="ms-2 me-auto" id="sell_description">
             <div class="fw-bold">✍물건설명 :<br /></div>
           </div>
@@ -79,18 +52,9 @@
               style="height: 5rem"
               id="replyInput"
             ></textarea>
-            <label for="floatingTextarea2"
-              >댓글로 연락처를 요청하고 작성자가 수락하면 연락처가
-              열람됩니다</label
-            >
+            <label for="floatingTextarea2">댓글로 연락처를 요청하고 작성자가 수락하면 연락처가 열람됩니다</label>
           </div>
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            id="replyButton"
-          >
-            등록
-          </button>
+          <button class="btn btn-outline-secondary" type="button" id="replyButton">등록</button>
         </div>
       </div>
       <h5 class="border-bottom py-2"></h5>

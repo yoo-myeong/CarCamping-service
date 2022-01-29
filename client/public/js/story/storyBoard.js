@@ -37,11 +37,7 @@ async function createStoryCards(stories) {
 }
 
 async function getStory(query) {
-  const additionalURL = !query
-    ? ""
-    : query === "heart"
-    ? "/heart/stories"
-    : "/?sort=" + query;
+  const additionalURL = !query ? "" : query === "heart" ? "/heart/stories" : "/?sort=" + query;
 
   if (username) {
     const url = backendURL + "/story" + additionalURL;
@@ -65,6 +61,7 @@ async function getMyStory() {
 function sortStory(opt) {
   getStory(opt.value);
 }
+
 async function getSearchStory(search) {
   if (username) {
     const encodedSearch = encodeURI(search);
