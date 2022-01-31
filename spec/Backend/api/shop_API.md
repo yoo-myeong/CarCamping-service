@@ -104,3 +104,14 @@ ShopId : integer, fk
 ```
 
 <br>
+
+### ✅ _GET_ /shop/author/:id
+
+**응답** : 200
+
+```
+{
+    userId,
+    IsAuthor,
+}
+```

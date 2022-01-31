@@ -63,12 +63,9 @@
     </div>
 
     <%-include('../common/basicScript.html') %>
-    <script src="/js/shop/shop.detail.js"></script>
     <script>
       const shopId = <%=shopId%>
-      redirectLoginForUnauthorization();
-      fillDetailShopData(shopId)
-      getComments(shopId)
     </script>
+    <script src="/js/shop/detail/shop.detail.js" type="module"></script>
   </body>
 </html>

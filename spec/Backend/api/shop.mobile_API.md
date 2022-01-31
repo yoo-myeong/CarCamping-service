@@ -10,7 +10,7 @@ userId : integer, fk
 
 ### ✅ _GET_ /shop/mobile/:shopId
 
-- 모든 태그 가져오기
+- 모든 접근가능 유저 가져오기
 
 **응답** : 200
 

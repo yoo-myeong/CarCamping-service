@@ -1,35 +1,29 @@
 import { HttpClient } from "../network/fetch.js";
 import { navbarAuthComponent } from "./component/navbar.js";
 
-export class Navigator {
+class Navigator {
   username = sessionStorage.getItem("username");
   constructor(httpclient, navbarAuth) {
     this.http = httpclient;
     this.navbarAuth = navbarAuth;
-    const logoutListener = this.getLogoutListener();
-    this.navbarAuth.setLogoutListener(logoutListener);
-    this.checkAuthState();
+    this.setAuthButton();
   }
 
-  async checkAuthState() {
+  async setAuthButton() {
     if (!this.username) {
       this.navbarAuth.exposeLoginBtn();
       return;
     }
     try {
-      const { username } = await this.http.fetch("/auth/me", { method: "GET" });
+      const { username } = await this.requestAuth();
       this.navbarAuth.exposeLogoutBtn(username);
     } catch {
       this.navbarAuth.exposeLoginBtn();
     }
   }
 
-  getLogoutListener() {
-    return async () => {
-      await this.http.fetch("/auth/logout", { method: "POST" });
-      this.navbarAuth.exposeLoginBtn();
-      location.href = "/";
-    };
+  requestAuth() {
+    return this.http.fetch("/auth/me", { method: "GET" });
   }
 }
 
@@ -38,4 +32,9 @@ const LoginButton = $("#LoginButton");
 const LogoutButton = $("#LogoutButton");
 const greetToUser = $("#greetToUser");
 const navbarAuth = new navbarAuthComponent(LoginButton, LogoutButton, greetToUser);
-new Navigator(http, navbarAuth);
+navbarAuth.setLogoutListener(async () => {
+  await http.fetch("/auth/logout", { method: "POST" });
+  navbarAuth.exposeLoginBtn();
+  location.href = "/";
+});
+const navigator = new Navigator(http, navbarAuth);

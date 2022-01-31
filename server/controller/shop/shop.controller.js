@@ -14,9 +14,7 @@ export async function deleteShop(req, res, next) {
   const id = req.params.id;
   const shop = await shopData.getShopById(id);
   if (!shop) {
-    return res
-      .status(404)
-      .json({ message: `there's no shop that id is ${id}` });
+    return res.status(404).json({ message: `there's no shop that id is ${id}` });
   }
   if (req.userId !== shop.userId) {
     return res.sendStatus(403);
@@ -33,9 +31,11 @@ export async function getShopById(req, res, next) {
 
 export async function chekckAuthor(req, res, next) {
   const shop = await shopData.getShopById(req.params.id);
-  if (shop.userId === req.userId) {
-    return res.status(200).json({ userId: req.userId });
+  let IsAuthor = false;
+  if (shop.userId === req.userId) IsAuthor = true;
+  if (shop.userId) {
+    return res.status(200).json({ userId: req.userId, IsAuthor });
   } else {
-    return res.status(403).json({ userId: req.userId });
+    return res.status(403);
   }
 }
