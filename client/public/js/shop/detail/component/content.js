@@ -1,10 +1,10 @@
-export class ShopDataComponent {
+export class ShopContentComponent {
   constructor(selling, carousel) {
     this.selling = selling;
     this.carousel = carousel;
   }
 
-  fillShopData(data) {
+  fillTextData(data) {
     const { stuff, createdAt, price, description, transaction, transtype, user } = data;
     this.selling.stuff.innerText += stuff;
     this.selling.price.innerText += price;
@@ -19,33 +19,33 @@ export class ShopDataComponent {
     return time.split("T")[0] + " " + time.split("T")[1].slice(0, 7);
   }
 
-  getBottomBtnElement(i) {
+  getBottomBtnElement(index) {
     const bottomButton = `
       <button
       type="button"
       data-bs-target="#carouselExampleIndicators"
-      data-bs-slide-to="${i}"
+      data-bs-slide-to="${index}"
       aria-current="true"
-      aria-label="Slide ${i + 1}"
+      aria-label="Slide ${index + 1}"
       >
       </button>`;
     return bottomButton;
   }
 
-  getCarouselImgElement(i, imgname, shopId) {
+  getCarouselImgElement(index, imgname, shopId) {
     const carouselImg =
-      i == 0
+      index == 0
         ? `<div class="carousel-item active"><img src="/shop/shop_${shopId}/${imgname}" class="d-block w-100" /></div>`
         : `<div class="carousel-item"><img src="/shop/shop_${shopId}/${imgname}" class="d-block w-100" /></div>`;
     return carouselImg;
   }
 
-  setCarousel(shopImages, id) {
-    shopImages.forEach((shopImg, i) => {
+  setOnImage(shopImages, id) {
+    shopImages.forEach((shopImg, index) => {
       const imgname = shopImg.imgname;
-      const bottomButton = this.getBottomBtnElement(i);
-      const carouselImg = this.getCarouselImgElement(i, imgname, id);
-      if (i >= 1) {
+      const bottomButton = this.getBottomBtnElement(index);
+      const carouselImg = this.getCarouselImgElement(index, imgname, id);
+      if (index >= 1) {
         this.carousel.carouselIndicators.innerHTML += bottomButton;
       }
       this.carousel.carouselInner.innerHTML += carouselImg;

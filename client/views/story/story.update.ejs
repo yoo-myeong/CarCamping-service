@@ -14,7 +14,7 @@
           <div class="col-md-6">
             <label for="form-title" class="form-label">제목</label>
             <input
-              id="form-title"
+              id="update_title"
               type="text"
               class="form-control"
               aria-label="Sizing example input"
@@ -33,7 +33,7 @@
             <select
               class="form-select"
               name="campsite"
-              id="form-campsite"
+              id="update_campsite"
               required
               onchange="visualize_paidCampsiteOptions(this.value)"
             >
@@ -46,16 +46,16 @@
             <div class="row">
               <div class="col-3">
                 <label for="campsite_time" class="form-label">문여는시간</label>
-                <input id="form-startTime" type="time" name="campsite_startTime" />
+                <input id="update_startTime" type="time" name="campsite_startTime" />
               </div>
               <div class="col-3">
                 <label for="campsite_time" class="form-label">문닫는시간</label>
-                <input id="form-endTime" type="time" name="campsite_endTime" />
+                <input id="update_endTime" type="time" name="campsite_endTime" />
               </div>
               <div class="col-3">
                 <label for="campsite_price" class="form-label">가격</label>
                 <input
-                  id="form-price"
+                  id="update_price"
                   type="number"
                   name="campsite_price"
                   step="1000"
@@ -64,7 +64,7 @@
               </div>
               <div class="col-3">
                 <label for="campsite_price" class="form-label">링크</label>
-                <input id="form-link" type="text" name="campsite_link" placeholder="링크 입력" />
+                <input id="update_link" type="text" name="campsite_link" placeholder="링크 입력" />
               </div>
             </div>
           </div>
@@ -78,7 +78,7 @@
         <div class="row my-3" style="height: 200px">
           <div class="form-floating">
             <textarea
-              id="form-description"
+              id="update_description"
               name="description"
               class="form-control"
               aria-label="With textarea"
@@ -95,7 +95,7 @@
         </div>
 
         <div class="col-12 mb-3">
-          <button id="form-button" class="hidden" type="submit" class="btn btn-primary"></button>
+          <button id="update_button" class="hidden" type="submit" class="btn btn-primary"></button>
         </div>
       </form>
 
@@ -105,11 +105,9 @@
     </div>
 
     <%-include('../common/basicScript.html') %>
-    <script src="/js/story/storyUpdate.js"></script>
+    <script src="/js/story/update/story.update.js" type="module"></script>
     <script>
-      redirectLoginForUnauthorization();
       const storyId = <%=storyId%>
-      fillStoryData(storyId)
     </script>
   </body>
 </html>

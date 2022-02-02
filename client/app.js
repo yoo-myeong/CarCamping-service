@@ -18,7 +18,7 @@ app.use(morgan("tiny"));
 app.use(express.static("public"));
 app.use(express.static("uploads"));
 
-app.all("/", (req, res, next) => {
+app.all("/", (req, res) => {
   nodeFetch.fetchGetApi(config.backendURL + "/start");
   res.render("main/main.ejs");
 });

@@ -6,10 +6,7 @@ import * as storyController from "../controller/story/story.controller.js";
 const router = epxress.Router();
 router.use(methodOverride("_method"));
 
-const uploads_to_temp = multer({ dest: "uploads/story/storyImg_temp" }).array(
-  "storyImg",
-  5
-);
+const uploads_to_temp = multer({ dest: "uploads/story/storyImg_temp" }).array("storyImg", 5);
 
 router.get("/", storyController.rederBoarePage);
 

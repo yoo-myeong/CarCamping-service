@@ -67,12 +67,10 @@
     </div>
 
     <%-include('../common/basicScript.html') %> <%-include('./story_template/getMap.html') %>
-    <script src="/js/story/storyDetail.js"></script>
+    <script src="/js/story/detail/story.detail.js" type="module"></script>
+    <script src="/js/story/detail/listener/listener.js" type="module"></script>
     <script>
-      redirectLoginForUnauthorization();
       const storyId = <%=storyId%>
-      fillDetailStory(storyId)
-      getHeartState(storyId)
     </script>
   </body>
 </html>

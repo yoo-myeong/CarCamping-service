@@ -54,7 +54,14 @@
             ></textarea>
             <label for="floatingTextarea2">댓글로 연락처를 요청하고 작성자가 수락하면 연락처가 열람됩니다</label>
           </div>
-          <button class="btn btn-outline-secondary" type="button" id="replyButton">등록</button>
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="replyButton"
+            onclick="window.createComment(<%=shopId%>)"
+          >
+            등록
+          </button>
         </div>
       </div>
       <h5 class="border-bottom py-2"></h5>
@@ -67,5 +74,6 @@
       const shopId = <%=shopId%>
     </script>
     <script src="/js/shop/detail/shop.detail.js" type="module"></script>
+    <script src="/js/shop/detail/listener/listener.js" type="module"></script>
   </body>
 </html>

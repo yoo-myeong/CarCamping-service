@@ -2,22 +2,15 @@
   <div class="col-md-12">
     <input
       class="col-sm-3 text-center"
-      id="form-address"
+      id="update_address"
       name="address"
       type="text"
       placeholder="주소를 검색하고 지도를 확인해주세요"
       readonly
     />
-    <input
-      type="button"
-      onclick="sample5_execDaumPostcode()"
-      value="주소 검색"
-    /><br />
+    <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색" /><br />
 
-    <div
-      id="map"
-      style="width: 300px; height: 300px; margin-top: 10px; display: none"
-    ></div>
+    <div id="map" style="width: 300px; height: 300px; margin-top: 10px; display: none"></div>
   </div>
 </div>
 
@@ -46,7 +39,7 @@
         var addr = data.address; // 최종 주소 변수
 
         // 주소 정보를 해당 필드에 넣는다.
-        document.getElementById("form-address").value = addr;
+        document.getElementById("update_address").value = addr;
         // 주소로 상세 정보를 검색
         geocoder.addressSearch(data.address, function (results, status) {
           // 정상적으로 검색이 완료됐으면

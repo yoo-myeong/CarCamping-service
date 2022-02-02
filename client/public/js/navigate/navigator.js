@@ -2,7 +2,6 @@ import { HttpClient } from "../network/fetch.js";
 import { navbarAuthComponent } from "./component/navbar.js";
 
 class Navigator {
-  username = sessionStorage.getItem("username");
   constructor(httpclient, navbarAuth) {
     this.http = httpclient;
     this.navbarAuth = navbarAuth;
@@ -10,10 +9,6 @@ class Navigator {
   }
 
   async setAuthButton() {
-    if (!this.username) {
-      this.navbarAuth.exposeLoginBtn();
-      return;
-    }
     try {
       const { username } = await this.requestAuth();
       this.navbarAuth.exposeLogoutBtn(username);
@@ -37,4 +32,4 @@ navbarAuth.setLogoutListener(async () => {
   navbarAuth.exposeLoginBtn();
   location.href = "/";
 });
-const navigator = new Navigator(http, navbarAuth);
+new Navigator(http, navbarAuth);

@@ -33,7 +33,7 @@
               name="campsite"
               id="form-campsite"
               required
-              onchange="visualizePaidCampsiteOptions(this.value)"
+              onchange="window.visualizePaidCampsiteOptions(this.value)"
             >
               <option selected>종류 선택</option>
               <option>유료캠핑장</option>
@@ -102,9 +102,7 @@
     </div>
 
     <%-include('../common/basicScript.html') %>
-    <script src="/js/story/storyPost.js"></script>
-    <script>
-      redirectLoginForUnauthorization();
-    </script>
+    <script src="/js/story/post/story.post.js" type="module"></script>
+    <script src="/js/story/post/listener/listener.js" type="module"></script>
   </body>
 </html>

@@ -7,79 +7,68 @@ function visualize_paidCampsiteOptions(value) {
   }
 }
 
-function alignTimeData(time) {
-  return time.split("T")[0] + " " + time.split("T")[1].slice(0, 7);
-}
-
 function checkImgCnt() {
   const inputImg = document.querySelector("#postImgInput");
-  if (
-    (inputImg.files.length >= 1 || newImgCntLimit < 5) &&
-    inputImg.files.length <= newImgCntLimit
-  ) {
+  if ((inputImg.files.length >= 1 || newImgCntLimit < 5) && inputImg.files.length <= newImgCntLimit) {
     return true;
   }
   return false;
 }
 
 async function fillStoryData(storyId) {
-  const getStoryDetailURL = backendURL + "/story/" + storyId;
-  const responseFromStoryDetailAPI = await fetchGetApiWithToken(
-    getStoryDetailURL
-  );
-  const story = await responseFromStoryDetailAPI.json();
-  const content_data = {
-    title: story.title,
-    address: story.address,
-    campsite: story.campsite,
-    startTime: story.campsite_startTime,
-    endTime: story.campsite_endTime,
-    price: story.campsite_price,
-    link: story.campsite_link,
-    description: story.description,
-  };
+  // const getStoryDetailURL = backendURL + "/story/" + storyId;
+  // const responseFromStoryDetailAPI = await fetchGetApiWithToken(getStoryDetailURL);
+  // const story = await responseFromStoryDetailAPI.json();
+  // const content_data = {
+  //   title: story.title,
+  //   address: story.address,
+  //   campsite: story.campsite,
+  //   startTime: story.campsite_startTime,
+  //   endTime: story.campsite_endTime,
+  //   price: story.campsite_price,
+  //   link: story.campsite_link,
+  //   description: story.description,
+  // };
 
-  for (const key in content_data) {
-    const element = selectById(`form-${key}`);
-    if (content_data[key]) {
-      element.value = content_data[key];
-    }
-  }
+  // for (const key in content_data) {
+  //   const element = selectById(`update_${key}`);
+  //   if (content_data[key]) {
+  //     element.value = content_data[key];
+  //   }
+  // }
 
-  if (content_data.campsite === "유료캠핑장") {
-    $("#paid_campsite_options").removeClass("hidden");
-  }
+  // if (content_data.campsite === "유료캠핑장") {
+  //   $("#paid_campsite_options").removeClass("hidden");
+  // }
 
-  const createDeleteImgContainer = new Promise(() => {
-    const deleteImgContainer = selectById("deleteImgContainer");
-    const storyImages = story.storyImages;
-    const buttonIds = [];
-    storyImages.forEach((storyImage) => {
-      const imgname = storyImage.imgname;
-      const deleteImg = `
-    <div id="${imgname}Div" class="border border-info rounded m-3">
-      <img class="card-img-top" src="/story/story_${storyId}/${imgname}" class="d-block w-100" />
-      <button id = "${imgname}_Button" type="button" class="btn-close" aria-label="Close">
-      </button>
-    <div>`;
-      deleteImgContainer.innerHTML += deleteImg;
-      buttonIds.push(`${imgname}_Button`);
-    });
-    newImgCntLimit = 5 - storyImages.length;
-    buttonIds.forEach((buttonId) => {
-      $(`#${buttonId}`).click(() => {
-        const hiddenUpdateFormTag = selectById("hiddenUpdateFormTag");
-        const imgname = buttonId.split("_")[0];
-        hiddenUpdateFormTag.innerHTML += `<input class="hidden" name="deleteImgnames" value="${imgname}"/>`;
-        newImgCntLimit++;
-        $(`#${imgname}Div`).fadeOut();
-      });
-    });
-  });
+  // const createDeleteImgContainer = new Promise(() => {
+  //   const deleteImgContainer = selectById("deleteImgContainer");
+  //   const storyImages = story.storyImages;
+  //   const buttonIds = [];
+  //   storyImages.forEach((storyImage) => {
+  //     const imgname = storyImage.imgname;
+  //     const deleteImg = `
+  //   <div id="${imgname}Div" class="border border-info rounded m-3">
+  //     <img class="card-img-top" src="/story/story_${storyId}/${imgname}" class="d-block w-100" />
+  //     <button id = "${imgname}_Button" type="button" class="btn-close" aria-label="Close">
+  //     </button>
+  //   <div>`;
+  //     deleteImgContainer.innerHTML += deleteImg;
+  //     buttonIds.push(`${imgname}_Button`);
+  //   });
+  //   newImgCntLimit = 5 - storyImages.length;
+  //   buttonIds.forEach((buttonId) => {
+  //     $(`#${buttonId}`).click(() => {
+  //       const hiddenUpdateFormTag = selectById("hiddenUpdateFormTag");
+  //       const imgname = buttonId.split("_")[0];
+  //       hiddenUpdateFormTag.innerHTML += `<input class="hidden" name="deleteImgnames" value="${imgname}"/>`;
+  //       newImgCntLimit++;
+  //       $(`#${imgname}Div`).fadeOut();
+  //     });
+  //   });
+  // });
 
-  const responseFromTaglistAPI = await fetchGetApiWithToken(
-    backendURL + "/taglist"
-  );
+  const responseFromTaglistAPI = await fetchGetApiWithToken(backendURL + "/taglist");
   const tagnames = await responseFromTaglistAPI.json();
   const createTagList = new Promise(() => {
     tagnames.forEach((tagname, index) => {
@@ -112,7 +101,7 @@ async function fillStoryData(storyId) {
 
 const buttonOuttaForm = $("#button-outta-form");
 buttonOuttaForm.click(() => {
-  const formButton = $("#form-button");
+  const formButton = $("#update_button");
   if (checkImgCnt()) {
     formButton.trigger("click");
   } else {
