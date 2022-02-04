@@ -24,7 +24,7 @@ class ShopDetail {
         userId = res.userId;
         IsAuthor = res.IsAuthor;
       } catch (error) {
-        throw error;
+        console.error(error);
       }
       IsAuthor || AccessableUserIds.includes(userId)
         ? (this.dataComponent.selling.mobile.innerText += this.mobileNumber)

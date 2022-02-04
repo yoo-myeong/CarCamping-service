@@ -1,6 +1,6 @@
 import * as storyHeartData from "../../data/story/story.heart.data.js";
-import "express-async-errors";
 import * as storyData from "../../data/story/story.data.js";
+import "express-async-errors";
 
 export async function getHeart(req, res, next) {
   const storyId = req.params.storyId;

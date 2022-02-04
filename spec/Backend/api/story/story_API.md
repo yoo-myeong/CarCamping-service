@@ -1,12 +1,3 @@
-<details>
-<summary>click !</summary>
-<div markdown="1">
-
-<!-: ////////// -->
-
-</div>
-</details>
-
 # 👉 story API 스펙
 
 ## Story Schema

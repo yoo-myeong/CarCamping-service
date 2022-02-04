@@ -10,9 +10,15 @@ StoryId : integer, fk
 
 <br>
 
+<br>
+
 ### ✅ _GET_ /story/heart/:storyId
 
-    - userId, storyId = id 인 행이 있는 지 확인
+<details>
+<summary>click !</summary>
+<div markdown="1">
+
+: userId, storyId = id 인 행이 있는 지 확인
 
 **응답** : 200 | 404
 
@@ -22,13 +28,22 @@ StoryId : integer, fk
 }
 ```
 
+</div>
+</details>
+
+<br>
+
 <br>
 
 ### ✅ _POST_ /story/heart
 
-- 하트 추가
+<details>
+<summary>click !</summary>
+<div markdown="1">
 
-  **요청**
+: 하트 추가
+
+**요청**
 
 ```
 {
@@ -44,11 +59,20 @@ StoryId : integer, fk
 }
 ```
 
+</div>
+</details>
+
+<br>
+
 <br>
 
 ### ✅ _DELETE_ /story/heart/:storyId
 
-- 하트 삭제
+<details>
+<summary>click !</summary>
+<div markdown="1">
+
+: 하트 삭제
 
 **응답** : 200 | 404
 
@@ -58,9 +82,20 @@ StoryId : integer, fk
 }
 ```
 
+</div>
+</details>
+
+<br>
+
+<br>
+
 ### ✅ _GET_ /story/heart/stories
 
-    - 하트 개수가 많은 순으로 정렬해서 story 데이터 전달
+<details>
+<summary>click !</summary>
+<div markdown="1">
+
+: 하트 개수가 많은 순으로 정렬해서 story 데이터 전달
 
 **응답** : 200 | 404
 
@@ -79,3 +114,6 @@ StoryId : integer, fk
   ...
 ]
 ```
+
+</div>
+</details>

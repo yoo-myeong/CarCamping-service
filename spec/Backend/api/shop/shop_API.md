@@ -24,48 +24,90 @@ ShopId : integer, fk
 
 ### ✅ _GET_ /shop
 
-- 모든 매물 가져오기
+<details>
+<summary>click !</summary>
+<div markdown="1">
+
+: 모든 매물 가져오기
 
 **응답** : 200
 
 ```
-{
-    id,
-    transaction,
-    price,
-    createdAt,
-    transtype,
-    user : { name },
-    shopImages : { imgname }
-}
+[
+    {
+        "id",
+        "stuff"",
+        "price",
+        "mobile",
+        "transaction",
+        "description",
+        "transtype",
+        "createdAt",
+        "user": {
+            "name"
+        },
+        "shopImages": [
+            {
+                "imgname"
+            }
+        ]
+    }
+]
 ```
+
+</div>
+</details>
+
+<br>
 
 <br>
 
 ### ✅ _GET_ /shop/:id
 
-- 특정 매물 가져오기
+<details>
+<summary>click !</summary>
+<div markdown="1">
+
+: 특정 매물 가져오기
 
 **응답** : 200
 
 ```
 {
-    stuff,
-    mobile,
-    createdAt,
-    price,
-    description,
-    transtype,
-    imgnames : ![],
-      : { name }
+    "id",
+    "stuff",
+    "price",
+    "mobile",
+    "transaction",
+    "description",
+    "transtype",
+    "createdAt",
+    "userId",
+    "shopImages": [
+        {
+            "imgname"
+        }, ...
+    ],
+    "user": {
+        "name"
+    }
 }
 ```
+
+</div>
+</details>
+
+<br>
 
 <br>
 
 ### ✅ _POST_ /shop
 
-- 판매글 게시
+<details>
+<summary>click !</summary>
+<div markdown="1">
+
+: 판매글 게시
 
 **요청**
 
@@ -89,11 +131,20 @@ ShopId : integer, fk
 }
 ```
 
+</div>
+</details>
+
+<br>
+
 <br>
 
 ### ✅ _DELETE_ /shop/:id
 
-- 특정 판매글 삭제
+<details>
+<summary>click !</summary>
+<div markdown="1">
+
+: 특정 판매글 삭제
 
 **요청**
 
@@ -103,9 +154,18 @@ ShopId : integer, fk
 { userId }
 ```
 
+</div>
+</details>
+
+<br>
+
 <br>
 
 ### ✅ _GET_ /shop/author/:id
+
+<details>
+<summary>click !</summary>
+<div markdown="1">
 
 **응답** : 200
 
@@ -115,3 +175,6 @@ ShopId : integer, fk
     IsAuthor,
 }
 ```
+
+</div>
+</details>
