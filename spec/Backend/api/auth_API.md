@@ -13,7 +13,11 @@ password : string
 
 ### ✅ _POST_ /auth/signup
 
-- 회원가입
+<details>
+<summary>click!</summary>
+<div markdown="1">
+
+: 회원가입
 
 **요청**
 
@@ -25,11 +29,18 @@ password : string
 
 **응답** : 201 | 409
 
+</div>
+</details>
+
 <br>
 
 ### ✅ _POST_ /auth/login
 
-- 로그인
+<details>
+<summary>click!</summary>
+<div markdown="1">
+
+: 로그인
 
 **요청**
 
@@ -47,22 +58,41 @@ password : string
 }
 ```
 
+</div>
+</details>
+
 <br>
 
 ### ✅ _POST_ /auth/logout
 
+<details>
+<summary>click!</summary>
+<div markdown="1">
+
+: 로그아웃
+
 **응답** : 200
+
+</div>
+</details>
 
 <br>
 
 ### ✅ _GET_ /auth/me
 
-- 로그인상태
+<details>
+<summary>click!</summary>
+<div markdown="1">
+
+: 로그인 상태
 
 **응답** : 200 | 401
 
 ```
 {
-    token, username, userId
+    token, username
 }
 ```
+
+</div>
+</details>

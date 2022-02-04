@@ -1,5 +1,4 @@
 import express from "express";
-import "express-async-errors";
 import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
@@ -9,7 +8,8 @@ import storyRoutes from "./router/story/story.router.js";
 import shopRoutes from "./router/shop/shop.router.js";
 import taglistRoutes from "./router/taglist/taglist.router.js";
 import { sequelize } from "./db/database.js";
-import { config } from "./config.js";
+import { config } from "./config/config.js";
+import { logger } from "./config/winston.js";
 
 const app = express();
 
@@ -25,14 +25,14 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(helmet());
 app.use(cors(corsOption));
-app.use(morgan("tiny"));
+app.use(morgan("short", { stream: logger.stream }));
 
 app.use("/auth", authRoutes);
 app.use("/story", storyRoutes);
 app.use("/shop", shopRoutes);
 app.use("/taglist", taglistRoutes);
 
-//heroku 서버 수면 깨우기
+//heroku서버 수면상태 해제 요청
 app.get("/start", (req, res) => res.sendStatus(200));
 
 app.use((req, res) => {
@@ -40,12 +40,12 @@ app.use((req, res) => {
 });
 
 app.use((err, req, res, next) => {
-  console.error(err);
+  logger.error(err);
   res.sendStatus(500);
 });
 
 sequelize.sync().then(() => {
   app.listen(config.port, () => {
-    console.log(`server starts on ${config.port}...!!!`);
+    logger.info(`server starts on ${config.port}...!!!`);
   });
 });

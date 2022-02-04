@@ -16,6 +16,7 @@ const validateStory = [
 ];
 
 router.use("/heart", storyHeartRoutes);
+
 router.get("/", storyController.getStory);
 router.get("/:id", storyController.getStoryById);
 router.post("/", validateStory, isAuth, storyController.createStory);

@@ -4,7 +4,6 @@ class StoryBoard {
   constructor(http, cardBox) {
     this.http = http;
     this.cardBox = cardBox;
-    this.getStory();
   }
   async createStoryCards(stories) {
     cardBox.innerHTML = "";
@@ -83,6 +82,11 @@ class StoryBoard {
 const http = new HttpClient();
 const cardBox = document.getElementById("cardBox");
 const board = new StoryBoard(http, cardBox);
+try {
+  board.getSearchStory(search);
+} catch {
+  board.getStory();
+}
 
 function getMyStory() {
   board.getMyStory();

@@ -22,11 +22,9 @@
     <div class="row row-cols-1 row-cols-md-4 g-4 m-1" id="cardBox"></div>
 
     <%-include('../common/basicScript.html') %>
-    <script src="/js/story/storyBoard.js"></script>
+    <script src="/js/story/board/story.board.js" type="module"></script>
     <script>
       const search = `<%=search%>`;
-      redirectLoginForUnauthorization();
-      getSearchStory(search);
     </script>
   </body>
 </html>

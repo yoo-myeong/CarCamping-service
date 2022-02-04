@@ -109,7 +109,7 @@ export async function createStory(body, userId) {
   return storyId;
 }
 
-export async function getSimpleStory(sort) {
+export async function getStory(sort) {
   const sortDirection = !sort || sort === "desc" ? ORDER_DESC : ORDER_ASC;
 
   return Story.findAll({
@@ -122,14 +122,14 @@ export async function getSimpleStory(sort) {
       },
       {
         model: Image,
-        attributes: ["imgname"],
+        attributes: [],
         limit: 1,
       },
     ],
   });
 }
 
-export async function searchSimpleStory(search) {
+export async function getSearchingStory(search) {
   return Story.findAll({
     ...ORDER_DESC,
     where: {

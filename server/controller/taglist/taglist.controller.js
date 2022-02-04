@@ -1,5 +1,5 @@
 import * as taglistData from "../../data/taglist/taglist.data.js";
-import { config } from "../../config.js";
+import { config } from "../../config/config.js";
 
 export async function getAllTags(req, res, next) {
   const tags = await taglistData.getAllTags();

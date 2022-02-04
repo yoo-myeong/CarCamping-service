@@ -33,11 +33,11 @@ export function createAdmin(password) {
 }
 
 export async function createUser(email, password, name) {
-  return await User.create({ email, password, name });
+  return User.create({ email, password, name });
 }
 
 export async function getUserByEmail(email) {
-  return await User.findOne({
+  return User.findOne({
     where: { email },
   });
 }
