@@ -1,5 +1,5 @@
 <details>
-<summary>click!</summary>
+<summary>click !</summary>
 <div markdown="1">
 
 <!-: ////////// -->
@@ -50,11 +50,13 @@ StoryId : integer, fk
 
 ### ✅ _GET_ /stroy?search=:address
 
+### ✅ _GET_ /stroy?sort=:asc || desc
+
 <details>
-<summary>click!</summary>
+<summary>click !</summary>
 <div markdown="1">
 
-: 모든 스토리 가져오기
+: 조건에 일치하는 모든 스토리의 일부 데이터 가져오기
 
 **응답** : 200
 
@@ -81,39 +83,18 @@ StoryId : integer, fk
 
 <br>
 
-### ✅ _GET_ /stroy?search=:search
-
-: 해당 주소의 데이터 가져오기
-
-**응답** : 200
-
-```
-[
-  {
-    title,
-    address,
-    id,
-    createdAt,
-    user : {
-      name
-    },
-    storyImages : [ { imgname } ] <= 1개
-  }
-  ...
-]
-```
-
-<br>
-
 ### ✅ _GET_ /story/:id
 
-: 특정 스토리의 디테일 페이지 데이터 가져오기
+<details>
+<summary>click !</summary>
+<div markdown="1">
+
+: id가 일치하는 스토리의 상세 데이터 가져오기
 
 **응답** : 200
 
 ```
 {
-    "id",
     "title",
     "address",
     "campsite",
@@ -123,17 +104,24 @@ StoryId : integer, fk
     "campsite_link",
     "description",
     "createdAt",
-    "updatedAt",
-    "userId",
     "user": { "name" },
     "storyTags": [ { "tag" }, ... ],
     "storyImages": [ { "imgname" }, ... ]
 }
 ```
 
+</div>
+</details>
+
+<br>
+
 <br>
 
 ### ✅ _POST_ /story
+
+<details>
+<summary>click !</summary>
+<div markdown="1">
 
 : 새로운 story 생성
 
@@ -162,9 +150,18 @@ StoryId : integer, fk
 }
 ```
 
+</div>
+</details>
+
+<br>
+
 <br>
 
 ### ✅ _PUT_ /story/:id
+
+<details>
+<summary>click !</summary>
+<div markdown="1">
 
 : 데이터id를 가진 스토리의 내용과 연결된 이미지 수정
 
@@ -194,21 +191,44 @@ StoryId : integer, fk
 }
 ```
 
+</div>
+</details>
+
+<br>
+
 <br>
 
 ### ✅ _DELETE_ /story/:id
+
+<details>
+<summary>click !</summary>
+<div markdown="1">
 
 : 데이터id를 가진 스토리와 연결된 이미지 전체 삭제
 
 **응답** : 204
 
+</div>
+</details>
+
+<br>
+
 <br>
 
 ### ✅ _GET_ /story/author/:id
+
+<details>
+<summary>click !</summary>
+<div markdown="1">
 
 : token의 userId와 수정하려는 story의 userId가 일치하는 지 체크
 
 **응답**
 200 | 401
+
+</div>
+</details>
+
+<br>
 
 <br>

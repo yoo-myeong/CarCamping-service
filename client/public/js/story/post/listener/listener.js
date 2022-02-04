@@ -1,5 +1,5 @@
 $("#button-outta-form").click(() => {
-  if (document.querySelector("#form-address").value) {
+  if (document.querySelector("#update_address").value) {
     const formButton = $("#form-button");
     if (checkImgCnt()) {
       formButton.trigger("click");

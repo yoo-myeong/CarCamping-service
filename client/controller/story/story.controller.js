@@ -8,7 +8,13 @@ export async function rederBoarePage(req, res, next) {
 }
 
 export async function renderPostPage(req, res, next) {
-  res.status(200).render("story/story.post.ejs");
+  const token = req.cookies["token"];
+  const response = await nodeFetch.fetchGetApiWithToken(config.backendURL + "/auth/me", token);
+  if (response.status === 202) {
+    res.status(200).render("story/story.post.ejs");
+  } else {
+    res.status(403).render("auth/login.ejs");
+  }
 }
 
 export async function searchAddress(req, res, next) {

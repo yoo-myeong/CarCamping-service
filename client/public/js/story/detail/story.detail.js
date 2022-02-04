@@ -45,10 +45,6 @@ const carousel = {
 };
 
 const http = new HttpClient();
-http.fetch("/auth/me", { method: "GET" }).catch(() => {
-  alert("로그인이 필요합니다.");
-  location.replace("/auth/login");
-});
 const storyHeart = new StroyHeart(http, whiteHeart, redHeart);
 storyHeart.getHeartState(storyId);
 
@@ -57,25 +53,31 @@ const contentComponent = new StoryContentComponent("detail");
 const carouselComponent = new StoryCarouselComponent(carousel);
 const arcodianComponent = new StoryArcodianComponent(document.querySelector("#accordionFlush"));
 
-StoryDetail.build(http, storyHeart, storyId).then((storyDetail) => {
-  storyDetail.createComponent(tagComponent, storyDetail.story.storyTags);
-  const content_data = {
-    title: storyDetail.story.title,
-    address: storyDetail.story.address,
-    campsite: storyDetail.story.campsite,
-    description: storyDetail.story.description,
-    createdAt: storyDetail.story.createdAt,
-    name: storyDetail.story.user.name,
-  };
-  storyDetail.createComponent(contentComponent, content_data);
-  if (storyDetail.story.campsite === "유료캠핑장") {
-    const paid_campsite_info = {
-      시작시간: storyDetail.story.campsite_startTime,
-      마감시간: storyDetail.story.campsite_endTime,
-      비용: storyDetail.story.campsite_price,
-      웹사이트: storyDetail.story.campsite_link,
+StoryDetail.build(http, storyHeart, storyId).then(async (storyDetail) => {
+  try {
+    await http.fetch("/auth/me", { method: "GET" });
+    storyDetail.createComponent(tagComponent, storyDetail.story.storyTags);
+    const content_data = {
+      title: storyDetail.story.title,
+      address: storyDetail.story.address,
+      campsite: storyDetail.story.campsite,
+      description: storyDetail.story.description,
+      createdAt: storyDetail.story.createdAt,
+      name: storyDetail.story.user.name,
     };
-    storyDetail.createComponent(arcodianComponent, paid_campsite_info);
+    storyDetail.createComponent(contentComponent, content_data);
+    if (storyDetail.story.campsite === "유료캠핑장") {
+      const paid_campsite_info = {
+        시작시간: storyDetail.story.campsite_startTime,
+        마감시간: storyDetail.story.campsite_endTime,
+        비용: storyDetail.story.campsite_price,
+        웹사이트: storyDetail.story.campsite_link,
+      };
+      storyDetail.createComponent(arcodianComponent, paid_campsite_info);
+    }
+    storyDetail.createComponent(carouselComponent, storyDetail.story.storyImages);
+  } catch {
+    alert("로그인이 필요합니다.");
+    location.replace("/auth/login");
   }
-  storyDetail.createComponent(carouselComponent, storyDetail.story.storyImages);
 });

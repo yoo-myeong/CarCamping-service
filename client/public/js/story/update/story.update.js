@@ -51,17 +51,18 @@ StoryUpdate.build(http, storyId).then((storyUpdate) => {
 
 const buttonOuttaForm = $("#button-outta-form");
 buttonOuttaForm.click(() => {
-  const formButton = $("#update_button");
-  if (checkImgCnt(ImgComponent.newImgCntLimit)) {
-    alert("통과!");
-    //   formButton.trigger("click");
-  } else {
-    alert(
-      `
+  if (document.querySelector("#update_address").value) {
+    const formButton = $("#update_button");
+    if (checkImgCnt(ImgComponent.newImgCntLimit)) {
+      formButton.trigger("click");
+    } else {
+      alert(
+        `
       이미지는 총 최소 1개 이상, 5개 이하로 업로드 하셔야 하며, 
       현재 추가로 업로드 가능한 이미지 개수는 최대 ${ImgComponent.newImgCntLimit}개 입니다. 
       업로드 한 사진을 삭제하시면 추가 업로드 개수가 늘어납니다.`
-    );
+      );
+    }
   }
 });
 

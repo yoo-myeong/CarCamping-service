@@ -77,11 +77,9 @@ Story.hasMany(Tag, {
 });
 Tag.belongsTo(Story);
 
-export async function createStory(body, userId) {
-  const imgnames = body.imgnames;
-  const tags = body.tags;
-  delete body.imgnames;
-  delete body.tags;
+export async function createStory(data, userId) {
+  const { imgnames, tags, ...body } = data;
+
   const story = await Story.create({
     ...body,
     userId,
@@ -110,10 +108,10 @@ export async function createStory(body, userId) {
 }
 
 export async function getStory(sort) {
-  const sortDirection = !sort || sort === "desc" ? ORDER_DESC : ORDER_ASC;
+  const direction = !sort || sort === "desc" ? ORDER_DESC : ORDER_ASC;
 
   return Story.findAll({
-    ...sortDirection,
+    ...direction,
     attributes: ["title", "address", "id", "createdAt"],
     include: [
       {
@@ -122,7 +120,7 @@ export async function getStory(sort) {
       },
       {
         model: Image,
-        attributes: [],
+        attributes: ["imgname"],
         limit: 1,
       },
     ],
@@ -190,55 +188,47 @@ export async function getStoryById(id) {
   });
 }
 
-export async function updateStory(id, body) {
-  const imgnames = body.imgnames;
-  const tags = body.tags;
-  const deleteImgnames = body.deleteImgnames;
-  console.log(deleteImgnames);
-  delete body.imgnames;
-  delete body.tags;
-  delete body.deleteImgnames;
+export async function updateStory(id, data) {
+  const { imgnames, tags, deleteImgnames, ...body } = data;
 
   Story.update(body, {
     where: { id },
   });
 
   if (deleteImgnames) {
-    Image.findAll({ where: { storyId: id } }).then((images) => {
-      images.forEach((img) => {
-        if (deleteImgnames.includes(img.dataValues.imgname)) {
-          img.destroy();
-        }
-      });
+    deleteImgnames.forEach((imgname) => {
+      Image.destroy({ where: { storyId: id, imgname } });
     });
   }
 
-  const storyTags = await Tag.findAll({ where: { storyId: id } });
-  storyTags.forEach((storyTag) => {
-    storyTag.destroy();
-  });
+  await Tag.destroy({ where: { storyId: id } });
   if (tags) {
     if (Array.isArray(tags)) {
-      for (let i = 0; i < tags.length; i++) {
-        const tag = tags[i];
+      tags.forEach((tag) => {
         Tag.create({ tag, storyId: id });
-      }
+      });
     } else {
       Tag.create({ tag: tags, storyId: id });
     }
   }
 
   if (imgnames) {
-    for (let i = 0; i < imgnames.length; i++) {
-      const imgname = imgnames[i];
+    imgnames.forEach((imgname, i) => {
       Image.create({ imgname, storyId: id });
-    }
+    });
   }
+
   return id;
 }
 
 export async function deleteStory(id) {
   Story.findByPk(id).then((story) => {
     story.destroy();
+  });
+}
+
+export async function getStoryUserId(id) {
+  return Story.findByPk(id, {
+    attributes: ["userId"],
   });
 }
