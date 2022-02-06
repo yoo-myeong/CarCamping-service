@@ -17,19 +17,19 @@
 
 #### ✅ 스토리 게시물 생성
 
-<img src="./spec/image/스토리-생성.gif">
+<img src="./spec/image/스토리-생성.gif" width="700">
 
 <br>
 
 #### ✅ 스토리 게시물 좋아요, 정렬
 
-<img src="./spec/image/하트_정렬.gif">
+<img src="./spec/image/하트_정렬.gif" width="700">
 
 <br>
 
 #### ✅ 거래 게시물 연락처 열람 요청
 
-<img src="./spec/image/연락처열람.gif">
+<img src="./spec/image/연락처열람.gif" width="700">
 
 <br>
 
@@ -69,8 +69,6 @@
 
 </div>
 </details>
-
-<br>
 
 #### ✅ client class 관계 (리팩토링\_1)
 
