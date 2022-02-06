@@ -32,9 +32,6 @@ app.use("/story", storyRoutes);
 app.use("/shop", shopRoutes);
 app.use("/taglist", taglistRoutes);
 
-//heroku서버 수면상태 해제 요청
-app.get("/start", (req, res) => res.sendStatus(200));
-
 app.use((req, res) => {
   res.sendStatus(404);
 });

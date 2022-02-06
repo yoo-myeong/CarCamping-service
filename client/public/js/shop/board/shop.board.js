@@ -40,11 +40,6 @@ class shopBoard {
 
 const tbody = document.querySelector("#shop_board_tbody");
 const http = new HttpClient();
-http.fetch("/auth/me", { method: "GET" }).catch(() => {
-  alert("로그인이 필요합니다.");
-  location.href = "/";
-});
-
 const board = new shopBoard(http, tbody);
 board
   .getShop()
