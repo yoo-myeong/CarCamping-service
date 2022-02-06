@@ -7,12 +7,7 @@
   <body>
     <%-include('../common/nav.html') %>
     <div class="container m-5">
-      <form
-        class="row"
-        action="/shop/post"
-        method="POST"
-        enctype="multipart/form-data"
-      >
+      <form class="row" action="/shop/post" method="POST" enctype="multipart/form-data">
         <input class="hidden" name="token" id="inputToken" />
 
         <div class="row">
@@ -63,24 +58,14 @@
           </div>
           <div class="col-sm-3">
             <label for="inputState" class="form-label">거래종류</label>
-            <select
-              class="form-select"
-              name="transtype"
-              id="form-transtype"
-              required
-            >
+            <select class="form-select" name="transtype" id="form-transtype" required>
               <option>대여</option>
               <option>판매</option>
             </select>
           </div>
           <div class="col-sm-3">
             <label for="inputState" class="form-label">거래방법</label>
-            <select
-              class="form-select"
-              name="transaction"
-              id="form-transaction"
-              required
-            >
+            <select class="form-select" name="transaction" id="form-transaction" required>
               <option>직거래</option>
               <option>택배거래</option>
             </select>
@@ -98,9 +83,7 @@
               style="height: 100%"
               required
             ></textarea>
-            <label for="floatingTextarea" class="mx-2"
-              >물건에 대한 자세한 설명을 작성해주세요</label
-            >
+            <label for="floatingTextarea" class="mx-2">물건에 대한 자세한 설명을 작성해주세요</label>
           </div>
         </div>
 
@@ -117,23 +100,13 @@
         </div>
 
         <div class="col-12 mb-3">
-          <button
-            id="form_button"
-            class="hidden"
-            type="submit"
-            class="btn btn-primary"
-          ></button>
+          <button id="form_button" class="hidden" type="submit" class="btn btn-primary"></button>
         </div>
       </form>
-      <button id="post_button" type="submit" class="btn btn-primary">
-        등록
-      </button>
+      <button id="post_button" type="submit" class="btn btn-primary">등록</button>
     </div>
 
     <%-include('../common/basicScript.html') %>
-    <script src="/js/shop/shop.post.js"></script>
-    <script>
-      redirectLoginForUnauthorization();
-    </script>
+    <script src="/js/shop/post/shop.post.js"></script>
   </body>
 </html>

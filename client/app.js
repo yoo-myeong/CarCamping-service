@@ -5,8 +5,7 @@ import storyRouter from "./router/story.router.js";
 import authRouter from "./router/auth.router.js";
 import shopRouter from "./router/shop.router.js";
 import adminRouter from "./router/admin.router.js";
-import * as nodeFetch from "./fetch/nodeFetch.js";
-import { config } from "./config.js";
+import { logger } from "./config/winston.js";
 
 const app = express();
 
@@ -14,12 +13,11 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(morgan("tiny"));
+app.use(morgan("short", { stream: logger.stream }));
 app.use(express.static("public"));
 app.use(express.static("uploads"));
 
-app.all("/", (req, res, next) => {
-  nodeFetch.fetchGetApi(config.backendURL + "/start");
+app.all("/", (req, res) => {
   res.render("main/main.ejs");
 });
 
@@ -28,19 +26,16 @@ app.use("/auth", authRouter);
 app.use("/shop", shopRouter);
 app.use("/admin", adminRouter);
 
-app.all("/error", () => {
-  throw new Error("server error");
-});
-
 app.use((req, res) => {
   res.sendStatus(404);
 });
 
 app.use((err, req, res, next) => {
-  console.error(err);
+  logger.error(err);
   res.sendStatus(500);
 });
 
-app.listen(8080, () => {
-  console.log("server started on 8080 port");
+const port = 8080;
+app.listen(port, () => {
+  logger.info(`server started on ${port}`);
 });

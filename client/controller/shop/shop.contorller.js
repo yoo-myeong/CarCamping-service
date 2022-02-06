@@ -1,54 +1,59 @@
 import fs from "fs";
-import { config } from "../../config.js";
 import * as nodeFetch from "../../fetch/nodeFetch.js";
+import { formService } from "../service/form.js";
+import "express-async-errors";
 
 export async function renderBoardPage(req, res, next) {
   res.render("shop/shop.board.ejs");
 }
 
 export async function renderPostPage(req, res, next) {
-  res.render("shop/shop.post.ejs");
+  const token = req.cookies["token"];
+  const http = new nodeFetch.HttpClient();
+  try {
+    await http.authenticate(token);
+    res.render("shop/shop.post.ejs");
+  } catch (e) {
+    res.status(403).render("auth/login.ejs");
+  }
 }
 
 export async function rederDeatilPage(req, res, next) {
   const shopId = req.params.id;
-  res.render("shop/shop.detail.ejs", { shopId });
+  const token = req.cookies["token"];
+  const http = new nodeFetch.HttpClient();
+  try {
+    await http.authenticate(token);
+    res.render("shop/shop.detail.ejs", { shopId });
+  } catch (e) {
+    res.status(403).render("auth/login.ejs");
+  }
 }
 
 export async function postShop(req, res, next) {
   const imgnames = req.files.map((img) => img.filename);
-  const postShopURL = config.backendURL + "/shop";
   const token = req.cookies["token"];
-  const postData = { ...req.body, imgnames };
-  const responseFromPostShopAPI = await nodeFetch.fetchPostApiWithToken(
-    postShopURL,
-    postData,
-    token
-  );
-  const responseParsed = await responseFromPostShopAPI.json();
-  if (responseFromPostShopAPI.status === 201) {
-    const shopId = responseParsed.shopId;
-    const isexist = fs.existsSync(`./uploads/shop/shop_${shopId}`);
-    if (isexist) {
-      return res
-        .status(500)
-        .json({ msg: "Image directory of this id already exists" });
-    } else {
-      fs.mkdirSync(`./uploads/shop/shop_${shopId}`, (err) =>
-        res.status(500).json(err)
-      );
-      imgnames.forEach((imgname) => {
-        fs.renameSync(
-          `./uploads/shop/shopImg_temp/${imgname}`,
-          `./uploads/shop/shop_${shopId}/${imgname}`
-        );
-      });
-      return res.redirect("/shop/detail/" + shopId);
-    }
-  } else {
-    console.error(responseParsed);
-    return res.status(500).json({ msg: "can't create shop or store images" });
+  const data = { ...req.body, imgnames };
+  const http = new nodeFetch.HttpClient();
+  const service = new formService(http, token, "shop");
+  let shopId;
+  try {
+    const response = await service.requestWithBody("POST", "/shop", data);
+    shopId = response.shopId;
+  } catch (e) {
+    throw new Error(`거래 게시물 생성 실패\n${e}`);
   }
+
+  try {
+    await service.createDirectory(shopId);
+  } catch (e) {
+    throw new Error(`거래 게시물 이미지 폴더 생성 실패\n${e}`);
+  }
+
+  imgnames.forEach((imgname) => {
+    service.moveTempFileToOwnFolder(imgname, shopId);
+  });
+  return res.redirect("/shop/detail/" + shopId);
 }
 
 export async function deleteShop(req, res, next) {

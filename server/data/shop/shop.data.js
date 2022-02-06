@@ -52,7 +52,7 @@ Image.belongsTo(Shop);
 export async function getAll() {
   return Shop.findAll({
     attributes: {
-      exclude: ["userId, updatedAt"],
+      exclude: ["userId", "updatedAt"],
     },
     include: [
       {
@@ -68,21 +68,24 @@ export async function getAll() {
   });
 }
 
-export async function createShop(body, userId) {
-  const imgnames = body.imgnames;
-  delete body[imgnames];
-  const shop = await Shop.create({ ...body, userId });
+export async function createShop(data, userId) {
+  const { imgnames, ...body } = data;
+  const InsertData = {
+    ...body,
+    userId,
+  };
+  const shop = await Shop.create(InsertData);
   const shopId = shop.dataValues.id;
+  let ImgInsertData = [];
   imgnames.forEach((imgname) => {
-    Image.create({ imgname, shopId });
+    ImgInsertData.push({ imgname, shopId });
   });
+  await Image.bulkCreate(ImgInsertData);
   return shopId;
 }
 
 export async function deleteShop(id) {
-  Shop.findByPk(id).then((shop) => {
-    shop.destroy();
-  });
+  Shop.destroy({ where: { id } });
 }
 
 export async function getShopById(id) {

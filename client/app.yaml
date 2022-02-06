@@ -9,4 +9,4 @@ resources:
   disk_size_gb: 10
 
 env_variables:
-  BACKEND_URL: "https://caarcamping.herokuapp.com"
+  BACKEND_URL: "http://carbakend.sceon.site"

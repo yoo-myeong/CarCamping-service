@@ -2,10 +2,7 @@ import epxress from "express";
 import multer from "multer";
 import * as shopController from "../controller/shop/shop.contorller.js";
 
-const uploads_temp = multer({ dest: "uploads/shop/shopImg_temp" }).array(
-  "shopImg",
-  5
-);
+const uploads_temp = multer({ dest: "uploads/shop/shop_temp" }).array("shopImg", 5);
 
 const router = epxress.Router();
 

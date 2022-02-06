@@ -18,7 +18,7 @@ export async function getHeartCnt(storyId) {
   });
 }
 
-export async function getHeart(userId, storyId) {
+export async function getHeartByUserId(userId, storyId) {
   const storyHeart = await StoryHeart.findOne({
     where: {
       userId,

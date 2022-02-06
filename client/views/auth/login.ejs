@@ -11,61 +11,29 @@
         <div class="row my-3">
           <label for="emailInput" class="col-sm-1 col-form-label">Email</label>
           <div class="col-sm-3">
-            <input
-              type="email"
-              class="form-control"
-              id="emailInput"
-              name="email"
-              required
-            />
+            <input type="email" class="form-control" id="emailInput" name="email" required />
           </div>
-          <div
-            id="error_mail"
-            class="result-email result-check"
-            style="color: coral"
-          ></div>
+          <div id="error_mail" class="result-email result-check" style="color: coral"></div>
         </div>
 
         <div class="row mb-3">
-          <label for="passwordInput" class="col-sm-1 col-form-label"
-            >Password</label
-          >
+          <label for="passwordInput" class="col-sm-1 col-form-label">Password</label>
           <div class="col-sm-3">
-            <input
-              type="password"
-              class="form-control"
-              id="passwordInput"
-              name="password"
-              minlength="6"
-            />
+            <input type="password" class="form-control" id="passwordInput" name="password" minlength="6" />
           </div>
         </div>
 
-        <button id="loginButton" type="submit" class="btn btn-primary">
-          Log in
-        </button>
-        <button
-          id="signupButton"
-          type="button"
-          class="btn btn-info"
-          onclick="location.href='/auth/signup'"
-        >
+        <button id="loginButton" type="submit" class="btn btn-primary">Log in</button>
+        <button id="signupButton" type="button" class="btn btn-info" onclick="location.href='/auth/signup'">
           Sign Up
         </button>
       </div>
-      <div
-        class="spinner-border text-primary m-1 hidden"
-        role="status"
-        id="loginSpinner"
-      >
+      <div class="spinner-border text-primary m-1 hidden" role="status" id="loginSpinner">
         <span class="visually-hidden">로그인 요청중입니다...</span>
       </div>
     </div>
 
     <%-include('../common/basicScript.html') %>
-    <script src="/js/auth/login.js"></script>
-    <script>
-      activateLoginbtn();
-    </script>
+    <script src="/js/auth/login/login.js" type="module"></script>
   </body>
 </html>

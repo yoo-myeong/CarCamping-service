@@ -1,15 +1,15 @@
 import express from "express";
 import { body } from "express-validator";
-import * as authController from "../../controller/auth/auth.controller.js";
 import { isAuth } from "../../middleware/isAuth.js";
 import { validate } from "../../middleware/validator.js";
+import * as authController from "../../controller/auth/auth.controller.js";
 
 const router = express.Router();
 
 const validateAuth = [
-  body("email").isEmail(),
+  body("email").notEmpty().isEmail(),
   body("name").notEmpty(),
-  body("password").notEmpty().isLength({ min: 6 }),
+  body("password").notEmpty().isLength({ min: 6, max: 15 }),
   validate,
 ];
 

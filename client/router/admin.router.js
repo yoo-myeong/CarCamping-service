@@ -6,12 +6,18 @@ const router = epxress.Router();
 
 router.get("/", async (req, res) => {
   const token = req.cookies["token"];
-  const response = await nodeFetch.fetchGetApiWithToken(
-    config.backendURL + "/auth/admin",
-    token
-  );
-  if (response.status === 200) res.render("main/admin.ejs");
-  else res.sendStatus(403);
+  const http = new nodeFetch.HttpClient();
+  try {
+    await http.fetch("/auth/admin", {
+      method: "GET",
+      headers: {
+        cookie: `token=${token}`,
+      },
+    });
+    res.render("main/admin.ejs");
+  } catch {
+    res.sendStatus(403);
+  }
 });
 
 export default router;

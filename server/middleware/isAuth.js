@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { config } from "../config.js";
+import { config } from "../config/config.js";
 import * as authData from "../data/auth/auth.data.js";
 
 export async function isAuth(req, res, next) {
@@ -20,9 +20,7 @@ export async function isAuth(req, res, next) {
 
   jwt.verify(token, config.jwt.screatKey, async (err, decode) => {
     if (err) {
-      console.error(err);
-      console.log(`${token} is invalid token`);
-      return res.sendStatus(401);
+      return res.status(401).json({ message: "jwt 실패" });
     }
     const user = await authData.findById(decode.id);
     if (!user) {
