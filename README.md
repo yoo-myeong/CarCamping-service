@@ -17,19 +17,25 @@
 
 #### ✅ 스토리 게시물 생성
 
-<img src="./spec/image/스토리-생성.gif" width="700">
+<img src="./spec/image/스토리-생성.gif" width="500">
 
 <br>
 
 #### ✅ 스토리 게시물 좋아요, 정렬
 
-<img src="./spec/image/하트_정렬.gif" width="700">
+<img src="./spec/image/하트_정렬.gif" width="500">
 
 <br>
 
-#### ✅ 거래 게시물 연락처 열람 요청
+#### ✅ 거래 게시물 댓글작성
 
-<img src="./spec/image/연락처열람.gif" width="700">
+<img src="./spec/image/댓글작성.gif" width="500">
+
+<br>
+
+#### ✅ 거래 게시물 연락처 열람 승인
+
+<img src="./spec/image/연락처열람.gif" width="500">
 
 <br>
 
