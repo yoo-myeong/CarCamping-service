@@ -16,7 +16,7 @@ export class HttpClient {
     try {
       data = await res.json();
     } catch (error) {
-      console.error(error);
+      console.error("수신된 json 없음");
     }
 
     if (res.status > 299 || res.status < 200) {

@@ -25,7 +25,7 @@ export class formService {
   }
 
   moveTempFileToOwnFolder(filename, name) {
-    fs.renameSync(
+    fs.rename(
       `./uploads/${this.path}/${this.path}_temp/${filename}`,
       `./uploads/${this.path}/${this.path}_${name}/${filename}`
     );
