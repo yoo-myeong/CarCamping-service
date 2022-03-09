@@ -14,7 +14,7 @@ export class TagList {
   }
 
   async getTags() {
-    return this.http.fetch("/taglist", { method: "GET" });
+    return this.http.fetch("/tag", { method: "GET" });
   }
 
   createTagsElements(tagname, index, checkState) {

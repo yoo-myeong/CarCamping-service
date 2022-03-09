@@ -31,4 +31,7 @@ export const config = {
     email: required("ADMIN_EMAIL"),
     password: required("ADMIN_PASSWORD"),
   },
+  heroku: {
+    url: required("HEROKU_URL"),
+  },
 };

@@ -27,7 +27,10 @@ export class formService {
   moveTempFileToOwnFolder(filename, name) {
     fs.rename(
       `./uploads/${this.path}/${this.path}_temp/${filename}`,
-      `./uploads/${this.path}/${this.path}_${name}/${filename}`
+      `./uploads/${this.path}/${this.path}_${name}/${filename}`,
+      (err) => {
+        if (err) throw new Error("파일 이동 실패");
+      }
     );
   }
 

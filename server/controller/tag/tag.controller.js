@@ -1,15 +1,15 @@
-import * as taglistData from "../../data/taglist/taglist.data.js";
+import * as tagData from "../../data/tag/tag.data.js";
 import { config } from "../../config/config.js";
 
 export async function getAllTags(req, res, next) {
-  const tags = await taglistData.getAllTags();
+  const tags = await tagData.getAllTags();
   res.status(200).json(tags);
 }
 
 export async function deleteTags(req, res) {
   const tagname = req.params.name;
   if (req.email === config.admin.email) {
-    taglistData.deleteTagByName(tagname);
+    tagData.deleteTagByName(tagname);
     res.sendStatus(204);
   }
 }
@@ -17,7 +17,7 @@ export async function deleteTags(req, res) {
 export async function creatTag(req, res) {
   const body = req.body;
   if (req.email === config.admin.email) {
-    taglistData.createTag(body);
+    tagData.createTag(body);
     res.sendStatus(201);
   }
 }

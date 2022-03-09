@@ -3,7 +3,6 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import storyRouter from "./router/story.router.js";
 import authRouter from "./router/auth.router.js";
-import shopRouter from "./router/shop.router.js";
 import adminRouter from "./router/admin.router.js";
 import { logger } from "./config/winston.js";
 
@@ -23,7 +22,6 @@ app.all("/", (req, res) => {
 
 app.use("/story", storyRouter);
 app.use("/auth", authRouter);
-app.use("/shop", shopRouter);
 app.use("/admin", adminRouter);
 
 app.use((req, res) => {

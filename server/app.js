@@ -1,3 +1,4 @@
+import http from "http";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
@@ -5,15 +6,12 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import authRoutes from "./router/auth/auth.router.js";
 import storyRoutes from "./router/story/story.router.js";
-import shopRoutes from "./router/shop/shop.router.js";
-import taglistRoutes from "./router/taglist/taglist.router.js";
+import tagRoutes from "./router/tag/tag.router.js";
 import { sequelize } from "./db/database.js";
 import { config } from "./config/config.js";
 import { logger } from "./config/winston.js";
 
 const app = express();
-
-app.all("/", (req, res) => res.send("carcamping backend server"));
 
 const corsOption = {
   origin: config.cors.allowedOrigin,
@@ -29,8 +27,7 @@ app.use(morgan("short", { stream: logger.stream }));
 
 app.use("/auth", authRoutes);
 app.use("/story", storyRoutes);
-app.use("/shop", shopRoutes);
-app.use("/taglist", taglistRoutes);
+app.use("/tag", tagRoutes);
 
 app.use((req, res) => {
   res.sendStatus(404);
@@ -44,5 +41,9 @@ app.use((err, req, res, next) => {
 sequelize.sync().then(() => {
   app.listen(config.port, () => {
     logger.info(`server starts on ${config.port}...!!!`);
+    setInterval(function wakeHeroku() {
+      http.get(config.heroku.url);
+      logger.info("stay heroku wake");
+    }, 1800000);
   });
 });

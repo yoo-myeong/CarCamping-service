@@ -3,8 +3,8 @@ import { sequelize } from "../../db/database.js";
 
 const DataTypes = SQ.DataTypes;
 
-export const Taglist = sequelize.define(
-  "taglist",
+export const Tag = sequelize.define(
+  "tag",
   {
     tagname: {
       type: DataTypes.STRING,
@@ -17,13 +17,13 @@ export const Taglist = sequelize.define(
 );
 
 export async function getAllTags() {
-  return await Taglist.findAll({
+  return await Tag.findAll({
     attributes: ["tagname"],
   });
 }
 
 export async function deleteTagByName(tagname) {
-  Taglist.findOne({
+  Tag.findOne({
     where: {
       tagname,
     },
@@ -31,5 +31,5 @@ export async function deleteTagByName(tagname) {
 }
 
 export async function createTag(body) {
-  Taglist.create(body);
+  Tag.create(body);
 }
