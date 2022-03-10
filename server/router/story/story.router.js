@@ -1,5 +1,4 @@
 import express from "express";
-import storyHeartRoutes from "./story.heart.router.js";
 import { body } from "express-validator";
 import { isAuth } from "../../middleware/isAuth.js";
 import { validate } from "../../middleware/validator.js";
@@ -15,7 +14,6 @@ const validateStory = [
 ];
 
 export default function storyRouter(storyController) {
-  router.use("/heart", storyHeartRoutes);
   router.get("/", storyController.getStory);
   router.get("/:id", storyController.getStoryById);
   router.post("/", isAuth, validateStory, storyController.createStory);

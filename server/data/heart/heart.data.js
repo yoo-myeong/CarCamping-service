@@ -1,6 +1,6 @@
 import { sequelize } from "../../db/database.js";
 import { User } from "../auth/auth.data.js";
-import { Story, Image } from "./story.data.js";
+import { Story, Image } from "../story/story.data.js";
 
 const StoryHeart = sequelize.define("storyheart", {});
 User.hasMany(StoryHeart, {
