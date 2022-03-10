@@ -38,7 +38,14 @@ class StoryBoard {
 
   async getStory(query) {
     const additionalURL = !query ? "" : query === "heart" ? "/heart/stories" : "/?sort=" + query;
-    const url = "/story" + additionalURL;
+    let url;
+    if (additionalURL === "/heart/stories") {
+      url = additionalURL;
+    } else if (additionalURL) {
+      url = "/story" + additionalURL;
+    } else {
+      url = "/story";
+    }
     try {
       const response = await this.http.fetch(url, { method: "GET" });
       this.createStoryCards(response);

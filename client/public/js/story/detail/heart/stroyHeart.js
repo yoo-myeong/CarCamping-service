@@ -17,7 +17,7 @@ export class StroyHeart {
   getWhiteBtnListener() {
     return async () => {
       try {
-        const { heartCnt } = await this.http.fetch("/story/heart", {
+        const { heartCnt } = await this.http.fetch("/heart", {
           method: "POST",
           body: JSON.stringify({ storyId }),
         });
@@ -32,7 +32,7 @@ export class StroyHeart {
   getRedBtnListener() {
     return async () => {
       try {
-        const { heartCnt } = await this.http.fetch("/story/heart/" + storyId, {
+        const { heartCnt } = await this.http.fetch("/heart/" + storyId, {
           method: "DELETE",
         });
         this.updateHeartCnt(heartCnt);
@@ -58,7 +58,7 @@ export class StroyHeart {
 
   async getHeartState(storyId) {
     try {
-      const { heartCnt, IsHeartUser } = await this.http.fetch("/story/heart/" + storyId, { method: "GET" });
+      const { heartCnt, IsHeartUser } = await this.http.fetch("/heart/" + storyId, { method: "GET" });
       IsHeartUser ? this.exposeRedHeart() : this.exposeWhiteHeart();
       this.updateHeartCnt(heartCnt);
     } catch (error) {
