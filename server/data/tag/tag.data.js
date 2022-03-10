@@ -23,13 +23,9 @@ export async function getAllTags() {
 }
 
 export async function deleteTagByName(tagname) {
-  Tag.findOne({
-    where: {
-      tagname,
-    },
-  }).then((Tag) => Tag.destroy());
+  return Tag.destroy({ where: { tagname } });
 }
 
 export async function createTag(body) {
-  Tag.create(body);
+  return Tag.create(body);
 }
