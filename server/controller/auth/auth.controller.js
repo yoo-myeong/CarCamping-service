@@ -8,6 +8,7 @@ export class AuthController {
   constructor(authRepository) {
     this.auth = authRepository;
   }
+
   createToken(id) {
     const token = jwt.sign({ id }, config.jwt.screatKey, {
       expiresIn: this.ONE_DAY_TO_MS,
@@ -51,8 +52,8 @@ export class AuthController {
       if (!bcryptResult) {
         return res.status(401).json(invalidMessage);
       }
-      const token = createToken(user.id);
-      setToken(res, token);
+      const token = this.createToken(user.id);
+      this.setToken(res, token);
       return res.status(202).json({ token, username: user.name });
     } catch (e) {
       throw new Error(`이메일 유저 가져오기 실패\n${e}`);
@@ -73,19 +74,7 @@ export class AuthController {
   };
 
   logout = async (req, res, next) => {
-    setToken(res, "");
+    this.setToken(res, "");
     res.sendStatus(200);
-  };
-
-  admin = async (req, res, next) => {
-    try {
-      const user = await this.auth.findById(req.userId);
-      if (!user || user.email !== config.admin.email) {
-        return res.status(401).json({ message: "forbidden token" });
-      }
-      return res.status(200).json({ token: req.token, username: user.name });
-    } catch (e) {
-      throw new Error(`id 유저 가져오기 실패\n${e}`);
-    }
   };
 }

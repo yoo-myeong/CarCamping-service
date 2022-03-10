@@ -7,6 +7,8 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./router/auth/auth.router.js";
 import storyRoutes from "./router/story/story.router.js";
 import tagRoutes from "./router/tag/tag.router.js";
+import { AuthController } from "./controller/auth/auth.controller.js";
+import * as AuthRepository from "./data/auth/auth.data.js";
 import { sequelize } from "./db/database.js";
 import { config } from "./config/config.js";
 import { logger } from "./config/winston.js";
@@ -25,7 +27,7 @@ app.use(helmet());
 app.use(cors(corsOption));
 app.use(morgan("short", { stream: logger.stream }));
 
-app.use("/auth", authRoutes);
+app.use("/auth", authRoutes(new AuthController(AuthRepository)));
 app.use("/story", storyRoutes);
 app.use("/tag", tagRoutes);
 
