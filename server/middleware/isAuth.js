@@ -14,7 +14,6 @@ export async function isAuth(req, res, next) {
   }
 
   if (!token) {
-    console.log("no token");
     return res.sendStatus(401);
   }
 
@@ -24,7 +23,6 @@ export async function isAuth(req, res, next) {
     }
     const user = await authData.findById(decode.id);
     if (!user) {
-      console.log("no user");
       return res.sendStatus(401);
     }
     req.email = user.email;
