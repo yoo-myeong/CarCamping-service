@@ -1,6 +1,7 @@
 import httpMocks from "node-mocks-http";
-import { isAuth } from "../isAuth.js";
 import jwt from "jsonwebtoken";
+import faker from "faker";
+import { isAuth } from "../isAuth.js";
 import * as authData from "../../data/auth/auth.data.js";
 
 jest.mock("jsonwebtoken");
@@ -22,7 +23,7 @@ describe("isAuth Middleware", () => {
   });
 
   it("returns 401 for invalid JWT", async () => {
-    const token = "testToken";
+    const token = faker.random.alphaNumeric(128);
     const req = httpMocks.createRequest({
       method: "GET",
       url: "/auth/me",
@@ -42,8 +43,8 @@ describe("isAuth Middleware", () => {
   });
 
   it("returns 401 when can't find user by id", async () => {
-    const token = "testToken";
-    const id = "testId";
+    const token = faker.random.alphaNumeric(128);
+    const id = faker.random.alphaNumeric(32);
     const req = httpMocks.createRequest({
       method: "GET",
       url: "/auth/me",
@@ -64,8 +65,8 @@ describe("isAuth Middleware", () => {
   });
 
   it("passes a request with valid token", async () => {
-    const token = "testToken";
-    const id = "testId";
+    const token = faker.random.alphaNumeric(128);
+    const id = faker.random.alphaNumeric(32);
     const req = httpMocks.createRequest({
       method: "GET",
       url: "/auth/me",
