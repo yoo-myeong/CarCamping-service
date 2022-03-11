@@ -19,11 +19,11 @@ export async function isAuth(req, res, next) {
 
   jwt.verify(token, config.jwt.screatKey, async (err, decode) => {
     if (err) {
-      return res.status(401).json({ message: "jwt 실패" });
+      return res.status(401).json({ msg: "유효하지 않은 jwt" });
     }
     const user = await authData.findById(decode.id);
     if (!user) {
-      return res.sendStatus(401);
+      return res.status(401).json({ msg: "존재하지 않는 유저" });
     }
     req.email = user.email;
     req.userId = user.id;
