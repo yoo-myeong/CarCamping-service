@@ -26,28 +26,27 @@ export class AuthController {
     res.cookie("token", token, options);
   }
 
-  signup = async (req, res, next) => {
+  signup = async (req, res) => {
     const { email, password, name } = req.body;
     try {
-      const emailUser = await this.auth.getUserByEmail(email);
-      if (emailUser) {
-        return res.status(409).json({ message: "this email is alreay registered" });
+      const data = await this.auth.findByEmail(email);
+      if (data) {
+        return res.status(409).json({ msg: "this email is alreay registered" });
       }
       const hashedPassword = await bcrypt.hash(password, config.bcrypt.saltRound);
-      await this.auth.createUser(email, hashedPassword, name);
+      await this.auth.create(email, hashedPassword, name);
       return res.sendStatus(201);
     } catch (e) {
       throw new Error(`계정생성 중 오류\n${e}`);
     }
   };
 
-  login = async (req, res, next) => {
+  login = async (req, res) => {
     const { email, password } = req.body;
-    const invalidMessage = { message: "wrong email or wrong password" };
+    const invalidMessage = { msg: "wrong email or wrong password" };
     try {
-      const emailUser = await this.auth.getUserByEmail(email);
-      if (!emailUser) return res.status(401).json(invalidMessage);
-      const user = emailUser.toJSON();
+      const user = await this.auth.findByEmail(email);
+      if (!user) return res.status(401).json(invalidMessage);
       const bcryptResult = await bcrypt.compare(password, user.password);
       if (!bcryptResult) {
         return res.status(401).json(invalidMessage);
@@ -60,12 +59,11 @@ export class AuthController {
     }
   };
 
-  me = async (req, res, next) => {
+  me = async (req, res) => {
     try {
-      console.log(req.userId);
       const user = await this.auth.findById(req.userId);
       if (!user) {
-        return res.status(401).json({ message: "invalid token" });
+        return res.status(401).json({ msg: "invalid token" });
       }
       return res.status(200).json({ username: user.name });
     } catch (e) {
@@ -73,7 +71,7 @@ export class AuthController {
     }
   };
 
-  logout = async (req, res, next) => {
+  logout = async (req, res) => {
     this.setToken(res, "");
     res.sendStatus(200);
   };
