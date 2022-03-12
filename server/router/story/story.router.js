@@ -19,7 +19,7 @@ export default function storyRouter(storyController) {
   router.post("/", isAuth, validateStory, storyController.createStory);
   router.put("/:id", isAuth, validateStory, storyController.updateStory);
   router.delete("/:id", isAuth, storyController.deleteStory);
-  router.get("/author/:id", isAuth, storyController.checkAuthor);
+  router.get("/author/:id", isAuth, storyController.authorize);
 
   return router;
 }
