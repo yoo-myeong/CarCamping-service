@@ -7,19 +7,18 @@ export class TagController {
 
   getAllTags = async (req, res) => {
     try {
-      const tags = await this.tags.getAllTags();
+      const tags = await this.tags.getAll();
       res.status(200).json(tags);
     } catch (e) {
       throw new Error(`태그 가져오기 실패\n${e}`);
     }
   };
 
-  creatTag = async (req, res) => {
+  createTag = async (req, res) => {
     const body = req.body;
-    console.log(body);
     try {
       if (req.email === config.admin.email) {
-        this.tags.createTag(body);
+        this.tags.create(body);
         return res.sendStatus(201);
       }
       return res.sendStatus(403);
@@ -32,7 +31,7 @@ export class TagController {
     const tagname = req.params.name;
     try {
       if (req.email === config.admin.email) {
-        this.tags.deleteTagByName(tagname);
+        this.tags.deleteByName(tagname);
         return res.sendStatus(204);
       }
       return res.sendStatus(403);

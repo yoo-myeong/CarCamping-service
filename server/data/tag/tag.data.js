@@ -16,16 +16,16 @@ export const Tag = sequelize.define(
   }
 );
 
-export async function getAllTags() {
+export async function getAll() {
   return await Tag.findAll({
     attributes: ["tagname"],
   });
 }
 
-export async function deleteTagByName(tagname) {
+export async function deleteByName(tagname) {
   return Tag.destroy({ where: { tagname } });
 }
 
-export async function createTag(body) {
+export async function create(body) {
   return Tag.create(body);
 }
