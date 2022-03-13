@@ -12,13 +12,13 @@ Story.hasMany(StoryHeart, {
 StoryHeart.belongsTo(User);
 StoryHeart.belongsTo(Story);
 
-export async function getHeartCnt(storyId) {
+export async function getCount(storyId) {
   return StoryHeart.count({
     where: { storyId },
   });
 }
 
-export async function getHeartByUserId(userId, storyId) {
+export async function getByUserId(userId, storyId) {
   const storyHeart = await StoryHeart.findOne({
     where: {
       userId,
@@ -28,7 +28,7 @@ export async function getHeartByUserId(userId, storyId) {
   return storyHeart;
 }
 
-export async function getStoryOrderedByHeart() {
+export async function getStoryByHeart() {
   return Story.findAll({
     attributes: ["title", "address", "id", "createdAt"],
     include: [
