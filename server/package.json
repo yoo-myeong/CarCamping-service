@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "cross-env DOTENV_CONFIG_PATH=./.env.test jest --watch",
+    "test": "cross-env DOTENV_CONFIG_PATH=./.env.test jest --watch --globalTeardown=./test/integration/global-teardown.js",
     "start": "nodemon index.js"
   },
   "author": "",
