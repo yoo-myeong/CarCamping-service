@@ -4,6 +4,7 @@ dotenv.config();
 function required(key, defaultValue = undefined) {
   const value = process.env[key] || defaultValue;
   if (value == null) {
+    console.log(key);
     throw new Error("key is undefined");
   }
   return value;
@@ -29,7 +30,6 @@ export const config = {
   domain: required("DOMAIN"),
   admin: {
     email: required("ADMIN_EMAIL"),
-    password: required("ADMIN_PASSWORD"),
   },
   heroku: {
     url: required("HEROKU_URL"),

@@ -2,11 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "description": "car camping service",
-  "main": "app.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "cross-env DOTENV_CONFIG_PATH=./.env.test jest --watch",
-    "start": "nodemon app.js"
+    "start": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
@@ -37,6 +37,7 @@
     "faker": "^5.5.3",
     "jest": "^27.5.1",
     "node-mocks-http": "^1.11.0",
-    "nodemon": "^2.0.14"
+    "nodemon": "^2.0.14",
+    "supertest": "^6.2.2"
   }
 }

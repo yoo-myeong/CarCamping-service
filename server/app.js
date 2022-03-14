@@ -20,40 +20,57 @@ import { sequelize } from "./db/database.js";
 import { config } from "./config/config.js";
 import { logger } from "./config/winston.js";
 
-const app = express();
-
 const corsOption = {
   origin: config.cors.allowedOrigin,
   optionSuccessStatus: 200,
   credentials: true,
 };
 
-app.use(express.json());
-app.use(cookieParser());
-app.use(helmet());
-app.use(cors(corsOption));
-app.use(morgan("short", { stream: logger.stream }));
+export async function startServer() {
+  const app = express();
 
-app.use("/auth", authRouter(new AuthController(AuthRepository)));
-app.use("/story", storyRouter(new StoryController(StoryRepository)));
-app.use("/heart", heartRouter(new HeartController(HeartRepository)));
-app.use("/tag", tagRouter(new TagController(TagRepository)));
+  app.use(express.json());
+  app.use(cookieParser());
+  app.use(helmet());
+  app.use(cors(corsOption));
+  app.use(morgan("short", { stream: logger.stream }));
 
-app.use((req, res) => {
-  res.sendStatus(404);
-});
+  app.use("/auth", authRouter(new AuthController(AuthRepository)));
+  app.use("/story", storyRouter(new StoryController(StoryRepository)));
+  app.use("/heart", heartRouter(new HeartController(HeartRepository)));
+  app.use("/tag", tagRouter(new TagController(TagRepository)));
 
-app.use((err, req, res, next) => {
-  logger.error(err);
-  res.sendStatus(500);
-});
+  app.use((req, res) => {
+    res.sendStatus(404);
+  });
 
-sequelize.sync().then(() => {
-  app.listen(config.port, () => {
+  app.use((err, req, res, next) => {
+    logger.error(err);
+    res.sendStatus(500);
+  });
+
+  await sequelize.sync();
+
+  const server = app.listen(config.port, () => {
     logger.info(`server starts on ${config.port}...!!!`);
     setInterval(function wakeHeroku() {
       http.get(config.heroku.url);
       logger.info("stay heroku wake");
     }, 1800000);
   });
-});
+
+  return server;
+}
+
+export async function stopServer(server) {
+  return new Promise((resolve, reject) => {
+    server.close(async () => {
+      try {
+        await sequelize.close();
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+    });
+  });
+}

@@ -1,5 +1,5 @@
 import { validationResult } from "express-validator";
-import { logger } from "../config/winston";
+import { logger } from "../config/winston.js";
 
 export const validate = (req, res, next) => {
   const errors = validationResult(req);
