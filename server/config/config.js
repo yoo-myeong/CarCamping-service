@@ -11,7 +11,7 @@ function required(key, defaultValue = undefined) {
 }
 
 export const config = {
-  port: parseInt(required("PORT", 8000)),
+  port: parseInt(required("PORT")),
   db: {
     host: required("DB_HOST"),
     database: required("DB_DATABASE"),

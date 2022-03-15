@@ -26,7 +26,7 @@ const corsOption = {
   credentials: true,
 };
 
-export async function startServer() {
+export async function startServer(port) {
   const app = express();
 
   app.use(express.json());
@@ -51,8 +51,8 @@ export async function startServer() {
 
   await sequelize.sync();
 
-  const server = app.listen(config.port, () => {
-    logger.info(`server starts on ${config.port}...!!!`);
+  const server = app.listen(port, () => {
+    logger.info(`server starts on ${port}...!!!`);
     setInterval(function wakeHeroku() {
       http.get(config.heroku.url);
       logger.info("stay heroku wake");
