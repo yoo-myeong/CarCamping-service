@@ -69,7 +69,7 @@ export class StoryController {
       if (!story) {
         return res.status(404).json({ msg: `there's no story that id is ${id}` });
       }
-      if (req.userId !== story.userId && req.email !== config.admin.email) {
+      if (req.userId !== story.userId) {
         return res.status(403).json({ msg: "you're not allowed to delete this story" });
       }
       await this.stories.destroy(id);
