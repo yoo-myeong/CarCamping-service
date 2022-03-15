@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import faker from "faker";
 import { startServer, stopServer } from "../../app.js";
-import { createNewUserAccount, makeValidUserDetails } from "./auth_utils.js";
+import { createNewUserAccount, getToken, makeValidUserDetails } from "../utils/auth_utils.js";
 
 describe("auth APIs", () => {
   let server;
@@ -93,12 +93,9 @@ describe("auth APIs", () => {
 
     it("returns 200 when token is valid", async () => {
       const user = await createNewUserAccount(request);
-      const loginResponse = await request.post("/auth/login").send({
-        email: user.email,
-        password: user.password,
-      });
+      const token = await getToken(request, user);
 
-      const res = await request.get(url).set("Cookie", [`token=${loginResponse.body.token};`]);
+      const res = await request.get(url).set("Cookie", [`token=${token};`]);
 
       expect(res.statusCode).toBe(200);
       expect(res.body.username).toBe(user.name);
