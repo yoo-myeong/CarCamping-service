@@ -108,6 +108,7 @@ describe("AuthController", () => {
 
       expect(res.statusCode).toBe(202);
       expect(res._getJSONData()).toEqual({ token, username: user.name });
+      expect(res.cookies.token.value).toBe(token);
     });
   });
 
