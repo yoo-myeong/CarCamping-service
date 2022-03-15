@@ -1,10 +1,7 @@
 import mysql from "mysql2/promise";
 import dotenv from "dotenv";
-import path from "path";
-import { URL } from "url";
 
-const __dirname = new URL(".", import.meta.url).pathname;
-dotenv.config({ path: path.resolve(__dirname, "../../.env.test") });
+dotenv.config({ path: ".env.test" });
 
 export default async function teardown() {
   return new Promise(async (resolve) => {
@@ -16,7 +13,7 @@ export default async function teardown() {
     });
 
     try {
-      await connection.execute("DROP TABLE users, stories");
+      await connection.execute("DROP TABLE storyhearts, storyimages, storytags, stories, tags, users");
     } catch (e) {
       console.log(e);
     } finally {
