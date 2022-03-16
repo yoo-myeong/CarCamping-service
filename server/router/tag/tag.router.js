@@ -6,7 +6,7 @@ const router = express.Router();
 export default function tagRouter(tagController) {
   router.get("/", isAuth, tagController.getAllTags);
   router.delete("/:name", isAuth, tagController.deleteTag);
-  router.post("/", isAuth, tagController.creatTag);
+  router.post("/", isAuth, tagController.createTag);
 
   return router;
 }

@@ -32,7 +32,7 @@ export const logger = winston.createLogger({
   ],
 });
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV === "dev") {
   logger.add(
     new winston.transports.Console({
       format: combine(splat(), colorize({ all: true, colors: { error: "blue" } })),

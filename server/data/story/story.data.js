@@ -77,7 +77,7 @@ Story.hasMany(Tag, {
 });
 Tag.belongsTo(Story);
 
-export async function createStory(data, userId) {
+export async function create(data, userId) {
   const { imgnames, tags, ...body } = data;
 
   const story = await Story.create({
@@ -107,7 +107,7 @@ export async function createStory(data, userId) {
   return storyId;
 }
 
-export async function getStory(sort) {
+export async function getAll(sort) {
   const direction = !sort || sort === "desc" ? ORDER_DESC : ORDER_ASC;
 
   return Story.findAll({
@@ -127,7 +127,7 @@ export async function getStory(sort) {
   });
 }
 
-export async function getSearchingStory(search) {
+export async function getByAddress(search) {
   return Story.findAll({
     ...ORDER_DESC,
     where: {
@@ -188,7 +188,7 @@ export async function getStoryById(id) {
   });
 }
 
-export async function updateStory(id, data) {
+export async function update(id, data) {
   const { imgnames, tags, deleteImgnames, ...body } = data;
 
   Story.update(body, {
@@ -221,13 +221,13 @@ export async function updateStory(id, data) {
   return id;
 }
 
-export async function deleteStory(id) {
+export async function destroy(id) {
   Story.findByPk(id).then((story) => {
     story.destroy();
   });
 }
 
-export async function getStoryUserId(id) {
+export async function getUserIdById(id) {
   return Story.findByPk(id, {
     attributes: ["userId"],
   });

@@ -24,11 +24,11 @@ export const User = sequelize.define(
   }
 );
 
-export async function createUser(email, password, name) {
+export async function create(email, password, name) {
   return User.create({ email, password, name });
 }
 
-export async function getUserByEmail(email) {
+export async function findByEmail(email) {
   return User.findOne({
     where: { email },
   });
