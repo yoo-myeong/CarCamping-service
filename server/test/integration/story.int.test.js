@@ -1,8 +1,9 @@
 import supertest from "supertest";
 import faker from "faker";
+import allStory from "../data/all-story.js";
 import { startServer, stopServer } from "../../app.js";
-import { allStroy } from "../data/all-story.js";
 import { createNewUserAccount, getToken } from "../utils/auth_utils.js";
+import { creatingStory, getNewStories, testInvalidToken } from "../utils/story_utils.js";
 
 describe("story APIs", () => {
   let stories;
@@ -14,7 +15,7 @@ describe("story APIs", () => {
     { filedname: "campsite" },
     { filedname: "description" },
   ];
-  jest.setTimeout(30000);
+  jest.setTimeout(20000);
 
   beforeAll(async () => {
     server = await startServer();
@@ -28,11 +29,11 @@ describe("story APIs", () => {
   describe("POST /", () => {
     const url = "/story";
     beforeEach(() => {
-      stories = getNewStories();
+      stories = getNewStories(allStory);
     });
 
     it("returns 401 when token is not valid", async () => {
-      await testInvalidToken(url, "post");
+      await testInvalidToken(request, url, "post");
     });
 
     test.each(deleteFiledName)(`returns 400 when $filedname is missing`, async ({ filedname }) => {
@@ -69,7 +70,7 @@ describe("story APIs", () => {
     let user1, user2, token1, token2;
 
     beforeEach(async () => {
-      stories = getNewStories();
+      stories = getNewStories(allStory);
       user1 = await createNewUserAccount(request);
       user2 = await createNewUserAccount(request);
       token1 = await getToken(request, user1);
@@ -131,17 +132,17 @@ describe("story APIs", () => {
   describe("GET /author/:id", () => {
     const url = "/story/author/";
     beforeEach(() => {
-      stories = getNewStories();
+      stories = getNewStories(allStory);
     });
 
     it("returns 401 when token is not valid", async () => {
-      testInvalidToken(url + "1", "get");
+      testInvalidToken(request, url + "1", "get");
     });
 
     it("returns 401 when userIds are diffrent", async () => {
       const user = await createNewUserAccount(request);
       const token = await getToken(request, user);
-      const res1 = await creatingStory();
+      const res1 = await creatingStory(request, { ...stories[0] });
       const storyId = res1.body.storyId;
 
       const res2 = await request.get(url + storyId).set("Cookie", [`token=${token};`]);
@@ -153,11 +154,11 @@ describe("story APIs", () => {
   describe("GET /:id", () => {
     const url = "/story";
     beforeEach(() => {
-      stories = getNewStories();
+      stories = getNewStories(allStory);
     });
 
     it("returns 200 with story object of given id", async () => {
-      const story = await creatingStory();
+      const story = await creatingStory(request, { ...stories[0] });
       const id = story.body.storyId;
 
       const res = await request.get(url + "/" + id);
@@ -170,17 +171,17 @@ describe("story APIs", () => {
   describe("PUT /:id", () => {
     const url = "/story/";
     beforeEach(() => {
-      stories = getNewStories();
+      stories = getNewStories(allStory);
     });
 
     it("returns 401 when token is not valid", () => {
-      testInvalidToken(url + "1", "put");
+      testInvalidToken(request, url + "1", "put");
     });
 
     test.each(deleteFiledName)(`returns 400 when $filedname is missing`, async ({ filedname }) => {
       const user = await createNewUserAccount(request);
       const token = await getToken(request, user);
-      const story = await creatingStory();
+      const story = await creatingStory(request, { ...stories[0] });
       const id = story.body.storyId;
       const newStory = { ...stories[0] };
       delete newStory[filedname];
@@ -196,7 +197,7 @@ describe("story APIs", () => {
     it("returns 403 when userIds are diffrent", async () => {
       const user = await createNewUserAccount(request);
       const token = await getToken(request, user);
-      const res1 = await creatingStory();
+      const res1 = await creatingStory(request, { ...stories[0] });
       const storyId = res1.body.storyId;
 
       const res2 = await request
@@ -231,11 +232,11 @@ describe("story APIs", () => {
   describe("DELETE /:id", () => {
     const url = "/story/";
     beforeEach(() => {
-      stories = getNewStories();
+      stories = getNewStories(allStory);
     });
 
     it("returns 401 when token is not valid", () => {
-      testInvalidToken(url + "1", "delete");
+      testInvalidToken(request, url + "1", "delete");
     });
 
     it("returns 404 if story of given id dosen't exist", async () => {
@@ -251,7 +252,7 @@ describe("story APIs", () => {
     it("returns 403 when userIds are diffrent", async () => {
       const user = await createNewUserAccount(request);
       const token = await getToken(request, user);
-      const res1 = await creatingStory();
+      const res1 = await creatingStory(request, { ...stories[0] });
       const storyId = res1.body.storyId;
 
       const res2 = await request
@@ -278,34 +279,4 @@ describe("story APIs", () => {
       expect(res2.statusCode).toBe(204);
     });
   });
-
-  async function testInvalidToken(url, method) {
-    const token = undefined;
-
-    const res = await request[method](url).set("Cookie", [`token=${token};`]);
-
-    expect(res.statusCode).toBe(401);
-    expect(res.body.msg).toBe("유효하지 않은 jwt");
-  }
-
-  function getNewStories() {
-    let stories = [];
-    allStroy.forEach((story) => {
-      stories.push({ ...story });
-    });
-    return stories;
-  }
-
-  async function creatingStory() {
-    const user = await createNewUserAccount(request);
-    const token = await getToken(request, user);
-    const story = { ...stories[0] };
-
-    const res = await request
-      .post("/story")
-      .set("Cookie", [`token=${token};`])
-      .send(story);
-
-    return res;
-  }
 });

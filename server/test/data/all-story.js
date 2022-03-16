@@ -1,6 +1,6 @@
 import faker from "faker";
 
-export const allStroy = [];
+const allStory = [];
 
 for (let i = 0; i < 4; i++) {
   const story = {
@@ -9,5 +9,7 @@ for (let i = 0; i < 4; i++) {
     campsite: faker.internet.url(),
     description: faker.random.words(5),
   };
-  allStroy.push(story);
+  allStory.push(story);
 }
+
+export default allStory;

@@ -6,6 +6,7 @@ import { createNewUserAccount, getToken, makeValidUserDetails } from "../utils/a
 describe("auth APIs", () => {
   let server;
   let request;
+  jest.setTimeout(20000);
   beforeAll(async () => {
     server = await startServer();
     request = supertest(server);
