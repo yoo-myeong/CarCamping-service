@@ -30,6 +30,7 @@ export class HeartController {
   createHeart = async (req, res, next) => {
     const storyId = req.body.storyId;
     try {
+      await this.hearts.createHeart(req.userId, storyId);
       const heartCnt = await this.hearts.getCount(storyId);
       return res.status(201).json({ heartCnt });
     } catch (e) {
@@ -40,7 +41,8 @@ export class HeartController {
   deleteHeart = async (req, res, next) => {
     const storyId = req.params.storyId;
     try {
-      const heartCnt = await this.hearts.deleteHeart(req.userId, storyId);
+      await this.hearts.deleteHeart(req.userId, storyId);
+      const heartCnt = await this.hearts.getCount(storyId);
       return res.status(200).json({ heartCnt });
     } catch (e) {
       throw new Error(`하트 삭제 실패\n${e}`);

@@ -72,6 +72,7 @@ describe("HeartController", () => {
         params: { storyId },
       });
       const res = httpMocks.createResponse();
+      heartRepository.createHeart = (userId, storyId) => {};
       heartRepository.getCount = (storyId) => count;
 
       await heartController.createHeart(req, res);
@@ -91,7 +92,8 @@ describe("HeartController", () => {
       });
       const res = httpMocks.createResponse();
       const count = faker.datatype.number();
-      heartRepository.deleteHeart = (storyId) => count;
+      heartRepository.deleteHeart = (userId, storyId) => {};
+      heartRepository.getCount = (storyId) => count;
 
       await heartController.deleteHeart(req, res);
 

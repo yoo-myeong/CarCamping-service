@@ -63,12 +63,10 @@ export async function createHeart(userId, storyId) {
 }
 
 export async function deleteHeart(userId, storyId) {
-  const storyheart = await StoryHeart.findOne({
+  return StoryHeart.destroy({
     where: {
       storyId,
       userId,
     },
   });
-  await storyheart.destroy();
-  return getHeartCnt(storyId);
 }
