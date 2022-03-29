@@ -1,108 +1,50 @@
-# 개요
+# ✍ 개요
 
-최근 **차박 캠핑의 유행**으로 캠핑용품, SUV차량 판매율이 증가하고 있다. 차박캠핑은 모임이 제한된 코로나 시대에 혼자 또는 소수의 사람들이 함께 즐길 수 있는 정말 좋은 취미 활동이다.
+차박캠핑은 모임이 제한된 코로나 시대에 혼자 또는 소수의 사람들이 함께 즐길 수 있는 많이 추천되는 취미 활동이다.
 
-하지만 진입장벽이 높아서 쉽사리 도전하기가 어렵다. 장소를 찾는것과 준비해야 할 것들을 초보자는 파악하기 어렵고, 필수적인 캠핑용품들을 구비하기엔 가격 부담이 크기 때문이다.
+하지만 진입장벽이 높아서 쉽사리 도전하기가 어렵다. 장소를 찾는것, 준비물, 웹사이트 등 준비해야 하는 것, 알고 가야하는 것들이 상황, 장소마다 가지각색이기 때문이다.
 
-이러한 이유로 차박 캠핑의 입문 장벽을 낮춰주기 위한 플랫폼 **어디차박**을 만들게 되었다.
+**어디차박**은 캠핑장의 필수적인 정보들만 공유함으로써 캠핑 입문자들이 보다 쉽게 캠핑에 도전할 수 있도록 제작되었다.
 
-> 💡 **어디차박 기능**
->
-> - 차박 장소, 사진, 캠핑장 가격 등의 **정보를 공유**한다.
-> - **캠핑 용품을 대여 및 판매**할 수 있는 디지털 서비스를 제공한다.
+---
 
-<br>
+# 🛠 주요 기능
 
-# 서비스 구조
+- 캠핑장 주소(카카오맵을 통한 시각화), 이미지파일(1~5개) 등 다양한 정보의 **게시물 공유**
+- 최신 순, 오래된 순, 좋아요 순 중 선택하여 **게시물 정렬**
+- **내 글 보기** 기능
+- 게시물 **좋아요** 기능
+- 주소를 검색해서 관련 **게시물 찾기**
 
-#### ✅ 스토리 게시물 생성
+---
 
-<img src="./spec/image/스토리-생성.gif" width="500">
+# 🎯 설계 목표
 
-<br>
+- **express와 mysql을 사용**한 백엔드 설계
+- **부트스트랩**을 ****활용한 프론트엔드 설계
+- 프론트엔드와 백엔드의 **서버간 통신**
+- **JWT**를 사용한 인증/인가
+- **이미지 처리**
 
-#### ✅ 스토리 게시물 좋아요, 정렬
+---
 
-<img src="./spec/image/하트_정렬.gif" width="500">
+# 😎 트러블슈팅
 
-<br>
+- 테스트코드를 추가하고 [테스트커버리지를 0% → 90%까지 증가](https://github.com/yoo-myeong/CarCamping-service/pull/36)시켜서 버그 탐색 시간을 단축
+- [백엔드 코드를 리팩토링하고 DI를 적용](https://github.com/yoo-myeong/CarCamping-service/pull/35)하여 기능추가와 코드수정의 유연성을 증가시킴
+- 프론트엔드 JavaScript코드를 [모듈화하고 OOP를 적용](https://github.com/yoo-myeong/CarCamping-service/pull/34)
+- Sequelize 함수의 에러처리를 위한 [더 나은 방법에 대해 고민하고 winston패키지를 적용](https://velog.io/@c-on/winston-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%A0%81%EC%9A%A9%ED%95%98%EB%8A%94%EC%A7%80-%EB%A7%90%EA%B3%A0-%EC%99%9C-%EA%B7%B8%EB%A0%87%EA%B2%8C-%EC%A0%81%EC%9A%A9%ED%95%98%EB%8A%94%EC%A7%80)
 
-#### ✅ 거래 게시물 댓글작성
+---
 
-<img src="./spec/image/댓글작성.gif" width="500">
+# ⚗ 배운 것
 
-<br>
+- `heroku`와 `GAE`(google cloud)을 통한 배포방법을 배우고 **로컬환경과 배포환경에서 서버 기능의 차이가 발생할 수 있음을 경험**
+- `JWT`의 보안 문제를 보완하기 위해서 **쿠키를 적용하고 서브도메인을 활용**
+- 페이로드 유효성을 검증하기 위해 `express-validator` 패키지를 활용해서 **미들웨어를 생성하고 적용**
+- `multer` 패키지를 사용해서 이미지를 저장한 뒤, 내장모듈 `fs`를 통해 **개별 폴더를 생성하고 이미지를 이동 및 삭제**
+- 프론트엔드서버와 API서버를 분리하고 통신을 구현하면서 발생한 `cors`, `cookie` 등 이슈들을 해결해봄
+- `sequelize`를 사용해서 **MySQL DB를 구축하고 CRUD 기능 구현**
+- `JWT`를 사용한 인증/인가 기능과, `bcrypt`를 사용한 비밀번호 암호화를 구현하면서 **토큰과** **해싱모듈의 원리를 이해**
 
-#### ✅ 거래 게시물 연락처 열람 승인
-
-<img src="./spec/image/연락처열람.gif" width="500">
-
-<br>
-
-# 설계
-
-## 👉 Database
-
-#### ✅ ERD
-
-<img src="./spec/erd.png">
-
-<br>
-
-## 👉BackEnd
-
-#### ✅ API SPEC
-
-[/auth/\* API](./spec/Backend/api/auth) <br>
-
-[/stroy/\* API](./spec/Backend/api/story)<br>
-
-[/shop/\* API](./spec/Backend/api/shop)<br>
-
-[/taglist/\* API](./spec/Backend/api/taglist_API.md)
-
-<br>
-
-## 👉FrontEnd
-
-#### ✅ client Logic Flow (리팩토링 전)
-
-<details>
-<summary>click!</summary>
-<div markdown="1">
-
-<img src="./spec/Frontend/frontend-LogicFlow.drawio.png">
-
-</div>
-</details>
-
-#### ✅ client class 관계 (리팩토링\_1)
-
-<details>
-<summary>click!</summary>
-<div markdown="1">
-
-_(주입 클래스) → (주입받는 클래스)_
-
-- **navigate**
-
-  HttpClient, navbarAuthComponent → Navigator
-
-- **login**
-
-  HttpClient, LoginFormComponent, LoginStateComponent → Login
-
-- **signup**
-
-  HttpClient, JoinComponent → Join
-
-- **shop.detail**
-
-  HttpClient , ShopDataComponent, ShopReplyComponent → ShopDetail
-
-- **story.detail**
-
-  StroyHeart, StoryComponent → StoryDetail
-
-</div>
-</details>
+---
